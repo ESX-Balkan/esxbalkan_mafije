@@ -136,3 +136,128 @@ AddEventHandler('esxbalkan_mafije:poruka', function(target, msg)
 		DropPlayer(source, 'Zasto pokusavas da citujes. Nije lepo to :)')
 	end
 end)
+
+ESX.RegisterServerCallback('esxbalkan_mafije:dbGettajPuske', function(source, cb)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local org = xPlayer.job.name
+	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
+		local weapons = store.get('weapons')
+
+		if weapons == nil then
+			weapons = {}
+		end
+
+		cb(weapons)
+	end)
+end)
+
+ESX.RegisterServerCallback('esxbalkan_mafije:staviUoruzarnicu', function(source, cb, weaponName, removeWeapon)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local org = xPlayer.job.name
+
+	if removeWeapon then
+		xPlayer.removeWeapon(weaponName)
+	end
+
+	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
+		local weapons = store.get('weapons') or {}
+		local foundWeapon = false
+
+		for i=1, #weapons, 1 do
+			if weapons[i].name == weaponName then
+				weapons[i].count = weapons[i].count + 1
+				foundWeapon = true
+				break
+			end
+		end
+
+		if not foundWeapon then
+			table.insert(weapons, {
+				name  = weaponName,
+				count = 1
+			})
+		end
+
+		store.set('weapons', weapons)
+		cb()
+	end)
+end)
+
+ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(source, cb, weaponName)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local org = xPlayer.job.name
+
+	xPlayer.addWeapon(weaponName, 500)
+
+	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
+		local weapons = store.get('weapons') or {}
+
+		local foundWeapon = false
+
+		for i=1, #weapons, 1 do
+			if weapons[i].name == weaponName then
+				weapons[i].count = (weapons[i].count > 0 and weapons[i].count - 1 or 0)
+				foundWeapon = true
+				break
+			end
+		end
+
+		if not foundWeapon then
+			table.insert(weapons, {
+				name = weaponName,
+				count = 0
+			})
+		end
+
+		store.set('weapons', weapons)
+		cb()
+	end)
+end)
+
+ESX.RegisterServerCallback('esxbalkan_mafije:kupiOruzje', function(source, cb, weaponName, type, componentNum)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local org = xPlayer.job.name
+	local authorizedWeapons, selectedWeapon = Config.Oruzje[xPlayer.job.grade_name]
+
+	for k,v in ipairs(authorizedWeapons) do
+		if v.weapon == weaponName then
+			selectedWeapon = v
+			break
+		end
+	end
+
+	if not selectedWeapon then
+		print(('esxbalkan_mafije: %s je pokusao kupiti krivu pusku!'):format(xPlayer.identifier))
+		xPlayer.kick('You have been kicked from this server for exploiting!')
+		cb(false)
+	else
+		if type == 1 then
+			if xPlayer.getMoney() >= selectedWeapon.price then
+				xPlayer.removeMoney(selectedWeapon.price)
+				xPlayer.addWeapon(weaponName, 100)
+
+				cb(true)
+			else
+				cb(false)
+			end
+		elseif type == 2 then
+			local price = selectedWeapon.components[componentNum]
+			local weaponNum, weapon = ESX.GetWeapon(weaponName)
+			local component = weapon.components[componentNum]
+
+			if component then
+				if xPlayer.getMoney() >= price then
+					xPlayer.removeMoney(price)
+					xPlayer.addWeaponComponent(weaponName, component.name)
+
+					cb(true)
+				else
+					cb(false)
+				end
+			else
+				print(('esxbalkan_mafije: %s je pokusao kupiti krivi dodatak.'):format(xPlayer.identifier))
+				xPlayer.kick('You have been kicked from this server for exploiting!')
+			end
+		end
+	end
+end)
