@@ -6,7 +6,7 @@ Config.MarkerHelikopter   = { x = 6.0, y = 6.0, z = 2.5 }
 Config.MarkerAuto   = { x = 3.0, y = 3.0, z = 3.0 }
 Config.MarkerColor   = { r = 50, g = 50, b = 204 }
 Config.EnableESXIdentity  = true -- ako koristite esx_identity
-Config.Locale  = 'en'
+Config.Locale  = 'hr'
 --Sefovi - proveriti meni bossactions
 -- OVDJE DODAJETE NOVE POSLOVE SVE
 Config.Poslovi = PlayerData.job and (PlayerData.job.name == 'zemunski' or PlayerData.job.name == 'yakuza' or PlayerData.job.name == 'vagos' or PlayerData.job.name == 'peaky' or PlayerData.job.name == 'ludisrbi' or PlayerData.job.name == 'lcn' or PlayerData.job.name == 'lazarevacki' or PlayerData.job.name == 'juzniv' or PlayerData.job.name == 'gsf' or PlayerData.job.name == 'favela' or PlayerData.job.name == 'camorra' or PlayerData.job.name == 'ballas'  or PlayerData.job.name == 'automafija'  or PlayerData.job.name == 'stikla' )
