@@ -10,7 +10,7 @@ client_scripts {
 	'@es_extended/locale.lua',
 	'prevod/*.lua',
 	'config.lua',
-	'client/main.lua',
+	'client/*.lua',
 }
 
 dependencies {
