@@ -110,6 +110,7 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
             if data.current.value == 'fxho' then
 				ESX.Game.SpawnVehicle("supervolito2", vector3(-2320.86, -658.25, 13.48), 266.92, function(vehicle) -- 
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
+					SetVehicleCurrentRpm(vehicle, 3000)
 				end)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
@@ -121,6 +122,7 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
             elseif data.current.value == 'seashark' then
 				ESX.Game.SpawnVehicle("seasparrow", vector3(-2320.86, -658.25, 13.48), 266.92, function(vehicle) -- 
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
+					SetVehicleCurrentRpm(vehicle, 3000)
 				end)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
@@ -150,6 +152,7 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
             if data.current.value == 'fxho' then
 				ESX.Game.SpawnVehicle("fxho", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle) -- 
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
+					SetVehicleCurrentRpm(vehicle, 3000)
 				end)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
@@ -160,6 +163,7 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
             elseif data.current.value == 'seashark' then
 				ESX.Game.SpawnVehicle("yacht2", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle) -- 
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
+					SetVehicleCurrentRpm(vehicle, 3000)
 				end)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
