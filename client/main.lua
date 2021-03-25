@@ -621,10 +621,10 @@ end)
 
 RegisterKeyMapping('+mafijameni', 'Mafia meni', 'keyboard', 'F6')
 RegisterCommand('+mafijameni', function()
-	if Config.Poslovi then
-		if not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
-			OtvoriPosaoMenu()
-		end
+	for k,v in pairs(Config.Mafije) do
+            if PlayerData.job and PlayerData.job.name == k and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions')  then
+		OtvoriPosaoMenu()
+            end
 	end
 end, false)
 RegisterCommand('-mafijameni', function()
