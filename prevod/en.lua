@@ -1,4 +1,4 @@
-Locales['en'] = {
+Locales['hr'] = {
   -- Svlačionica
   ['cloakroom'] = 'Svlačionica | 👒',
   ['citizen_wear'] = 'Civilno Odelo | 👨',
