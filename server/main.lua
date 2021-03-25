@@ -136,5 +136,10 @@ end)
 
 RegisterServerEvent('esxbalkan_mafije:poruka')
 AddEventHandler('esxbalkan_mafije:poruka', function(target, msg)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	if xPlayer.job.name == 'ballas' or xPlayer.job.name == 'camorra' or xPlayer.job.name == 'favela' or xPlayer.job.name == 'gsf' or xPlayer.job.name == 'juzniv' or xPlayer.job.name == 'lazarevacki' or xPlayer.job.name == 'lcn' or xPlayer.job.name == 'ludisrbi' or xPlayer.job.name == 'peaky' or xPlayer.job.name == 'stikla' or xPlayer.job.name == 'vagos' or xPlayer.job.name == 'yakuza' or xPlayer.job.name == 'zemunski' then
 	TriggerClientEvent('esx:showNotification', target, msg)
+	else
+		DropPlayer(source, 'Zasto pokusavas da citujes. Nije lepo to :)')
+	end
 end)
