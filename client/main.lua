@@ -30,12 +30,24 @@ end
 
 ObrisiVozilo = function()
 	local playerPed = PlayerPedId()
-    	local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
-	local igracbrzina = math.floor((GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))*3.6))
+	local vozilo =GetVehiclePedIsIn(playerPed,false)
+        local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
+	local igracbrzina = math.floor((GetEntitySpeed(GetVehiclePedIsIn(PlayerPedId(), false))*3.6))
 	if(igracbrzina > 45) then
-		ESX.ShowNotification("Voziš pre brzo ~b~vozilo~s~, uspori!")
-	elseif (igracbrzina < 45) then
-		ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
+		FreezeEntityPosition(vozilo, true)
+		TaskLeaveVehicle(PlayerPedId(), vozilo, 0)
+		while IsPedInVehicle(PlayerPedId(), vozilo, true) do Wait(0) end
+		Citizen.Wait(500)
+		NetworkFadeOutEntity(voziloe, true, true)
+		Citizen.Wait(100)
+		ESX.Game.DeleteVehicle(vozilo)
+	elseif (igracbrzina < 10) then
+		TaskLeaveVehicle(PlayerPedId(), vozilo, 0)
+		while IsPedInVehicle(PlayerPedId(), vozilo, true) do Wait(0) end
+		Citizen.Wait(500)
+		NetworkFadeOutEntity(voziloe, true, true)
+		Citizen.Wait(100)
+		ESX.Game.DeleteVehicle(vozilo)
 		ESX.ShowNotification("Uspiješno si parkirao ~b~vozilo~s~ u garažu.")
 	end
 end
