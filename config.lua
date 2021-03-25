@@ -1,13 +1,12 @@
-Config                            = {}
-
-Config.DrawDistance               = 30.0
-Config.MarkerType                 = 1
-Config.MarkerSize                 = { x = 1.5, y = 1.5, z = 0.5 }
-Config.MarkerHelikopter           = { x = 6.0, y = 6.0, z = 2.5 }
-Config.MarkerAuto                 = { x = 3.0, y = 3.0, z = 3.0 }
-Config.MarkerColor                = { r = 50, g = 50, b = 204 }
-Config.EnableESXIdentity          = true
-Config.Locale                     = 'en'
+Config  = {}
+Config.DrawDistance = 20.0
+Config.MarkerType  = 1
+Config.MarkerSize  = { x = 1.5, y = 1.5, z = 0.5 }
+Config.MarkerHelikopter   = { x = 6.0, y = 6.0, z = 2.5 }
+Config.MarkerAuto   = { x = 3.0, y = 3.0, z = 3.0 }
+Config.MarkerColor   = { r = 50, g = 50, b = 204 }
+Config.EnableESXIdentity  = true -- ako koristite esx_identity
+Config.Locale  = 'en'
 --Sefovi - proveriti meni bossactions
 Config.Mafije = {
 	zemunski = {
