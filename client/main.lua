@@ -7,7 +7,7 @@ ESX = nil
 
 
 CreateThread(function()
-	while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(0) end
+	while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(250) end
 	while ESX.GetPlayerData().job == nil do Wait(100) end
 	PlayerData = ESX.GetPlayerData()
 end)
@@ -30,7 +30,7 @@ end
 
 ObrisiVozilo = function()
 	local playerPed = PlayerPedId()
-    local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
+    	local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
 	ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
 	ESX.ShowNotification("Uspešno ste parkirali ~b~vozilo~s~ u garažu.")
 end
@@ -69,18 +69,13 @@ end
 OtvoriAutoSpawnMenu = function(type, station, part, partNum)
     ESX.UI.Menu.CloseAll()
 
-    ESX.UI.Menu.Open(
-        'default', GetCurrentResourceName(), 'vozila_meni',
-        {
-        	css      = 'vagos',
-            title    = 'Izaberi Vozilo | 🚗',
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
+            title = 'Izaberi Vozilo | 🚗',
             elements = {
             	{label = Config.Mafije[PlayerData.job.name]['MeniVozila'].Vozilo1 .. ' | 🚗', value = 'primo2'},
 		{label = Config.Mafije[PlayerData.job.name]['MeniVozila'].Vozilo2 .. ' | 🚗', value = 'seminole'},
 		{label = Config.Mafije[PlayerData.job.name]['MeniVozila'].Vozilo3 .. ' | 🚗', value = 'enduro'},
-            }
-        },
-        function(data, menu)
+            }},function(data, menu)
             if data.current.value == 'primo2' then
 				StvoriVozilo('Vozilo1')
 				ESX.UI.Menu.CloseAll()
@@ -92,26 +87,21 @@ OtvoriAutoSpawnMenu = function(type, station, part, partNum)
             end
         end,
         function(data, menu)
-            menu.close()
-        end
-    )
+          menu.close()
+     end)
 end
 
 OtvoriHeliSpawnMenu = function(type, station, part, partNum)
     ESX.UI.Menu.CloseAll()
 
-    ESX.UI.Menu.Open(
-        'default', GetCurrentResourceName(), 'vozila_meni',
-        {
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
         	css      = 'vagos',
             title    = 'Izaberi Vozilo | 🚗',
             elements = {
             	{label = 'Brodovi2 | 🚗', value = 'fxho'},
 				{label = 'Brodovi | 🚗', value = 'seashark'},
-            }
-        },
-        function(data, menu)
-        	local playerPed = PlayerPedId()
+            }},function(data, menu)
+            local playerPed = PlayerPedId()
             if data.current.value == 'fxho' then
 				ESX.Game.SpawnVehicle("supervolito2", vector3(-2320.86, -658.25, 13.48), 266.92, function(vehicle) -- 
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
@@ -145,17 +135,12 @@ end
 OtvoriBrodSpawnMenu = function(type, station, part, partNum)
     ESX.UI.Menu.CloseAll()
 
-    ESX.UI.Menu.Open(
-        'default', GetCurrentResourceName(), 'vozila_meni',
-        {
-        	css      = 'vagos',
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
             title    = 'Izaberi Vozilo | 🚗',
             elements = {
             	{label = 'JetSkki | 🚗', value = 'fxho'},
 				{label = 'Jahta | 🚗', value = 'seashark'},
-            }
-        },
-        function(data, menu)
+            }},function(data, menu)
         	local playerPed = PlayerPedId()
             if data.current.value == 'fxho' then
 				ESX.Game.SpawnVehicle("fxho", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle) -- 
@@ -179,17 +164,15 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
         end,
         function(data, menu)
             menu.close()
-        end
-    )
+        end)
 end
 
 OtvoriPosaoMenu = function()
 	ESX.UI.Menu.CloseAll()
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'panteri_actions', {
-		css      = 'vagos',
-		title    = 'Mafija Meni | 🎩',
-		align    = 'top-left',
+		title = 'Mafija Meni | 🎩',
+		align  = 'top-left',
 		elements = {
 			{label = _U('citizen_interaction'), value = 'citizen_interaction'},
 	}}, function(data, menu)
@@ -211,7 +194,6 @@ OtvoriPosaoMenu = function()
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 				if closestPlayer ~= -1 and closestDistance <= 3.0 then
 					local action = data2.current.value
-
 					if action == 'body_search' then
 						TriggerServerEvent('esxbalkan_mafije:poruka', GetPlayerServerId(closestPlayer), _U('being_searched'))
 						PretrazivanjeIgraca(closestPlayer)
@@ -297,7 +279,6 @@ end
 -----------------------------
 ---------EVENTOVI------------
 -----------------------------
-
 AddEventHandler('esxbalkan_mafije:hasEnteredMarker', function(station, part, partNum)
 	if part == 'Cloakroom' then
 		CurrentAction     = 'menu_cloakroom'
@@ -418,7 +399,7 @@ Citizen.CreateThread(function()
 				DetachEntity(playerPed, true, false)
 			end
 		else
-			Citizen.Wait(500)
+			Citizen.Wait(2000)
 		end
 	end
 end)
@@ -514,7 +495,7 @@ Citizen.CreateThread(function()
 				end)
 			end
 		else
-			Citizen.Wait(800)
+			Citizen.Wait(1000)
 		end
 	end
 end)
@@ -526,7 +507,7 @@ end)
 -------Begi prave se markeri----------
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Citizen.Wait(5)
 		if PlayerData.job and (PlayerData.job.name == 'zemunski' or PlayerData.job.name == 'yakuza' or PlayerData.job.name == 'vagos' or PlayerData.job.name == 'peaky' or PlayerData.job.name == 'ludisrbi' or PlayerData.job.name == 'lcn' or PlayerData.job.name == 'lazarevacki' or PlayerData.job.name == 'juzniv' or PlayerData.job.name == 'gsf' or PlayerData.job.name == 'favela' or PlayerData.job.name == 'camorra' or PlayerData.job.name == 'ballas'  or PlayerData.job.name == 'automafija'  or PlayerData.job.name == 'stikla' ) then
 			local playerPed = PlayerPedId()
 			local coords = GetEntityCoords(playerPed)
@@ -613,11 +594,11 @@ Citizen.CreateThread(function()
 			end
 
 			if letSleep then
-				Citizen.Wait(1000)
+				Citizen.Wait(2000)
 			end
 
 		else
-			Citizen.Wait(500)
+			Citizen.Wait(2000)
 		end
 	end
 end)
