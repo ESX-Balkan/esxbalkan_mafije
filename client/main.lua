@@ -154,7 +154,8 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
 				SetVehicleDirtLevel(vehicle, 0.0)
-                exports["balkankings_gorivo"]:SetFuel(vehicle, 100)
+                		SetVehicleFuelLevel(vehicle, 100.0)
+				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
 				ESX.UI.Menu.CloseAll()
             elseif data.current.value == 'seashark' then
 				ESX.Game.SpawnVehicle("yacht2", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle) -- 
@@ -163,7 +164,8 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
 				SetVehicleDirtLevel(vehicle, 0.0)
-                exports["balkankings_gorivo"]:SetFuel(vehicle, 100)
+               			SetVehicleFuelLevel(vehicle, 100.0)
+				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
 				ESX.UI.Menu.CloseAll()
             end
         end,
