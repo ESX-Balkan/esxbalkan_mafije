@@ -4,14 +4,14 @@ game 'gta5'
 server_scripts {
 	'@mysql-async/lib/MySQL.lua',
 	'config.lua',
-	'server/main.lua'
+	'server/*'
 }
 
 client_scripts {
 	'@es_extended/locale.lua',
-	'prevod/*.lua',
+	'prevod/*',
 	'config.lua',
-	'client/*.lua'
+	'client/*'
 }
 
 dependencies {
