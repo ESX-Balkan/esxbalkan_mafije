@@ -3,7 +3,7 @@ game 'gta5'
 
 shader_scripts {
 	'@es_extended/locale.lua',
-	'config.lua,
+	'config.lua',
 	'prevod/en.lua',
 }
 
