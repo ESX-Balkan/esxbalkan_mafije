@@ -1,12 +1,6 @@
 fx_version 'cerulean'
 game 'gta5'
 
-shared_scripts {
-	'@es_extended/locale.lua',
-	'config.lua',
-	'prevod/*.lua',
-}
-
 server_scripts {
 	'@mysql_async/lib/MySQL.lua',
 	'server/main.lua'
