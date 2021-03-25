@@ -188,7 +188,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(sourc
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local org = xPlayer.job.name
 
-	xPlayer.addWeapon(weaponName, 500)
+	xPlayer.addWeapon(weaponName, 150)
 
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
 		local weapons = store.get('weapons') or {}
