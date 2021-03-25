@@ -32,18 +32,18 @@ ObrisiVozilo = function()
 	local playerPed = PlayerPedId()
 	local vozilo =GetVehiclePedIsIn(playerPed,false)
         local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
-	local igracbrzina = math.floor((GetEntitySpeed(GetVehiclePedIsIn(PlayerPedId(), false))*3.6))
+	local igracbrzina = math.floor((GetEntitySpeed(GetVehiclePedIsIn(playerPed, false))*3.6))
 	if(igracbrzina > 45) then
 		FreezeEntityPosition(vozilo, true)
-		TaskLeaveVehicle(PlayerPedId(), vozilo, 0)
-		while IsPedInVehicle(PlayerPedId(), vozilo, true) do Wait(0) end
+		TaskLeaveVehicle(playerPed, vozilo, 0)
+		while IsPedInVehicle(playerPed), vozilo, true) do Wait(0) end
 		Citizen.Wait(500)
 		NetworkFadeOutEntity(voziloe, true, true)
 		Citizen.Wait(100)
 		ESX.Game.DeleteVehicle(vozilo)
 	elseif (igracbrzina < 10) then
-		TaskLeaveVehicle(PlayerPedId(), vozilo, 0)
-		while IsPedInVehicle(PlayerPedId(), vozilo, true) do Wait(0) end
+		TaskLeaveVehicle(playerPed, vozilo, 0)
+		while IsPedInVehicle(playerPed, vozilo, true) do Wait(0) end
 		Citizen.Wait(500)
 		NetworkFadeOutEntity(voziloe, true, true)
 		Citizen.Wait(100)
@@ -385,7 +385,6 @@ AddEventHandler('esxbalkan_mafije:odvezivanje', function()
 	if isHandcuffed then
 		local playerPed = PlayerPedId()
 		isHandcuffed = false
-
 		ClearPedSecondaryTask(playerPed)
 		SetEnableHandcuffs(playerPed, false)
 		DisablePlayerFiring(playerPed, false)
@@ -397,9 +396,7 @@ end)
 
 RegisterNetEvent('esxbalkan_mafije:vuci')
 AddEventHandler('esxbalkan_mafije:vuci', function(copId)
-	if not isHandcuffed then
-		return
-	end
+	if not isHandcuffed then return end
 	dragStatus.isDragged = not dragStatus.isDragged
 	dragStatus.CopId = copId
 end)
@@ -656,10 +653,10 @@ CreateThread(function()
 				elseif CurrentAction == 'menu_boss_actions' then
 					ESX.UI.Menu.CloseAll()
 					TriggerEvent('esx_society:openBossMenu', PlayerData.job.name, function(data, menu)
-						menu.close()
-						CurrentAction     = 'menu_boss_actions'
-						CurrentActionMsg  = _U('open_bossmenu')
-						CurrentActionData = {}
+					menu.close()
+					CurrentAction  = 'menu_boss_actions'
+					CurrentActionMsg  = _U('open_bossmenu')
+					CurrentActionData = {}
 					end, { wash = false }) 
 				end
 				CurrentAction = nil
