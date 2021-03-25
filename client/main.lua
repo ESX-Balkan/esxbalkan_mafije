@@ -75,9 +75,9 @@ OtvoriAutoSpawnMenu = function(type, station, part, partNum)
         	css      = 'vagos',
             title    = 'Izaberi Vozilo | 🚗',
             elements = {
-            	{label = 'Vozilo 1 | 🚗', value = 'primo2'},
-				{label = 'Vozilo 2 | 🚗', value = 'seminole'},
-				{label = 'Vozilo 3 | 🚗', value = 'enduro'},
+            	{label = Config.Mafije[PlayerData.job.name]['MeniVozila'].Vozilo1 .. ' | 🚗', value = 'primo2'},
+		{label = Config.Mafije[PlayerData.job.name]['MeniVozila'].Vozilo2 .. ' | 🚗', value = 'seminole'},
+		{label = Config.Mafije[PlayerData.job.name]['MeniVozila'].Vozilo3 .. ' | 🚗', value = 'enduro'},
             }
         },
         function(data, menu)
