@@ -156,7 +156,7 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
             }},function(data, menu)
         	local playerPed = PlayerPedId()
             if data.current.value == 'fxho' then
-				ESX.Game.SpawnVehicle("fxho", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle) -- 
+				ESX.Game.SpawnVehicle("fxho", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
 					SetVehicleCurrentRpm(vehicle, 3000)
 				end)
@@ -167,7 +167,7 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
 				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
 				ESX.UI.Menu.CloseAll()
             elseif data.current.value == 'seashark' then
-				ESX.Game.SpawnVehicle("yacht2", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle) -- 
+				ESX.Game.SpawnVehicle("yacht2", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
 					SetVehicleCurrentRpm(vehicle, 3000)
 				end)
@@ -425,9 +425,7 @@ RegisterNetEvent('esxbalkan_mafije:staviUVozilo')
 AddEventHandler('esxbalkan_mafije:staviUVozilo', function()
 	local playerPed = PlayerPedId()
 	local coords = GetEntityCoords(playerPed)
-	if not isHandcuffed then
-		return
-	end
+	if not isHandcuffed then return end
 	if IsAnyVehicleNearPoint(coords, 5.0) then
 		local vehicle = GetClosestVehicle(coords, 5.0, 0, 71)
 		if DoesEntityExist(vehicle) then
@@ -453,7 +451,7 @@ AddEventHandler('esxbalkan_mafije:staviVanVozila', function()
 	local vehicle = GetVehiclePedIsIn(playerPed, false)
 	TaskLeaveVehicle(playerPed, vehicle, 16)
     	TriggerEvent('esxbalkan_mafije:odvezivanje')
-        else
+    else
          ESX.ShowNotification('Osoba nije u vozilu i ne mozete je izvaditi van vozila!')
     end
 end)
@@ -474,29 +472,23 @@ CreateThread(function()
 			DisableControlAction(0, 34, true) -- A
 			DisableControlAction(0, 31, true) -- S
 			DisableControlAction(0, 30, true) -- D
-
 			DisableControlAction(0, 45, true) -- Reload
 			DisableControlAction(0, 22, true) -- Jump
 			DisableControlAction(0, 44, true) -- Cover
 			DisableControlAction(0, 37, true) -- Select Weapon
 			DisableControlAction(0, 23, true) -- Also 'enter'?
-
 			DisableControlAction(0, 288,  true) -- Disable phone
 			DisableControlAction(0, 289, true) -- Inventory
 			DisableControlAction(0, 170, true) -- Animations
 			DisableControlAction(0, 167, true) -- Job
-
 			DisableControlAction(0, 0, true) -- Disable changing view
 			DisableControlAction(0, 26, true) -- Disable looking behind
 			DisableControlAction(0, 73, true) -- Disable clearing animation
 			DisableControlAction(2, 199, true) -- Disable pause screen
-
 			DisableControlAction(0, 59, true) -- Disable steering in vehicle
 			DisableControlAction(0, 71, true) -- Disable driving forward in vehicle
 			DisableControlAction(0, 72, true) -- Disable reversing in vehicle
-
 			DisableControlAction(2, 36, true) -- Disable going stealth
-
 			DisableControlAction(0, 47, true)  -- Disable weapon
 			DisableControlAction(0, 264, true) -- Disable melee
 			DisableControlAction(0, 257, true) -- Disable melee
@@ -506,14 +498,13 @@ CreateThread(function()
 			DisableControlAction(0, 143, true) -- Disable melee
 			DisableControlAction(0, 75, true)  -- Disable exit vehicle
 			DisableControlAction(27, 75, true) -- Disable exit vehicle
-
 			if IsEntityPlayingAnim(playerPed, 'mp_arresting', 'idle', 3) ~= 1 then
 				ESX.Streaming.RequestAnimDict('mp_arresting', function()
 					TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0.0, false, false, false)
 				end)
 			end
 		else
-			Wait(1000)
+			Wait(2000)
 		end
 	end
 end)
@@ -532,7 +523,7 @@ CreateThread(function()
 			local isInMarker, hasExited, letSleep = false, false, true
 			local currentStation, currentPart, currentPartNum
 			for k,v in pairs(Config.Mafije[PlayerData.job.name]) do
-				if PlayerData.job.grade_name == 'boss' or PlayerData.job.grade_name == 'savetnik' then
+				if PlayerData.job.grade_name == 'boss' then
 					for i=1, #Config.Mafije[PlayerData.job.name]['Armories'], 1 do
 						local distance = GetDistanceBetweenCoords(coords, Config.Mafije[PlayerData.job.name]['Armories'][i], true)
 						if distance < Config.DrawDistance then
@@ -571,7 +562,6 @@ CreateThread(function()
 					end
 				end
 
-		
 
 				if PlayerData.job.grade_name == 'boss' then
 					for i=1, #Config.Mafije[PlayerData.job.name]['BossActions'], 1 do
@@ -621,14 +611,23 @@ CreateThread(function()
 	end
 end)
 
+RegisterKeyMapping('+mafijameni', 'Mafia meni', 'keyboard', 'F6')
+RegisterCommand('+mafijameni', function()
+	if PlayerData.job and (PlayerData.job.name == 'zemunski' or PlayerData.job.name == 'yakuza' or PlayerData.job.name == 'vagos' or PlayerData.job.name == 'peaky' or PlayerData.job.name == 'ludisrbi' or PlayerData.job.name == 'lcn' or PlayerData.job.name == 'lazarevacki' or PlayerData.job.name == 'juzniv' or PlayerData.job.name == 'gsf' or PlayerData.job.name == 'favela' or PlayerData.job.name == 'camorra' or PlayerData.job.name == 'ballas'  or PlayerData.job.name == 'automafija'  or PlayerData.job.name == 'stikla' ) then
+		if not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
+			OtvoriPosaoMenu()
+		end
+	end
+end, false)
+RegisterCommand('-mafijameni', function()
+end, false)
+
 -- Trenutna akcija za markere i key kontrole--
 CreateThread(function()
 	while true do
-		Wait(0)
-
+		Wait(8)
 		if CurrentAction then
 			ESX.ShowHelpNotification(CurrentActionMsg)
-
 			if IsControlJustReleased(0, 38)  then
 				if CurrentAction == 'menu_cloakroom' then
 					OpenCloakroomMenu()
@@ -646,28 +645,20 @@ CreateThread(function()
 					ESX.UI.Menu.CloseAll()
 					TriggerEvent('esx_society:openBossMenu', PlayerData.job.name, function(data, menu)
 						menu.close()
-						
 						CurrentAction     = 'menu_boss_actions'
 						CurrentActionMsg  = _U('open_bossmenu')
 						CurrentActionData = {}
 					end, { wash = false }) 
 				end
-
 				CurrentAction = nil
 			end
+		else
+			Wait(2000)
 		end -- CurrentAction end
-
-		if PlayerData.job and (PlayerData.job.name == 'zemunski' or PlayerData.job.name == 'yakuza' or PlayerData.job.name == 'vagos' or PlayerData.job.name == 'peaky' or PlayerData.job.name == 'ludisrbi' or PlayerData.job.name == 'lcn' or PlayerData.job.name == 'lazarevacki' or PlayerData.job.name == 'juzniv' or PlayerData.job.name == 'gsf' or PlayerData.job.name == 'favela' or PlayerData.job.name == 'camorra' or PlayerData.job.name == 'ballas'  or PlayerData.job.name == 'automafija'  or PlayerData.job.name == 'stikla' ) then
-				if IsControlJustReleased(0, 167) and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
-					OtvoriPosaoMenu()
-				end
-		end
 	end
 end)
-
 AddEventHandler('playerSpawned', function(spawn) isDead = false end)
 AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
-
 ---------------------------------------------------
 -- /////////////////////////////////////////////////
 --		FUNCKIJE OD POLICEJOBA ZA ARMORYA -
@@ -675,7 +666,6 @@ AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
 function OpenGetWeaponMenu()
 	ESX.TriggerServerCallback('esxbalkan_mafije:dbGettajPuske', function(weapons)
 		local elements = {}
-
 		for i=1, #weapons, 1 do
 			if weapons[i].count > 0 then
 				table.insert(elements, {
@@ -684,10 +674,9 @@ function OpenGetWeaponMenu()
 				})
 			end
 		end
-
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_get_weapon', {
-			title    = 'Uzmi oružje',
-			align    = 'top-left',
+			title = 'Uzmi oružje',
+			align  = 'top-left',
 			elements = elements
 		}, function(data, menu)
 			menu.close()
@@ -702,13 +691,11 @@ function OpenGetWeaponMenu()
 end
 
 function OpenPutWeaponMenu()
-	local elements   = {}
+	local elements = {}
 	local playerPed  = PlayerPedId()
 	local weaponList = ESX.GetWeaponList()
-
 	for i=1, #weaponList, 1 do
 		local weaponHash = GetHashKey(weaponList[i].name)
-
 		if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= 'WEAPON_UNARMED' then
 			table.insert(elements, {
 				label = weaponList[i].label,
@@ -716,14 +703,12 @@ function OpenPutWeaponMenu()
 			})
 		end
 	end
-
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_put_weapon', {
-		title    = 'Ostavi oružje',
-		align    = 'top-left',
+		title = 'Ostavi oružje',
+		align  = 'top-left',
 		elements = elements
 	}, function(data, menu)
 		menu.close()
-
 		ESX.TriggerServerCallback('esxbalkan_mafije:staviUoruzarnicu', function()
 			OpenPutWeaponMenu()
 		end, data.current.value, true)
@@ -735,18 +720,15 @@ end
 function OpenBuyWeaponsMenu()
 	local elements = {}
 	local playerPed = PlayerPedId()
-
 	for k,v in ipairs(Config.Oruzje[PlayerData.job.grade_name]) do
 		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
 		local components, label = {}
 		local hasWeapon = HasPedGotWeapon(playerPed, GetHashKey(v.weapon), false)
-
 		if v.components then
 			for i=1, #v.components do
 				if v.components[i] then
 					local component = weapon.components[i]
 					local hasComponent = HasPedGotWeaponComponent(playerPed, GetHashKey(v.weapon), component.hash)
-
 					if hasComponent then
 						label = ('%s: <span style="color:green;">%s</span>'):format(component.label, 'Već imaš taj dodatak')
 					else
@@ -781,7 +763,7 @@ function OpenBuyWeaponsMenu()
 				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, 'Besplatno!')
 			end
 		end
-
+		
 		table.insert(elements, {
 			label = label,
 			weaponLabel = weapon.label,
@@ -793,8 +775,8 @@ function OpenBuyWeaponsMenu()
 	end
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons', {
-		title    = 'Oružarnica',
-		align    = 'top-left',
+		title  = 'Oružarnica',
+		align = 'top-left',
 		elements = elements
 	}, function(data, menu)
 		if data.current.hasWeapon then
@@ -807,7 +789,6 @@ function OpenBuyWeaponsMenu()
 					if data.current.price > 0 then
 						ESX.ShowNotification('Kupio si ' ..  data.current.weaponLabel .. ' za ~g~$' .. ESX.Math.GroupDigits(data.current.price))
 					end
-
 					menu.close()
 					OpenBuyWeaponsMenu()
 				else
@@ -822,8 +803,8 @@ end
 
 function OpenWeaponComponentShop(components, weaponName, parentShop)
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons_components', {
-		title    = _U('armory_componenttitle'),
-		align    = 'top-left',
+		title = _U('armory_componenttitle'),
+		align = 'top-left',
 		elements = components
 	}, function(data, menu)
 		if data.current.hasComponent then
@@ -834,7 +815,6 @@ function OpenWeaponComponentShop(components, weaponName, parentShop)
 					if data.current.price > 0 then
 						ESX.ShowNotification('Kupio si ' ..  data.current.componentLabel .. ' za ~g~$' .. ESX.Math.GroupDigits(data.current.price))
 					end
-
 					menu.close()
 					parentShop.close()
 					OpenBuyWeaponsMenu()
@@ -849,7 +829,5 @@ function OpenWeaponComponentShop(components, weaponName, parentShop)
 end
 
 AddEventHandler('onResourceStop', function(resource)
-	if resource == GetCurrentResourceName() then
-		TriggerEvent('esxbalkan_mafije:odvezivanje')
-	end
+	if resource == GetCurrentResourceName() then TriggerEvent('esxbalkan_mafije:odvezivanje') end
 end)
