@@ -522,7 +522,6 @@ AddEventHandler('esx:setJob', function(job)
 	PlayerData.job = job
 end)
 
--------Begi prave se markeri----------
 CreateThread(function()
 	while true do
 		Wait(5)
