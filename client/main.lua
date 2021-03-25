@@ -330,11 +330,11 @@ RegisterNetEvent('esxbalkan_mafije:vezivanje')
 AddEventHandler('esxbalkan_mafije:vezivanje', function()
 	isHandcuffed = not isHandcuffed
 	local playerPed = PlayerPedId()
-	Citizen.CreateThread(function()
+	CreateThread(function()
 		if isHandcuffed then
 			RequestAnimDict('mp_arresting')
 			while not HasAnimDictLoaded('mp_arresting') do
-				Citizen.Wait(100)
+				Wait(100)
 			end
 
 			TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
@@ -380,11 +380,11 @@ AddEventHandler('esxbalkan_mafije:vuci', function(copId)
 	dragStatus.CopId = copId
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	local playerPed
 	local targetPed
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		if isHandcuffed then
 			playerPed = PlayerPedId()
 			if dragStatus.isDragged then
@@ -404,7 +404,7 @@ Citizen.CreateThread(function()
 				DetachEntity(playerPed, true, false)
 			end
 		else
-			Citizen.Wait(2000)
+			Wait(2000)
 		end
 	end
 end)
@@ -445,9 +445,9 @@ AddEventHandler('esxbalkan_mafije:staviVanVozila', function()
     TriggerEvent('esxbalkan_mafije:odvezivanje')
 end)
 
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 		local playerPed = PlayerPedId()
 
 		if isHandcuffed then
@@ -500,7 +500,7 @@ Citizen.CreateThread(function()
 				end)
 			end
 		else
-			Citizen.Wait(1000)
+			Wait(1000)
 		end
 	end
 end)
@@ -510,9 +510,9 @@ AddEventHandler('esx:setJob', function(job)
 end)
 
 -------Begi prave se markeri----------
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(5)
+		Wait(5)
 		if PlayerData.job and (PlayerData.job.name == 'zemunski' or PlayerData.job.name == 'yakuza' or PlayerData.job.name == 'vagos' or PlayerData.job.name == 'peaky' or PlayerData.job.name == 'ludisrbi' or PlayerData.job.name == 'lcn' or PlayerData.job.name == 'lazarevacki' or PlayerData.job.name == 'juzniv' or PlayerData.job.name == 'gsf' or PlayerData.job.name == 'favela' or PlayerData.job.name == 'camorra' or PlayerData.job.name == 'ballas'  or PlayerData.job.name == 'automafija'  or PlayerData.job.name == 'stikla' ) then
 			local playerPed = PlayerPedId()
 			local coords = GetEntityCoords(playerPed)
@@ -599,19 +599,19 @@ Citizen.CreateThread(function()
 			end
 
 			if letSleep then
-				Citizen.Wait(2000)
+				Wait(2000)
 			end
 
 		else
-			Citizen.Wait(2000)
+			Wait(2000)
 		end
 	end
 end)
 
 -- Trenutna akcija za markere i key kontrole--
-Citizen.CreateThread(function()
+CreateThread(function()
 	while true do
-		Citizen.Wait(0)
+		Wait(0)
 
 		if CurrentAction then
 			ESX.ShowHelpNotification(CurrentActionMsg)
