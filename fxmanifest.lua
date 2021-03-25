@@ -4,7 +4,7 @@ game 'gta5'
 shared_scripts {
 	'@es_extended/locale.lua',
 	'config.lua',
-	'prevod/en.lua',
+	'prevod/*.lua',
 }
 
 server_scripts {
@@ -12,4 +12,14 @@ server_scripts {
 	'server/main.lua'
 }
 
-client_script 'client/main.lua'
+client_scripts {
+	'@es_extended/locale.lua',
+	'prevod/*.lua',
+	'config.lua',
+	'client/main.lua',
+}
+
+dependencies {
+	'es_extended',
+	'esx_datastore'
+}
