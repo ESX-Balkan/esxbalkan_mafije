@@ -31,8 +31,13 @@ end
 ObrisiVozilo = function()
 	local playerPed = PlayerPedId()
     	local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
-	ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
-	ESX.ShowNotification("Uspešno ste parkirali ~b~vozilo~s~ u garažu.")
+	local igracbrzina = math.floor((GetEntitySpeed(GetVehiclePedIsIn(GetPlayerPed(-1), false))*3.6))
+	if(igracbrzina > 45) then
+		ESX.ShowNotification("Voziš pre brzo ~b~vozilo~s~, uspori!")
+	elseif (igracbrzina < 45) then
+		ESX.Game.DeleteVehicle(CurrentActionData.vehicle)
+		ESX.ShowNotification("Uspiješno si parkirao ~b~vozilo~s~ u garažu.")
+	end
 end
 
 --Sef Menu --
