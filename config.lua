@@ -72,7 +72,6 @@ Config.Mafije = {
 		},
 		BossActions = {vector3(0.13, 524.47, 173.90)},
 		ParkirajAuto = {vector3(22.08, 544.82, 175.30),},},
-		--
 	lazarevacki = {
 		Cloakrooms = {vector3(0,0,0)},
 		Armories = {vector3(-110.24, -14.13, 70.52)},
@@ -159,9 +158,28 @@ Config.Mafije = {
 		ParkirajAuto = {vector3(141.32, -1267.27, 28.25),},},
 }
 
+Config.Oruzje = {
+	novak = {
+		{weapon = 'WEAPON_APPISTOL', components = {5000, 5000, 2000, 4000, nil}, price = 25000}
+	},
+	radnik = {
+		{weapon = 'WEAPON_APPISTOL', components = {2000, 2000, 1000, 4000, nil}, price = 1},
+		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {2000, 6000, 1000, 4000, 8000, nil}, price = 501000},
+		{weapon = 'WEAPON_PUMPSHOTGUN', components = {2000, 6000, nil}, price = 1}
+	},
+	zamjenik = {
+		{weapon = 'WEAPON_APPISTOL', components = {2500, 2000, 1000, 4000, nil}, price = 25000},
+		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {8500, 6000, 1000, 4000, 8000, nil}, price = 125000},
+		{weapon = 'WEAPON_PUMPSHOTGUN', components = {6500, 6000, nil}, price = 75000}
+	},
+	boss = {
+		{weapon = 'WEAPON_APPISTOL', components = {2500, 2000, 1000, 4000, nil}, price = 25000},
+		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {8500, 6000, 1000, 4000, 8000, nil}, price = 125000},
+		{weapon = 'WEAPON_PUMPSHOTGUN', components = {6500, 6000, nil}, price = 75000}
+	}
+}
 
 Config.Uniforms = {
-
 	recruit = {
 		male = {
 			['tshirt_1'] = 58,  ['tshirt_2'] = 0,
