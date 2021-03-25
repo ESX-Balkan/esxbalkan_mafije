@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 game 'gta5'
 
-shader_scripts {
+shared_scripts {
 	'@es_extended/locale.lua',
 	'config.lua',
 	'prevod/en.lua',
