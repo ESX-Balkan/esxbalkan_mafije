@@ -38,14 +38,14 @@ ObrisiVozilo = function()
 		TaskLeaveVehicle(playerPed, vozilo, 0)
 		while IsPedInVehicle(playerPed), vozilo, true) do Wait(0) end
 		Citizen.Wait(500)
-		NetworkFadeOutEntity(voziloe, true, true)
+		NetworkFadeOutEntity(vozilo, true, true)
 		Citizen.Wait(100)
 		ESX.Game.DeleteVehicle(vozilo)
 	elseif (igracbrzina < 10) then
 		TaskLeaveVehicle(playerPed, vozilo, 0)
 		while IsPedInVehicle(playerPed, vozilo, true) do Wait(0) end
 		Citizen.Wait(500)
-		NetworkFadeOutEntity(voziloe, true, true)
+		NetworkFadeOutEntity(vozilo, true, true)
 		Citizen.Wait(100)
 		ESX.Game.DeleteVehicle(vozilo)
 		ESX.ShowNotification("Uspiješno si parkirao ~b~vozilo~s~ u garažu.")
