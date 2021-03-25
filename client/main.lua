@@ -659,13 +659,188 @@ CreateThread(function()
 	end
 end)
 
-AddEventHandler('playerSpawned', function(spawn)
-	isDead = false
-end)
+AddEventHandler('playerSpawned', function(spawn) isDead = false end)
+AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
 
-AddEventHandler('esx:onPlayerDeath', function(data)
-	isDead = true
-end)
+---------------------------------------------------
+-- /////////////////////////////////////////////////
+--		FUNCKIJE OD POLICEJOBA ZA ARMORYA -
+-- ////////////////////////////////////////////////
+function OpenGetWeaponMenu()
+	ESX.TriggerServerCallback('esxbalkan_mafije:dbGettajPuske', function(weapons)
+		local elements = {}
+
+		for i=1, #weapons, 1 do
+			if weapons[i].count > 0 then
+				table.insert(elements, {
+					label = 'x' .. weapons[i].count .. ' ' .. ESX.GetWeaponLabel(weapons[i].name),
+					value = weapons[i].name
+				})
+			end
+		end
+
+		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_get_weapon', {
+			title    = 'Uzmi oružje',
+			align    = 'top-left',
+			elements = elements
+		}, function(data, menu)
+			menu.close()
+
+			ESX.TriggerServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function()
+				OpenGetWeaponMenu()
+			end, data.current.value)
+		end, function(data, menu)
+			menu.close()
+		end)
+	end)
+end
+
+function OpenPutWeaponMenu()
+	local elements   = {}
+	local playerPed  = PlayerPedId()
+	local weaponList = ESX.GetWeaponList()
+
+	for i=1, #weaponList, 1 do
+		local weaponHash = GetHashKey(weaponList[i].name)
+
+		if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= 'WEAPON_UNARMED' then
+			table.insert(elements, {
+				label = weaponList[i].label,
+				value = weaponList[i].name
+			})
+		end
+	end
+
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_put_weapon', {
+		title    = 'Ostavi oružje',
+		align    = 'top-left',
+		elements = elements
+	}, function(data, menu)
+		menu.close()
+
+		ESX.TriggerServerCallback('esxbalkan_mafije:staviUoruzarnicu', function()
+			OpenPutWeaponMenu()
+		end, data.current.value, true)
+	end, function(data, menu)
+		menu.close()
+	end)
+end
+
+function OpenBuyWeaponsMenu()
+	local elements = {}
+	local playerPed = PlayerPedId()
+
+	for k,v in ipairs(Config.Oruzje[PlayerData.job.grade_name]) do
+		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
+		local components, label = {}
+		local hasWeapon = HasPedGotWeapon(playerPed, GetHashKey(v.weapon), false)
+
+		if v.components then
+			for i=1, #v.components do
+				if v.components[i] then
+					local component = weapon.components[i]
+					local hasComponent = HasPedGotWeaponComponent(playerPed, GetHashKey(v.weapon), component.hash)
+
+					if hasComponent then
+						label = ('%s: <span style="color:green;">%s</span>'):format(component.label, 'Već imaš taj dodatak')
+					else
+						if v.components[i] > 0 then
+							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, '$'..ESX.Math.GroupDigits(v.components[i]))
+						else
+							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, 'Besplatno!')
+						end
+					end
+
+					table.insert(components, {
+						label = label,
+						componentLabel = component.label,
+						hash = component.hash,
+						name = component.name,
+						price = v.components[i],
+						hasComponent = hasComponent,
+						componentNum = i
+					})
+				end
+			end
+		end
+
+		if hasWeapon and v.components then
+			label = ('%s: <span style="color:green;">></span>'):format(weapon.label)
+		elseif hasWeapon and not v.components then
+			label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, 'Već imaš tu pušku!')
+		else
+			if v.price > 0 then
+				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, "$"..ESX.Math.GroupDigits(v.price))
+			else
+				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, 'Besplatno!')
+			end
+		end
+
+		table.insert(elements, {
+			label = label,
+			weaponLabel = weapon.label,
+			name = weapon.name,
+			components = components,
+			price = v.price,
+			hasWeapon = hasWeapon
+		})
+	end
+
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons', {
+		title    = 'Oružarnica',
+		align    = 'top-left',
+		elements = elements
+	}, function(data, menu)
+		if data.current.hasWeapon then
+			if #data.current.components > 0 then
+				OpenWeaponComponentShop(data.current.components, data.current.name, menu)
+			end
+		else
+			ESX.TriggerServerCallback('esxbalkan_mafije:kupiOruzje', function(bought)
+				if bought then
+					if data.current.price > 0 then
+						ESX.ShowNotification('Kupio si ' ..  data.current.weaponLabel .. ' za ~g~$' .. ESX.Math.GroupDigits(data.current.price))
+					end
+
+					menu.close()
+					OpenBuyWeaponsMenu()
+				else
+					ESX.ShowNotification(_U('armory_money'))
+				end
+			end, data.current.name, 1)
+		end
+	end, function(data, menu)
+		menu.close()
+	end)
+end
+
+function OpenWeaponComponentShop(components, weaponName, parentShop)
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons_components', {
+		title    = _U('armory_componenttitle'),
+		align    = 'top-left',
+		elements = components
+	}, function(data, menu)
+		if data.current.hasComponent then
+			ESX.ShowNotification(_U('armory_hascomponent'))
+		else
+			ESX.TriggerServerCallback('esxbalkan_mafije:kupiOruzje', function(bought)
+				if bought then
+					if data.current.price > 0 then
+						ESX.ShowNotification('Kupio si ' ..  data.current.componentLabel .. ' za ~g~$' .. ESX.Math.GroupDigits(data.current.price))
+					end
+
+					menu.close()
+					parentShop.close()
+					OpenBuyWeaponsMenu()
+				else
+					ESX.ShowNotification(_U('armory_money'))
+				end
+			end, weaponName, 2, data.current.componentNum)
+		end
+	end, function(data, menu)
+		menu.close()
+	end)
+end
 
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then
