@@ -159,7 +159,7 @@ Config.Mafije = {
 }
 
 Config.Oruzje = {
-	novak = {
+	novi = {
 		{weapon = 'WEAPON_APPISTOL', components = {5000, 5000, 2000, 4000, nil}, price = 25000}
 	},
 	radnik = {
@@ -167,7 +167,7 @@ Config.Oruzje = {
 		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {2000, 6000, 1000, 4000, 8000, nil}, price = 501000},
 		{weapon = 'WEAPON_PUMPSHOTGUN', components = {2000, 6000, nil}, price = 1}
 	},
-	zamjenik = {
+	zamenik = {
 		{weapon = 'WEAPON_APPISTOL', components = {2500, 2000, 1000, 4000, nil}, price = 25000},
 		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {8500, 6000, 1000, 4000, 8000, nil}, price = 125000},
 		{weapon = 'WEAPON_PUMPSHOTGUN', components = {6500, 6000, nil}, price = 75000}
