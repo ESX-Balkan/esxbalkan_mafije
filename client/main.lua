@@ -41,20 +41,26 @@ ObrisiVozilo = function()
 end
 
 --Sef Menu --
-OpenArmoryMenu = function(station)
-	local elements = {
-		{label = 'Sef | 📷', value = 'sef'},
-	}
+function OpenArmoryMenu(station)
+	local elements = {{label = 'Kupi oružje | 🔫', value = 'buy_weapons'}}
+	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+	table.insert(elements, {label = _U('put_weapon'),value = 'put_weapon'})
 	ESX.UI.Menu.CloseAll()
+
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
-		css      = 'mafia',
 		title    = _U('armory'),
 		align    = 'top-left',
 		elements = elements
 	}, function(data, menu)
-		if data.current.value == 'sef' then
-			TriggerServerEvent("mercury_sefovi:povuciInv", PlayerData.job.name)
+
+		if data.current.value == 'get_weapon' then
+			OpenGetWeaponMenu()
+		elseif data.current.value == 'put_weapon' then
+			OpenPutWeaponMenu()
+		elseif data.current.value == 'buy_weapons' then
+			OpenBuyWeaponsMenu()
 		end
+
 	end, function(data, menu)
 		menu.close()
 		CurrentAction     = 'menu_armory'
