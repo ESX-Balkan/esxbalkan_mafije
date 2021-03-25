@@ -437,12 +437,13 @@ end)
 RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
 AddEventHandler('esxbalkan_mafije:staviVanVozila', function()
 	local playerPed = PlayerPedId()
-	if not IsPedSittingInAnyVehicle(playerPed) then
-		return
-	end
+	if IsPedSittingInAnyVehicle(playerPed) then
 	local vehicle = GetVehiclePedIsIn(playerPed, false)
 	TaskLeaveVehicle(playerPed, vehicle, 16)
-    TriggerEvent('esxbalkan_mafije:odvezivanje')
+    	TriggerEvent('esxbalkan_mafije:odvezivanje')
+        else
+         ESX.ShowNotification('Osoba nije u vozilu i ne mozete je izvaditi van vozila!')
+    end
 end)
 
 CreateThread(function()
