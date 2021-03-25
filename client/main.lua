@@ -634,7 +634,7 @@ end, false)
 CreateThread(function()
 	while true do
 		Wait(8)
-		if CurrentAction then
+		if CurrentAction and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
 			ESX.ShowHelpNotification(CurrentActionMsg)
 			if IsControlJustReleased(0, 38)  then
 				if CurrentAction == 'menu_cloakroom' then
