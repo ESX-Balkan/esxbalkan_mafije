@@ -1,20 +1,13 @@
 ESX = nil
+local nmafija = 0
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-TriggerEvent('esx_society:registerSociety', 'automafija', 'automafija', 'society_automafija', 'society_automafija', 'society_automafija', {type = 'public'})
 
-TriggerEvent('esx_society:registerSociety', 'ballas', 'ballas', 'society_ballas', 'society_ballas', 'society_ballas', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'camorra', 'camorra', 'society_camorra', 'society_camorra', 'society_camorra', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'favela', 'favela', 'society_favela', 'society_favela', 'society_favela', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'gsf', 'gsf', 'society_gsf', 'society_gsf', 'society_gsf', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'juzniv', 'juzniv', 'society_juzniv', 'society_juzniv', 'society_juzniv', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'lazarevacki', 'lazarevacki', 'society_lazarevacki', 'society_lazarevacki', 'society_automafija', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'lcn', 'lcn', 'society_lcn', 'society_lcn', 'society_lcn', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'ludisrbi', 'ludisrbi', 'society_ludisrbi', 'society_ludisrbi', 'society_ludisrbi', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'peaky', 'peaky', 'society_peaky', 'society_peaky', 'society_peaky', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'stikla', 'stikla', 'society_stikla', 'society_stikla', 'society_stikla', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'vagos', 'vagos', 'society_vagos', 'society_vagos', 'society_vagos', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'yakuza', 'yakuza', 'society_ayakuza', 'society_ayakuza', 'society_ayakuza', {type = 'public'})
-TriggerEvent('esx_society:registerSociety', 'zemunski', 'zemunski', 'society_zemunski', 'society_zemunski', 'society_zemunski', {type = 'public'})
+for k,v in pairs(Config.Mafije) do
+	TriggerEvent('esx_society:registerSociety', k, k, 'society_' .. k, 'society_'..k, 'society_'..k, {type = 'public'})
+	nmafija = nmafija + 1
+end
+
+print('[^1esxbalkan_mafias^0]: Developed by ^5ESX-Balkan Developer Team^0 | Loaded ^4' .. nmafija .. '^0 mafias')
 --[[local Posao = {
 	[0] = '',
 	[1] = ''
