@@ -541,7 +541,6 @@ CreateThread(function()
 			local isInMarker, hasExited, letSleep = false, false, true
 			local currentStation, currentPart, currentPartNum
 			for k,v in pairs(Config.Mafije[PlayerData.job.name]) do
-				if PlayerData.job.grade_name == 'boss' then
 					for i=1, #Config.Mafije[PlayerData.job.name]['Armories'], 1 do
 						local distance = GetDistanceBetweenCoords(coords, Config.Mafije[PlayerData.job.name]['Armories'][i], true)
 						if distance < Config.DrawDistance then
@@ -553,7 +552,6 @@ CreateThread(function()
 							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
 						end
 					end
-				end
 				for i=1, #Config.Mafije[PlayerData.job.name]['ParkirajAuto'], 1 do
 					local distance = GetDistanceBetweenCoords(coords, Config.Mafije[PlayerData.job.name]['ParkirajAuto'][i], true)
 
