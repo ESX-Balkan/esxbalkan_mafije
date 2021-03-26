@@ -1,5 +1,5 @@
 Config  = {}
-Config.DrawDistance = 20.0
+Config.DrawDistance = 40.0
 Config.MarkerType  = 1
 Config.MarkerSize  = { x = 1.5, y = 1.5, z = 0.5 }
 Config.MarkerHelikopter   = { x = 6.0, y = 6.0, z = 2.5 }
