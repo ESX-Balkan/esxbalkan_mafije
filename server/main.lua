@@ -8,7 +8,7 @@ for k,v in pairs(Config.Mafije) do
 	nmafija = nmafija + 1
 end
 
-print('[^1esxbalkan_mafias^0]: Developed by ^5ESX-Balkan Developer Team^0 | Loaded ^4' .. nmafija .. '^0 mafias')
+print('[^1esxbalkan_mafias^0]: Napravljeno od ^5ESX-Balkan^0 | Ucitano ^4' .. nmafija .. '^0 mafia')
 
 -----------------------
 -----CALLBACKOVI-------
