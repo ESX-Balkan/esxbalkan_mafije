@@ -38,7 +38,7 @@ ObrisiVozilo = function()
 	if(igracbrzina > 45) then
 		FreezeEntityPosition(vozilo, true)
 		TaskLeaveVehicle(playerPed, vozilo, 0)
-		while IsPedInVehicle(playerPed), vozilo, true) do Wait(0) end
+		while IsPedInVehicle(playerPed, vozilo, true) do Wait(0) end
 		Citizen.Wait(500)
 		NetworkFadeOutEntity(vozilo, true, true)
 		Citizen.Wait(100)
