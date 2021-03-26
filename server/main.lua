@@ -1,5 +1,6 @@
 ESX = nil
 local nmafija = 0
+local Pretrazivan = {}
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 
@@ -23,6 +24,23 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getOtherPlayerData', function(sourc
 			weapons   = xPlayer.loadout
 		}
 		cb(data)
+end)
+
+RegisterServerEvent('esxbalkan_mafije:PretrazujuMe')
+AddEventHandler('esxbalkan_mafije:PretrazujuMe', function(id, br)
+	Pretrazivan[id] = br
+end)
+
+ESX.RegisterServerCallback('esxbalkan_mafije:JelPretrazivan', function(source, cb, target)
+	if Pretrazivan[target] ~= nil then
+		if Pretrazivan[target] then
+			cb(true)
+		else
+			cb(false)
+		end
+	else
+		cb(false)
+	end
 end)
 
 ESX.RegisterServerCallback('esxbalkan_mafije:getPlayerInventory', function(source, cb)
