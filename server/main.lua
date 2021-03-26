@@ -9,17 +9,7 @@ for k,v in pairs(Config.Mafije) do
 end
 
 print('[^1esxbalkan_mafias^0]: Developed by ^5ESX-Balkan Developer Team^0 | Loaded ^4' .. nmafija .. '^0 mafias')
---[[local Posao = {
-	[0] = '',
-	[1] = ''
 
-}
-
-RegistrujPosao = function(posao) do
-
-
-end
---]]
 -----------------------
 -----CALLBACKOVI-------
 -----------------------
