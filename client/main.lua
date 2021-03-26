@@ -1,5 +1,5 @@
 local PlayerData, CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask, spawnedVehicles = {}, {}, {}, {}, {}, {}, {}
-local HasAlreadyEnteredMarker, isDead, isHandcuffed, playerInService = false, false, false, false
+local HasAlreadyEnteredMarker, isDead, isHandcuffed, playerInService, Pretrazivan = false, false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
 dragStatus.isDragged = false
 
@@ -226,8 +226,14 @@ OtvoriPosaoMenu = function()
 				if closestPlayer ~= -1 and closestDistance <= 3.0 then
 					local action = data2.current.value
 					if action == 'body_search' then
+						ESX.TriggerServerCallback('esxbalkan_mafije:JelPretrazivan', function(br)
+							if not br then
 						TriggerServerEvent('esxbalkan_mafije:poruka', GetPlayerServerId(closestPlayer), _U('being_searched'))
 						PretrazivanjeIgraca(closestPlayer)
+						else
+							ESX.ShowNotification("~y~Tu osobu vec ~r~netko pretrazuje!")
+						end
+					end)
 					elseif action == 'handcuff' then
 						TriggerServerEvent('esxbalkan_mafije:vezivanje', GetPlayerServerId(closestPlayer))
 					elseif action == 'drag' then
@@ -251,6 +257,7 @@ end
 
 PretrazivanjeIgraca = function(player)
 	ESX.TriggerServerCallback('esxbalkan_mafije:getOtherPlayerData', function(data)
+		TriggerServerEvent("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), true)
 		local elements = {}
 
 		for i=1, #data.accounts, 1 do
@@ -301,6 +308,7 @@ PretrazivanjeIgraca = function(player)
 				PretrazivanjeIgraca(player)
 			end
 		end, function(data, menu)
+			TriggerServerEvent("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), false)
 			menu.close()
 		end)
 	end, GetPlayerServerId(player))
