@@ -10,7 +10,7 @@ Config.Locale  = 'hr'
 --Sefovi - proveriti meni bossactions
 -- OVDJE DODAJETE NOVE POSLOVE SVE
 Config.Mafije = {
-	marko = {
+	zemunski = {
 		--Cloakrooms = {vector3(0,0,0)},
 		Armories = {vector3(1394.69, 1149.95, 114.33)},
 		Vehicles = {vector3(1392.33, 1118.33, 114.84)},
