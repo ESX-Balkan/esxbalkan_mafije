@@ -1,3 +1,4 @@
+
 local PlayerData, CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask, spawnedVehicles = {}, {}, {}, {}, {}, {}, {}
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, playerInService, Pretrazivan = false, false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
@@ -547,9 +548,12 @@ AddEventHandler('esx:setJob', function(job)
 end)
 
 CreateThread(function()
+    local wejtara = 1000
 	while true do
-		Wait(5)
-		if PlayerData.job and Poslovi then
+		Wait(wejtara)
+        for k,v in pairs(Config.Mafije) do
+            if PlayerData.job and PlayerData.job.name == k then
+            wejtara = 5
 			local playerPed = PlayerPedId()
 			local coords = GetEntityCoords(playerPed)
 			local isInMarker, hasExited, letSleep = false, false, true
@@ -591,7 +595,6 @@ CreateThread(function()
 						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
 					end
 				end
-
 
 				if PlayerData.job.grade_name == 'boss' then
 					for i=1, #Config.Mafije[PlayerData.job.name]['BossActions'], 1 do
@@ -635,9 +638,10 @@ CreateThread(function()
 				Wait(2000)
 			end
 
-		else
-			Wait(2000)
-		end
+		    else
+			    Wait(2000)
+		    end
+        end
 	end
 end)
 
@@ -863,3 +867,4 @@ end
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then TriggerEvent('esxbalkan_mafije:odvezivanje') end
 end)
+
