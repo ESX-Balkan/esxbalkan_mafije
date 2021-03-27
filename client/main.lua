@@ -12,7 +12,7 @@ CreateThread(function()
 	PlayerData = ESX.GetPlayerData()
 end)
 
-local Poslovi = PlayerData.job.name == 'zemunski' or PlayerData.job.name == 'yakuza' or PlayerData.job.name == 'vagos' or PlayerData.job.name == 'peaky' or PlayerData.job.name == 'ludisrbi' or PlayerData.job.name == 'lcn' or PlayerData.job.name == 'lazarevacki' or PlayerData.job.name == 'juzniv' or PlayerData.job.name == 'gsf' or PlayerData.job.name == 'favela' or PlayerData.job.name == 'camorra' or PlayerData.job.name == 'ballas'  or PlayerData.job.name == 'automafija'  or PlayerData.job.name == 'stikla'
+--local Poslovi = PlayerData.job.name == 'zemunski' or PlayerData.job.name == 'yakuza' or PlayerData.job.name == 'vagos' or PlayerData.job.name == 'peaky' or PlayerData.job.name == 'ludisrbi' or PlayerData.job.name == 'lcn' or PlayerData.job.name == 'lazarevacki' or PlayerData.job.name == 'juzniv' or PlayerData.job.name == 'gsf' or PlayerData.job.name == 'favela' or PlayerData.job.name == 'camorra' or PlayerData.job.name == 'ballas'  or PlayerData.job.name == 'automafija'  or PlayerData.job.name == 'stikla'
 
 
 RegisterNetEvent('esx:playerLoaded')
@@ -549,7 +549,7 @@ end)
 CreateThread(function()
 	while true do
 		Wait(5)
-		if PlayerData.job and Poslovi then
+		if PlayerData.job and PlayerData.job.name == 'zemunski' or PlayerData.job.name == 'yakuza' or PlayerData.job.name == 'vagos' or PlayerData.job.name == 'peaky' or PlayerData.job.name == 'ludisrbi' or PlayerData.job.name == 'lcn' or PlayerData.job.name == 'lazarevacki' or PlayerData.job.name == 'juzniv' or PlayerData.job.name == 'gsf' or PlayerData.job.name == 'favela' or PlayerData.job.name == 'camorra' or PlayerData.job.name == 'ballas'  or PlayerData.job.name == 'automafija'  or PlayerData.job.name == 'stikla' then
 			local playerPed = PlayerPedId()
 			local coords = GetEntityCoords(playerPed)
 			local isInMarker, hasExited, letSleep = false, false, true
