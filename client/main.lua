@@ -651,11 +651,12 @@ CreateThread(function()
             end
 
             if letSleep then
-                Wait(2000)
+		collectgarbage()
+                Wait(3000)
             end
 
         else
-            Wait(2000)
+            Wait(3000)
         end
     end
 end)
