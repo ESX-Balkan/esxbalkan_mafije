@@ -181,7 +181,7 @@ Config.Mafije = {
 }
 
 Config.Oruzje = {
-	diler = {
+	novi = {
 		{weapon = 'WEAPON_APPISTOL', components = {5000, 5000, 2000, 4000, nil}, price = 25000}
 	},
 	radnik = {
