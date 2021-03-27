@@ -68,9 +68,23 @@ function OpenArmoryMenu(station)
 	}, function(data, menu)
 
 		if data.current.value == 'get_weapon' then
+			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+  			if closestPlayer ~= -1 and closestDistance > 3.0 then
 			OpenGetWeaponMenu()
+			elseif GetNumberOfPlayers() == 1 then
+			OpenGetWeaponMenu()
+		  else
+    			ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
+		end
 		elseif data.current.value == 'put_weapon' then
+			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+  			if closestPlayer ~= -1 and closestDistance > 3.0 then
 			OpenPutWeaponMenu()
+			elseif GetNumberOfPlayers() == 1 then
+			OpenGetWeaponMenu()
+		else
+    			ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
+		end
 		elseif data.current.value == 'buy_weapons' then
 			OpenBuyWeaponsMenu()
 		end
