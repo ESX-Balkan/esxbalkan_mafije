@@ -127,6 +127,9 @@ OtvoriAutoSpawnMenu = function(type, station, part, partNum)
 
     function(data, menu)
         menu.close()
+	CurrentAction     = 'menu_vehicle_spawner' --commit
+	CurrentActionMsg  = _U('garage_prompt')
+	CurrentActionData = {}
     end)
 end
 
@@ -327,6 +330,14 @@ PretrazivanjeIgraca = function(player)
 		end)
 	end, GetPlayerServerId(player))
 
+end
+
+-----------------------------
+--------GUI FUNKCIJE---------
+-----------------------------
+local function ShowHelpText(text) --commit
+	AddTextEntry('helpNotif', text)
+	DisplayHelpTextThisFrame('helpNotif', false)
 end
 
 -----------------------------
@@ -665,7 +676,7 @@ CreateThread(function()
 	while true do
 		Wait(8)
 		if CurrentAction and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
-			ESX.ShowHelpNotification(CurrentActionMsg)
+			ShowHelpText(CurrentActionMsg) -- commit
 			if IsControlJustReleased(0, 38)  then
 				if CurrentAction == 'menu_cloakroom' then
 					OpenCloakroomMenu()
@@ -691,7 +702,7 @@ CreateThread(function()
 				CurrentAction = nil
 			end
 		else
-			Wait(2000)
+			Wait(1000) -- presporo reaguje na prilazenje markeru na 2000
 		end -- CurrentAction end
 	end
 end)
