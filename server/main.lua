@@ -173,6 +173,11 @@ end)
 ESX.RegisterServerCallback('esxbalkan_mafije:staviUoruzarnicu', function(source, cb, weaponName, removeWeapon)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local org = xPlayer.job.name
+		
+	if not xPlayer.hasWeapon(weaponName) then
+		xPlayer.kick('Ne glitchuj kidaro') -- ili log/ban kod
+		return
+	end
 
 	if removeWeapon then
 		xPlayer.removeWeapon(weaponName)
