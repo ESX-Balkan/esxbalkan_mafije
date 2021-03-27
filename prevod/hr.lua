@@ -8,6 +8,7 @@ Locales['hr'] = {
   -- Oružarnica
   ['remove_object'] = 'uzmi predmet | 📷',
   ['deposit_object'] = 'ostavi predmet| 📷',
+  ['buy_weapon'] = 'Kupi oružje | 🔫',
   ['get_weapon'] = 'Uzmi oružje | 🔫',
   ['put_weapon'] = 'Ostavi oružje | 🔫',
   ['buy_weapons'] = 'Kupi oružje | 💵',
