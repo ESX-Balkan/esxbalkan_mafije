@@ -586,10 +586,10 @@ CreateThread(function()
                     local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['ParkirajAuto'][i], true)
 
                     if distance < Config.DrawDistance then
-						if IsPedInAnyVehicle(playerPed, false) then
+			if IsPedInAnyVehicle(playerPed, false) then
                         	DrawMarker(36, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
-						end
-						letSleep = false
+			end
+			letSleep = false
                     end
 
                     if distance < Config.MarkerAuto.x then
@@ -601,10 +601,10 @@ CreateThread(function()
                     local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['Vehicles'][i], true)
 
                     if distance < Config.DrawDistance then
-						if not IsPedInAnyVehicle(playerPed, false) then
+			if not IsPedInAnyVehicle(playerPed, false) then
                         	DrawMarker(36, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-						end
-						letSleep = false
+			end
+			letSleep = false
                     end
 
                     if distance < Config.MarkerSize.x then
