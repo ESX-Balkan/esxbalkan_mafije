@@ -31,30 +31,6 @@ ocistiIgraca = function(playerPed)
 	ResetPedMovementClipset(playerPed, 0)
 end
 
-ObrisiVozilo = function()
-	local playerPed = PlayerPedId()
-	local vozilo =GetVehiclePedIsIn(playerPed,false)
-        local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
-	local igracbrzina = math.floor((GetEntitySpeed(GetVehiclePedIsIn(playerPed, false))*3.6))
-	if(igracbrzina > 45) then
-		FreezeEntityPosition(vozilo, true)
-		TaskLeaveVehicle(playerPed, vozilo, 0)
-		while IsPedInVehicle(playerPed, vozilo, true) do Wait(0) end
-		Citizen.Wait(500)
-		NetworkFadeOutEntity(vozilo, true, true)
-		Citizen.Wait(100)
-		ESX.Game.DeleteVehicle(vozilo)
-	elseif (igracbrzina < 10) then
-		TaskLeaveVehicle(playerPed, vozilo, 0)
-		while IsPedInVehicle(playerPed, vozilo, true) do Wait(0) end
-		Citizen.Wait(500)
-		NetworkFadeOutEntity(vozilo, true, true)
-		Citizen.Wait(100)
-		ESX.Game.DeleteVehicle(vozilo)
-		ESX.ShowNotification("Uspiješno si parkirao ~b~vozilo~s~ u garažu.")
-	end
-end
-
 --Sef Menu --
 function OpenArmoryMenu(station)
     local elements = {
@@ -102,36 +78,55 @@ function OpenArmoryMenu(station)
 end
 
 StvoriVozilo = function(vozilo)
-	for k,v in pairs(Config.Mafije[PlayerData.job.name]) do
-		a = (Config.Mafije[PlayerData.job.name]['MeniVozila'][vozilo])
-		break
+	local ped = PlayerPedId()
+
+	ESX.Game.SpawnVehicle(vozilo, Config.Mafije[PlayerData.job.name]["Vehicles"][1], GetEntityHeading(ped), function(veh)
+		TaskWarpPedIntoVehicle(ped, veh, -1)
+		SetVehicleFuelLevel(veh, 60.0)
+		SetVehicleRadioEnabled(veh, false)
+	end)
+end
+
+ObrisiVozilo = function()
+	local playerPed = PlayerPedId()
+	local vozilo =GetVehiclePedIsIn(playerPed,false)
+    	local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
+	local vehicleSpeed = math.floor((GetEntitySpeed(GetVehiclePedIsIn(playerPed, false))*3.6))
+
+	if (vehicleSpeed > 45) then
+	     FreezeEntityPosition(vozilo, true)
 	end
-	TriggerEvent('esx:spawnVehicle', a)
+
+	TaskLeaveVehicle(playerPed, vozilo, 0)
+	while IsPedInVehicle(playerPed, vozilo, true) do Wait(0) end
+	Citizen.Wait(500)
+	NetworkFadeOutEntity(vozilo, true, true)
+	Citizen.Wait(100)
+	ESX.Game.DeleteVehicle(vozilo)
+	ESX.ShowNotification("Uspiješno si parkirao ~b~vozilo~s~ u garažu.")
 end
 
 OtvoriAutoSpawnMenu = function(type, station, part, partNum)
+    local elements = {}
+
+    for model, label in pairs(Config.Mafije[PlayerData.job.name]["MeniVozila"]) do
+    	table.insert(elements, {label = '🚗 | ' .. label, value = model})
+    end
+
     ESX.UI.Menu.CloseAll()
 
     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
-            title = 'Izaberi Vozilo | 🚗',
-            elements = {
-            	{label = Config.Mafije[PlayerData.job.name]['MeniVozila'].Vozilo1 .. ' | 🚗', value = 'primo2'},
-		{label = Config.Mafije[PlayerData.job.name]['MeniVozila'].Vozilo2 .. ' | 🚗', value = 'seminole'},
-		{label = Config.Mafije[PlayerData.job.name]['MeniVozila'].Vozilo3 .. ' | 🚗', value = 'enduro'},
-            }},function(data, menu)
-            if data.current.value == 'primo2' then
-				StvoriVozilo('Vozilo1')
-				ESX.UI.Menu.CloseAll()
-            elseif data.current.value == 'seminole' then
-				StvoriVozilo('Vozilo2')
-				ESX.UI.Menu.CloseAll()
-			elseif data.current.value == 'enduro' then
-				StvoriVozilo('Vozilo3')
-            end
-        end,
-        function(data, menu)
-          menu.close()
-     end)
+        title = 'Izaberi Vozilo | 🚗',
+        align = 'left',
+        elements = elements
+    },function(data, menu)
+	StvoriVozilo(data.current.value)
+        menu.close()
+    end,
+
+    function(data, menu)
+        menu.close()
+    end)
 end
 
 OtvoriHeliSpawnMenu = function(type, station, part, partNum)
@@ -577,12 +572,15 @@ CreateThread(function()
                         isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
                     end
                 end
+					
                 for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
                     local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['ParkirajAuto'][i], true)
 
                     if distance < Config.DrawDistance then
-                        DrawMarker(1, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.0, 3.0, 3.0, 255, 0, 0, 100, false, true, 2, true, false, false, false)
-                        letSleep = false
+						if IsPedInAnyVehicle(playerPed, false) then
+                        	DrawMarker(36, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
+						end
+						letSleep = false
                     end
 
                     if distance < Config.MarkerAuto.x then
@@ -594,8 +592,10 @@ CreateThread(function()
                     local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['Vehicles'][i], true)
 
                     if distance < Config.DrawDistance then
-                        DrawMarker(36, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-                        letSleep = false
+						if not IsPedInAnyVehicle(playerPed, false) then
+                        	DrawMarker(36, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
+						letSleep = false
                     end
 
                     if distance < Config.MarkerSize.x then
