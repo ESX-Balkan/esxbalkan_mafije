@@ -12,6 +12,7 @@ CreateThread(function()
 	PlayerData = ESX.GetPlayerData()
 end)
 
+
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
 	PlayerData = xPlayer
