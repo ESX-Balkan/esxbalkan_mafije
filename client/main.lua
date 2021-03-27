@@ -57,45 +57,48 @@ end
 
 --Sef Menu --
 function OpenArmoryMenu(station)
-	local elements = {{label = 'Kupi oružje | 🔫', value = 'buy_weapons'}}
-	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-	table.insert(elements, {label = _U('put_weapon'),value = 'put_weapon'})
-	ESX.UI.Menu.CloseAll()
+    local elements = {
+        {label = 'Kupi oružje | 🔫', value = 'buy_weapons'},
+        {label = _U('get_weapon'), value = 'get_weapon'},
+        {label = _U('put_weapon'),value = 'put_weapon'}
+    }
 
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
-		title    = _U('armory'),
-		align    = 'top-left',
-		elements = elements
-	}, function(data, menu)
+    ESX.UI.Menu.CloseAll()
 
-		if data.current.value == 'get_weapon' then
-			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-  			if closestPlayer ~= -1 and closestDistance > 3.0 then
-			OpenGetWeaponMenu()
-			elseif GetNumberOfPlayers() == 1 then
-			OpenGetWeaponMenu()
-		  else
-    			ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-		end
-		elseif data.current.value == 'put_weapon' then
-			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-  			if closestPlayer ~= -1 and closestDistance > 3.0 then
-			OpenPutWeaponMenu()
-			elseif GetNumberOfPlayers() == 1 then
-			OpenGetWeaponMenu()
-		else
-    			ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-		end
-		elseif data.current.value == 'buy_weapons' then
-			OpenBuyWeaponsMenu()
-		end
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
+        title    = _U('armory'),
+        align    = 'top-left',
+        elements = elements
+    }, function(data, menu)
 
-	end, function(data, menu)
-		menu.close()
-		CurrentAction     = 'menu_armory'
-		CurrentActionMsg  = _U('open_armory')
-		CurrentActionData = {station = station}
-	end)
+	local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+
+        if data.current.value == 'get_weapon' then
+            if closestPlayer ~= -1 and closestDistance > 3.0 then
+                OpenGetWeaponMenu()
+            elseif GetNumberOfPlayers() == 1 then
+                OpenGetWeaponMenu()
+            else
+                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
+            end
+        elseif data.current.value == 'put_weapon' then
+            if closestPlayer ~= -1 and closestDistance > 3.0 then
+                OpenPutWeaponMenu()
+            elseif GetNumberOfPlayers() == 1 then
+                OpenPutWeaponMenu()
+            else
+                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
+            end
+        elseif data.current.value == 'buy_weapons' then
+            OpenBuyWeaponsMenu()
+        end
+
+    end, function(data, menu)
+        menu.close()
+        CurrentAction     = 'menu_armory'
+        CurrentActionMsg  = _U('open_armory')
+        CurrentActionData = {station = station}
+    end)
 end
 
 StvoriVozilo = function(vozilo)
@@ -549,112 +552,114 @@ end)
 
 CreateThread(function()
     local wejtara = 1000
-	while true do
-		Wait(wejtara)
-        for k,v in pairs(Config.Mafije) do
-            if PlayerData.job and PlayerData.job.name == k then
+
+    while true do
+        Wait(wejtara)
+		
+        local jobName = PlayerData.job.name
+
+        if PlayerData.job and Config.Mafije[jobName] then
             wejtara = 5
-			local playerPed = PlayerPedId()
-			local coords = GetEntityCoords(playerPed)
-			local isInMarker, hasExited, letSleep = false, false, true
-			local currentStation, currentPart, currentPartNum
-			for k,v in pairs(Config.Mafije[PlayerData.job.name]) do
-					for i=1, #Config.Mafije[PlayerData.job.name]['Armories'], 1 do
-						local distance = GetDistanceBetweenCoords(coords, Config.Mafije[PlayerData.job.name]['Armories'][i], true)
-						if distance < Config.DrawDistance then
-							DrawMarker(21, Config.Mafije[PlayerData.job.name]['Armories'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-							letSleep = false
-						end
-	
-						if distance < Config.MarkerSize.x then
-							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
-						end
-					end
-				for i=1, #Config.Mafije[PlayerData.job.name]['ParkirajAuto'], 1 do
-					local distance = GetDistanceBetweenCoords(coords, Config.Mafije[PlayerData.job.name]['ParkirajAuto'][i], true)
+            local playerPed = PlayerPedId()
+            local coords = GetEntityCoords(playerPed)
+            local isInMarker, hasExited, letSleep = false, false, true
+            local currentStation, currentPart, currentPartNum
 
-					if distance < Config.DrawDistance then
-						DrawMarker(1, Config.Mafije[PlayerData.job.name]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.0, 3.0, 3.0, 255, 0, 0, 100, false, true, 2, true, false, false, false)
-						letSleep = false
-					end
+            for k,v in pairs(Config.Mafije[jobName]) do
+                for i=1, #Config.Mafije[jobName]['Armories'], 1 do
+                    local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['Armories'][i], true)
+                    if distance < Config.DrawDistance then
+                        DrawMarker(21, Config.Mafije[jobName]['Armories'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+                        letSleep = false
+                    end
 
-					if distance < Config.MarkerAuto.x then
-						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i
-					end
-				end
+                    if distance < Config.MarkerSize.x then
+                        isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
+                    end
+                end
+                for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
+                    local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['ParkirajAuto'][i], true)
 
-				for i=1, #Config.Mafije[PlayerData.job.name]['Vehicles'], 1 do
-					local distance = GetDistanceBetweenCoords(coords, Config.Mafije[PlayerData.job.name]['Vehicles'][i], true)
+                    if distance < Config.DrawDistance then
+                        DrawMarker(1, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.0, 3.0, 3.0, 255, 0, 0, 100, false, true, 2, true, false, false, false)
+                        letSleep = false
+                    end
 
-					if distance < Config.DrawDistance then
-						DrawMarker(36, Config.Mafije[PlayerData.job.name]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-						letSleep = false
-					end
+                    if distance < Config.MarkerAuto.x then
+                        isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i
+                    end
+                end
 
-					if distance < Config.MarkerSize.x then
-						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
-					end
-				end
+                for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
+                    local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['Vehicles'][i], true)
 
-				if PlayerData.job.grade_name == 'boss' then
-					for i=1, #Config.Mafije[PlayerData.job.name]['BossActions'], 1 do
-						local distance = GetDistanceBetweenCoords(coords, Config.Mafije[PlayerData.job.name]['BossActions'][i], true)
+                    if distance < Config.DrawDistance then
+                        DrawMarker(36, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+                        letSleep = false
+                    end
 
-						if distance < Config.DrawDistance then
-							DrawMarker(22, Config.Mafije[PlayerData.job.name]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-							letSleep = false
-						end
+                    if distance < Config.MarkerSize.x then
+                        isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
+                    end
+                end
 
-						if distance < Config.MarkerSize.x then
-							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i
-						end
-					end
-				end
-			end
+                if PlayerData.job.grade_name == 'boss' then
+                    for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
+                        local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['BossActions'][i], true)
 
-			if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
-				if
-					(LastStation and LastPart and LastPartNum) and
-					(LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)
-				then
-					TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
-					hasExited = true
-				end
+                        if distance < Config.DrawDistance then
+                            DrawMarker(22, Config.Mafije[jobName]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+                            letSleep = false
+                        end
 
-				HasAlreadyEnteredMarker = true
-				LastStation             = currentStation
-				LastPart                = currentPart
-				LastPartNum             = currentPartNum
+                        if distance < Config.MarkerSize.x then
+                            isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i
+                        end
+                    end
+                end
+            end
 
-				TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
-			end
+            if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
+                if
+                    (LastStation and LastPart and LastPartNum) and
+                    (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)
+                then
+                    TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+                    hasExited = true
+                end
 
-			if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
-				HasAlreadyEnteredMarker = false
-				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
-			end
+                HasAlreadyEnteredMarker = true
+                LastStation             = currentStation
+                LastPart                = currentPart
+                LastPartNum             = currentPartNum
 
-			if letSleep then
-				Wait(2000)
-			end
+                TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
+            end
 
-		    else
-			    Wait(2000)
-		    end
+            if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
+                HasAlreadyEnteredMarker = false
+                TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+            end
+
+            if letSleep then
+                Wait(2000)
+            end
+
+        else
+            Wait(2000)
         end
-	end
+    end
 end)
 
 RegisterKeyMapping('+mafijameni', 'Mafia meni', 'keyboard', 'F6')
 RegisterCommand('+mafijameni', function()
-        if not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
-	for k,v in pairs(Config.Mafije) do
-            if PlayerData.job and PlayerData.job.name == k and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions')  then
+    if not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
+	if PlayerData.job and Config.Mafije[PlayerData.job.name] then
 		OtvoriPosaoMenu()
-		end
-            end
 	end
+    end
 end, false)
+
 RegisterCommand('-mafijameni', function()
 end, false)
 
