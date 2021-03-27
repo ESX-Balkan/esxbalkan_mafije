@@ -1,3 +1,54 @@
+INSERT INTO `addon_account` (name, label, shared) VALUES 
+	('society_zemunski','Zemunski',1),
+  ('society_vagos','Vagos',1),
+  ('society_peaky','Peaky',1),
+  ('society_stikla','Stikla',1),
+  ('society_ludisrbi','Ludi Srbi',1),
+  ('society_lcn','Lcn',1),
+  ('society_lazarevacki','Lazarevacki',1),
+  ('society_juzniv','Juzni Vetar',1),
+  ('society_gsf','Gsf',1),
+  ('society_favela','Favela',1),
+  ('society_camorra','Camorra',1),
+  ('society_ballas','Ballas',1),
+  ('society_automafija','Auto Mafija',1),
+  ('society_yakuza','Yakuza',1)
+;
+
+INSERT INTO `datastore` (name, label, shared) VALUES 
+	('society_zemunski','Zemunski',1),
+  ('society_vagos','Vagos',1),
+  ('society_peaky','Peaky',1),
+  ('society_stikla','Stikla',1),
+  ('society_ludisrbi','Ludi Srbi',1),
+  ('society_lcn','Lcn',1),
+  ('society_lazarevacki','Lazarevacki',1),
+  ('society_juzniv','Juzni Vetar',1),
+  ('society_gsf','Gsf',1),
+  ('society_favela','Favela',1),
+  ('society_camorra','Camorra',1),
+  ('society_ballas','Ballas',1),
+  ('society_automafija','Auto Mafija',1),
+  ('society_yakuza','Yakuza',1)
+;
+
+INSERT INTO `addon_inventory` (name, label, shared) VALUES 
+	('society_zemunski','Zemunski',1),
+  ('society_vagos','Vagos',1),
+  ('society_peaky','Peaky',1),
+  ('society_stikla','Stikla',1),
+  ('society_ludisrbi','Ludi Srbi',1),
+  ('society_lcn','Lcn',1),
+  ('society_lazarevacki','Lazarevacki',1),
+  ('society_juzniv','Juzni Vetar',1),
+  ('society_gsf','Gsf',1),
+  ('society_favela','Favela',1),
+  ('society_camorra','Camorra',1),
+  ('society_ballas','Ballas',1),
+  ('society_automafija','Auto Mafija',1),
+  ('society_yakuza','Yakuza',1)
+;
+
 INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
 ('zemunski', 'Zemunski Klan', 1),
 ('vagos', 'Vagos', 1),
@@ -12,7 +63,8 @@ INSERT INTO `jobs` (`name`, `label`, `whitelisted`) VALUES
 ('camorra', 'Camorra', 1),
 ('ballas', 'Ballas', 1),
 ('automafija', 'Auto Mafija', 1),
-('yakuza', 'Yakuza', 1);
+('yakuza', 'Yakuza', 1)
+;
 
 
 INSERT INTO `job_grades` (`job_name`, `grade`, `name`, `label`, `salary`, `skin_male`, `skin_female`) VALUES
