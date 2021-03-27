@@ -57,45 +57,48 @@ end
 
 --Sef Menu --
 function OpenArmoryMenu(station)
-	local elements = {{label = 'Kupi oružje | 🔫', value = 'buy_weapons'}}
-	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-	table.insert(elements, {label = _U('put_weapon'),value = 'put_weapon'})
-	ESX.UI.Menu.CloseAll()
+    local elements = {
+        {label = 'Kupi oružje | 🔫', value = 'buy_weapons'},
+        {label = _U('get_weapon'), value = 'get_weapon'},
+        {label = _U('put_weapon'),value = 'put_weapon'}
+    }
 
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
-		title    = _U('armory'),
-		align    = 'top-left',
-		elements = elements
-	}, function(data, menu)
+    ESX.UI.Menu.CloseAll()
 
-		if data.current.value == 'get_weapon' then
-			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-  			if closestPlayer ~= -1 and closestDistance > 3.0 then
-			OpenGetWeaponMenu()
-			elseif GetNumberOfPlayers() == 1 then
-			OpenGetWeaponMenu()
-		  else
-    			ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-		end
-		elseif data.current.value == 'put_weapon' then
-			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-  			if closestPlayer ~= -1 and closestDistance > 3.0 then
-			OpenPutWeaponMenu()
-			elseif GetNumberOfPlayers() == 1 then
-			OpenGetWeaponMenu()
-		else
-    			ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-		end
-		elseif data.current.value == 'buy_weapons' then
-			OpenBuyWeaponsMenu()
-		end
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
+        title    = _U('armory'),
+        align    = 'top-left',
+        elements = elements
+    }, function(data, menu)
 
-	end, function(data, menu)
-		menu.close()
-		CurrentAction     = 'menu_armory'
-		CurrentActionMsg  = _U('open_armory')
-		CurrentActionData = {station = station}
-	end)
+	local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+
+        if data.current.value == 'get_weapon' then
+            if closestPlayer ~= -1 and closestDistance > 3.0 then
+                OpenGetWeaponMenu()
+            elseif GetNumberOfPlayers() == 1 then
+                OpenGetWeaponMenu()
+            else
+                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
+            end
+        elseif data.current.value == 'put_weapon' then
+            if closestPlayer ~= -1 and closestDistance > 3.0 then
+                OpenPutWeaponMenu()
+            elseif GetNumberOfPlayers() == 1 then
+                OpenPutWeaponMenu()
+            else
+                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
+            end
+        elseif data.current.value == 'buy_weapons' then
+            OpenBuyWeaponsMenu()
+        end
+
+    end, function(data, menu)
+        menu.close()
+        CurrentAction     = 'menu_armory'
+        CurrentActionMsg  = _U('open_armory')
+        CurrentActionData = {station = station}
+    end)
 end
 
 StvoriVozilo = function(vozilo)
