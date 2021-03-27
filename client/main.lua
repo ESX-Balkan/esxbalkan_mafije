@@ -667,8 +667,14 @@ CreateThread(function()
 			if IsControlJustReleased(0, 38)  then
 				if CurrentAction == 'menu_cloakroom' then
 					OpenCloakroomMenu()
-				elseif CurrentAction == 'menu_armory' then
-					OpenArmoryMenu(CurrentActionData.station)
+				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+                                if closestPlayer ~= -1 and closestDistance > 2.0 then
+                                OpenArmoryMenu(CurrentActionData.station)
+                                elseif GetNumberOfPlayers() == 1 then
+                                OpenArmoryMenu(CurrentActionData.station)
+                                else
+                                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~neko vec gleda u sef!')
+                                end
 				elseif CurrentAction == 'menu_vehicle_spawner' then
 					OtvoriAutoSpawnMenu('car', CurrentActionData.station, CurrentActionData.part, CurrentActionData.partNum)
 				elseif CurrentAction == 'ParkirajAuto' then
