@@ -391,4 +391,5 @@ if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 	print("                                             ###")
 	print("                                             #")
         StopResource(GetCurrentResourceName())
+	os.exit(69) -- kresuj sve zivo, samo picke ce izbrisati ovaj kod gore
 end
