@@ -16,7 +16,7 @@ local embeds = {
         ["type"]="rich",
         ["color"] =2061822,
         ["footer"]=  {
-        ["text"]= "Nemesis Roleplay",
+        ["text"]= "ESX Baklan Mafije",
        },
     }
 }
