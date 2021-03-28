@@ -5,6 +5,7 @@ Config.MarkerHelikopter   = { x = 6.0, y = 6.0, z = 2.5 }
 Config.MarkerAuto = { x = 3.0, y = 3.0, z = 3.0 }
 Config.MarkerColor  = { r = 50, g = 50, b = 204 }
 Config.EnableESXIdentity  = true -- ako koristite esx_identity
+Config.Limit = true -- Dali koristite limit? ako je true onda ce biti limit u sefovima i u pretrazivanju igraca, ako je false onda je tezina itema! 
 Config.Locale  = 'hr'
 Config.MarkerTypes = {
 	Brodovi = 35,
