@@ -573,7 +573,7 @@ CreateThread(function()
                 for i=1, #Config.Mafije[jobName]['Armories'], 1 do
                     local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['Armories'][i], true)
                     if distance < Config.DrawDistance then
-                        DrawMarker(21, Config.Mafije[jobName]['Armories'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+                        DrawMarker(Config.MarkerTypes.Oruzarnica, Config.Mafije[jobName]['Armories'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
                         letSleep = false
                     end
 
@@ -587,7 +587,7 @@ CreateThread(function()
 
                     if distance < Config.DrawDistance then
 			if IsPedInAnyVehicle(playerPed, false) then
-                        	DrawMarker(36, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
+                        	DrawMarker(Config.MarkerTypes.VracanjeAut, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
 			end
 			letSleep = false
                     end
@@ -602,7 +602,7 @@ CreateThread(function()
 
                     if distance < Config.DrawDistance then
 			if not IsPedInAnyVehicle(playerPed, false) then
-                        	DrawMarker(36, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+                        	DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 			end
 			letSleep = false
                     end
@@ -617,7 +617,7 @@ CreateThread(function()
                         local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['BossActions'][i], true)
 
                         if distance < Config.DrawDistance then
-                            DrawMarker(22, Config.Mafije[jobName]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+                            DrawMarker(Config.MarkerTypes.BossMeni, Config.Mafije[jobName]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
                             letSleep = false
                         end
 
