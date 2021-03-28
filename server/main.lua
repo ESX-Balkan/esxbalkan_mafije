@@ -111,7 +111,7 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 	elseif itemType == 'item_weapon' then
 		if amount == nil then amount = 0 end
 		-- dali ja vec posjedujem to oruzije jos kod sebe?
-        if sourceXPlayer.hasWeapon(itemName) then
+        if not sourceXPlayer.hasWeapon(itemName) then
 		-- dali igrac posjeduje to oruzije jos kod sebe?
 		if targetXPlayer.hasWeapon(itemName) then
 		targetXPlayer.removeWeapon(itemName, amount)
