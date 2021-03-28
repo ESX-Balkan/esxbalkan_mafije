@@ -110,7 +110,7 @@ StvoriVozilo = function(vozilo)
 		TaskWarpPedIntoVehicle(ped, veh, -1)
 	        SetVehicleCurrentRpm(veh, 3000)
 		SetVehicleFuelLevel(veh, 100.0)
-		DecorSetFloat(veh, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
+		DecorSetFloat(veh, "_FUEL_LEVEL", GetVehicleFuelLevel(veh))
 		SetVehicleRadioEnabled(veh, false)
 	end)
 end
