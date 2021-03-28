@@ -81,7 +81,9 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 		-- provera kolicine
 		if targetItem.count > 0 and targetItem.count <= amount then
 			-- da li moze da nosi stvari
-			if sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit then
+			if Config.Limit and (sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit) then -- commit
+				TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
+			elseif xPlayer.canCarryItem(sourceItem.name, sourceItem.limit) then
 				TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
 			else
 				targetXPlayer.removeInventoryItem(itemName, amount)
@@ -334,14 +336,19 @@ AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
 	local org = xPlayer.job.name
 	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_' .. org, function(inventory)
 		local inventoryItem = inventory.getItem(itemName)
+
+		if Config.Limit and (sourceItem.limit ~= -1 and (sourceItem.count + count) > sourceItem.limit) then -- commit
+			TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
+			return
+		elseif not xPlayer.canCarryItem(sourceItem.name, sourceItem.count) then
+			TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
+			return
+		end
+
 		if count > 0 and inventoryItem.count >= count then
-			if sourceItem.limit ~= -1 and (sourceItem.count + count) > sourceItem.limit then
-				TriggerClientEvent('esx:showNotification', _source, ('Nemate dovoljno prostora kod sebe da drzite toliko stvari!'))
-			else
-				inventory.removeItem(itemName, count)
-				xPlayer.addInventoryItem(itemName, count)
-				TriggerClientEvent('esx:showNotification', _source, _U('have_withdrawn', count, inventoryItem.label))
-			end
+			inventory.removeItem(itemName, count)
+			xPlayer.addInventoryItem(itemName, count)
+			TriggerClientEvent('esx:showNotification', _source, _U('have_withdrawn', count, inventoryItem.label))
 		else
 			TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
 		end
