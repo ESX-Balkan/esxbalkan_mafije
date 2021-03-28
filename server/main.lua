@@ -130,20 +130,18 @@ end)
 
 RegisterNetEvent('esxbalkan_mafije:vezivanje')
 AddEventHandler('esxbalkan_mafije:vezivanje', function(target)
-    local src = source
+    	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
-    local drugijebeniigrac = ESX.GetPlayerFromId(target)
+    	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 	for k,v in pairs(Config.Mafije) do
-	if xPlayer.job.name == k then
-        if drugijebeniigrac then -- dali id ove osobe postoji?
-		TriggerClientEvent('esxbalkan_mafije:vezivanje', target)
-	else
-		DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
-        end
-    else
-        DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
-        end
-    end
+		if xPlayer.job.name == k then
+        		if drugijebeniigrac then -- dali id ove osobe postoji?
+				TriggerClientEvent('esxbalkan_mafije:vezivanje', target)
+				return -- da ne bi doslo do DropPlayer()
+        		end
+        	end
+    	end
+	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 end)
 
 RegisterNetEvent('esxbalkan_mafije:vuci')
