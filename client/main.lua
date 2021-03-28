@@ -100,8 +100,8 @@ StvoriVozilo = function(vozilo)
 	local ped = PlayerPedId()
 
 	ESX.Game.SpawnVehicle(vozilo, Config.Mafije[PlayerData.job.name]["Vehicles"][1], GetEntityHeading(ped), function(veh)
-		NetworkFadeInEntity(vozilo, true, true)
-		SetModelAsNoLongerNeeded(vozilo)  -- oslobodi memoryu :)
+		NetworkFadeInEntity(veh, true, true)
+		SetModelAsNoLongerNeeded(veh)  -- oslobodi memoryu :)
         	SetEntityAsMissionEntity(veh, true, true)
 		TaskWarpPedIntoVehicle(ped, veh, -1)
 	        SetVehicleCurrentRpm(veh, 3000)
@@ -724,8 +724,8 @@ CreateThread(function()
 				CurrentAction = nil
 			end
 		else
-			Wait(1000) -- presporo reaguje na prilazenje markeru na 2000
-		end -- CurrentAction end
+			Wait(1000)
+		end
 	end
 end)
 AddEventHandler('playerSpawned', function(spawn) isDead = false end)
