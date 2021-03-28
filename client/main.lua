@@ -38,7 +38,8 @@ function OpenArmoryMenu(station)
     local elements = {
         {label = _U('buy_weapon'), value = 'buy_weapons'},
         {label = _U('get_weapon'), value = 'get_weapon'},
-        {label = _U('put_weapon'),value = 'put_weapon'}
+        {label = _U('remove_object'),value = 'get_stock'},
+		{label = _U('deposit_object'),value = 'put_stock'}
     }
 
     ESX.UI.Menu.CloseAll()
@@ -67,10 +68,13 @@ function OpenArmoryMenu(station)
             else
                 ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
             end
+		elseif data.current.value == 'put_stock' then
+			OpenPutStocksMenu()
+		elseif data.current.value == 'get_stock' then
+			OpenGetStocksMenu()
         elseif data.current.value == 'buy_weapons' then
             OpenBuyWeaponsMenu()
         end
-
     end, function(data, menu)
         menu.close()
         CurrentAction     = 'menu_armory'
@@ -559,9 +563,7 @@ CreateThread(function()
 
     while true do
         Wait(wejtara)
-		
         local jobName = PlayerData.job.name
-
         if PlayerData.job and Config.Mafije[jobName] then
             wejtara = 5
             local playerPed = PlayerPedId()
@@ -586,10 +588,10 @@ CreateThread(function()
                     local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['ParkirajAuto'][i], true)
 
                     if distance < Config.DrawDistance then
-			if IsPedInAnyVehicle(playerPed, false) then
+						if IsPedInAnyVehicle(playerPed, false) then
                         	DrawMarker(Config.MarkerTypes.VracanjeAut, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
-			end
-			letSleep = false
+						end
+							letSleep = false
                     end
 
                     if distance < Config.MarkerAuto.x then
@@ -601,10 +603,10 @@ CreateThread(function()
                     local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['Vehicles'][i], true)
 
                     if distance < Config.DrawDistance then
-			if not IsPedInAnyVehicle(playerPed, false) then
+						if not IsPedInAnyVehicle(playerPed, false) then
                         	DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-			end
-			letSleep = false
+						end
+							letSleep = false
                     end
 
                     if distance < Config.MarkerSize.x then
@@ -651,7 +653,7 @@ CreateThread(function()
             end
 
             if letSleep then
-		collectgarbage()
+				collectgarbage()
                 Wait(3000)
             end
 
@@ -878,6 +880,95 @@ function OpenWeaponComponentShop(components, weaponName, parentShop)
 		menu.close()
 	end)
 end
+
+
+function OpenGetStocksMenu()
+	ESX.TriggerServerCallback('esxbalkan_mafije:getajsveiteme', function(items)
+		local elements = {}
+
+		for i=1, #items, 1 do
+			table.insert(elements, {
+				label = 'x' .. items[i].count .. ' ' .. items[i].label,
+				value = items[i].name
+			})
+		end
+
+		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
+			title    = 'Mafia Stvari',
+			align    = 'top-left',
+			elements = elements
+		}, function(data, menu)
+			local itemName = data.current.value
+
+			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_get_item_count', {
+				title = _U('quantity')
+			}, function(data2, menu2)
+				local count = tonumber(data2.value)
+				if not count then
+					ESX.ShowNotification('Ova kolicina je nevazeca!')
+				else
+					menu2.close()
+					menu.close()
+					TriggerServerEvent('esxbalkan_mafije:getStockItem', itemName, count)
+					Citizen.Wait(300)
+					OpenGetStocksMenu()
+				end
+			end, function(data2, menu2)
+				menu2.close()
+			end)
+		end, function(data, menu)
+			menu.close()
+		end)
+	end)
+end
+
+function OpenPutStocksMenu()
+	ESX.TriggerServerCallback('esxbalkan_mafije:getajigracevinventory', function(inventory)
+		local elements = {}
+
+		for i=1, #inventory.items, 1 do
+			local item = inventory.items[i]
+
+			if item.count > 0 then
+				table.insert(elements, {
+					label = item.label .. ' x' .. item.count,
+					type = 'item_standard',
+					value = item.name
+				})
+			end
+		end
+
+		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stocks_menu', {
+			title    = 'Inventory',
+			align    = 'top-left',
+			elements = elements
+		}, function(data, menu)
+			local itemName = data.current.value
+
+			ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'stocks_menu_put_item_count', {
+				title = _U('quantity')
+			}, function(data2, menu2)
+				local count = tonumber(data2.value)
+
+				if not count then
+					ESX.ShowNotification('Ova kolicina je nevazeca!')
+				else
+					menu2.close()
+					menu.close()
+					TriggerServerEvent('esxbalkan_mafije:putStockItems', itemName, count)
+
+					Citizen.Wait(300)
+					OpenPutStocksMenu()
+				end
+			end, function(data2, menu2)
+				menu2.close()
+			end)
+		end, function(data, menu)
+			menu.close()
+		end)
+	end)
+end
+
 
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then TriggerEvent('esxbalkan_mafije:odvezivanje') end
