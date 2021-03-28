@@ -380,7 +380,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getajigracevinventory', function(so
 	cb({items = items})
 end)
 
-if GetCurrentResourceName() ~= "esxbalkan_mafijer" then
+if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 	print("                                             #")
 	print("                                             ###")
 	print("###### ###### ###### ###### ######  ##############")
