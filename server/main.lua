@@ -68,11 +68,11 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 		
 	if not targetXPlayer then
 	   return
-        end
+    end
 
 	if not sourceXPlayer then
 	   return
-        end
+     end
 
 
 	if itemType == 'item_standard' then
@@ -97,19 +97,34 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 		end
 
 	elseif itemType == 'item_account' then
+		local targetAccount = targetXPlayer.getAccount(itemName)
+		-- Dali igrac ima dovoljno novca kod sebe?
+		if targetAccount.money >= amount then
 		targetXPlayer.removeAccountMoney(itemName, amount)
 		sourceXPlayer.addAccountMoney   (itemName, amount)
 		TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_account', amount, itemName, targetXPlayer.name))
 		TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated_account', amount, itemName, sourceXPlayer.name))
 		sendToDiscord3('Oduzeti prljav novac', sourceXPlayer.name ..' je oduzeo prljav novac kolicine: $'.. amount ..' od igraca: ' ..targetXPlayer.name)
-
+	else
+		DropPlayer(_source, 'Dobar pokusaj da glichas retarde! Protected by ESX-Balkan :)')
+	end
 	elseif itemType == 'item_weapon' then
 		if amount == nil then amount = 0 end
+		-- dali ja vec posjedujem to oruzije jos kod sebe?
+        if sourceXPlayer.hasWeapon(itemName) then
+		-- dali igrac posjeduje to oruzije jos kod sebe?
+		if targetXPlayer.hasWeapon(itemName) then
 		targetXPlayer.removeWeapon(itemName, amount)
 		sourceXPlayer.addWeapon   (itemName, amount)
 		TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_weapon', ESX.GetWeaponLabel(itemName), targetXPlayer.name, amount))
 		TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, sourceXPlayer.name))
 		sendToDiscord3('Oduzeto oruzije', sourceXPlayer.name ..' je oduzeo oruzije: '.. ESX.GetWeaponLabel(itemName) ..' od igraca: ' ..targetXPlayer.name.. ' kolicine metaka: ' ..amount)
+	else
+		DropPlayer(_source, 'Dobar pokusaj da glichas retarde! Protected by ESX-Balkan :)')
+	end
+	else
+		TriggerClientEvent('esx:showNotification', _source, ('~y~Vec posjedujete to oruzije i ~r~imate kod sebe!'))
+		end
 	end
 end)
 
@@ -328,7 +343,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:kupiOruzje', function(source, cb, w
 	end
 end)
 
-RegisterServerEvent('esxbalkan_mafije:getStockItem')
+RegisterNetEvent('esxbalkan_mafije:getStockItem')
 AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
@@ -355,7 +370,7 @@ AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
 	end)
 end)
 
-RegisterServerEvent('esxbalkan_mafije:putStockItems')
+RegisterNetEvent('esxbalkan_mafije:putStockItems')
 AddEventHandler('esxbalkan_mafije:putStockItems', function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
