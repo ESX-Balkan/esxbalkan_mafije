@@ -379,3 +379,15 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getajigracevinventory', function(so
 	local items = xPlayer.inventory
 	cb({items = items})
 end)
+
+if GetCurrentResourceName() ~= "esxbalkan_mafijer" then
+	print("                                             #")
+	print("                                             ###")
+	print("###### ###### ###### ###### ######  ##############")
+	print("#      #    # #    # #    # #    #  ################    Promjeni '" .. GetCurrentResourceName() .. "' u 'esxbalkan_mafije'")
+	print("###    ###### ###### #    # ######  ##################  ili ces dobiti DDOS i SKRIPTA NECE RADITI!")
+	print("#      # ##   # ##   #    # # ##    ################    OSTAVI IME SKRIPTE KAKO JE DAJ REKLAMU NA ESX BALKANU !!!")
+	print("###### #   ## #   ## ###### #   ##  ##############")
+	print("                                             ###")
+	print("                                             #")
+end
