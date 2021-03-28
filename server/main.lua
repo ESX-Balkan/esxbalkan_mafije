@@ -83,7 +83,7 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 			-- da li moze da nosi stvari
 			if Config.Limit and (sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit) then -- commit
 				TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
-			elseif xPlayer.canCarryItem(sourceItem.name, sourceItem.limit) then
+			elseif not Config.Limit and xPlayer.canCarryItem(sourceItem.name, sourceItem.limit) then
 				TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
 			else
 				targetXPlayer.removeInventoryItem(itemName, amount)
@@ -340,7 +340,7 @@ AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
 		if Config.Limit and (sourceItem.limit ~= -1 and (sourceItem.count + count) > sourceItem.limit) then -- commit
 			TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
 			return
-		elseif not xPlayer.canCarryItem(sourceItem.name, sourceItem.count) then
+		elseif not Config.Limit and not xPlayer.canCarryItem(sourceItem.name, sourceItem.count) then
 			TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
 			return
 		end
