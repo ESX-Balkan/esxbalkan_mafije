@@ -9,6 +9,22 @@ end
 
 print('[^1esxbalkan_mafias^0]: Napravljeno od ^5ESX-Balkan^0 | Ucitano ^4' .. nmafija .. '^0 mafia')
 
+function sendToDiscord3 (name,message)
+local embeds = {
+    {
+        ["title"]=message,
+        ["type"]="rich",
+        ["color"] =2061822,
+        ["footer"]=  {
+        ["text"]= "Nemesis Roleplay",
+       },
+    }
+}
+
+if message == nil or message == '' then return FALSE end
+  PerformHttpRequest(Config.Webhuk, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds}), { ['Content-Type'] = 'application/json' })
+end
+
 ESX.RegisterServerCallback('esxbalkan_mafije:getOtherPlayerData', function(source, cb, target)
 		local xPlayer = ESX.GetPlayerFromId(target)
 		local data = {
