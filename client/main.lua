@@ -88,7 +88,9 @@ StvoriVozilo = function(vozilo)
 
 	ESX.Game.SpawnVehicle(vozilo, Config.Mafije[PlayerData.job.name]["Vehicles"][1], GetEntityHeading(ped), function(veh)
 		TaskWarpPedIntoVehicle(ped, veh, -1)
-		SetVehicleFuelLevel(veh, 60.0)
+	        SetVehicleCurrentRpm(veh, 3000)
+		SetVehicleFuelLevel(veh, 100.0)
+		DecorSetFloat(veh, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
 		SetVehicleRadioEnabled(veh, false)
 	end)
 end
