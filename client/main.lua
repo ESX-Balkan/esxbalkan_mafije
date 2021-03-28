@@ -1,4 +1,3 @@
-
 local PlayerData, CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask, spawnedVehicles = {}, {}, {}, {}, {}, {}, {}
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, playerInService, Pretrazivan = false, false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
@@ -40,14 +39,14 @@ function OpenArmoryMenu(station)
         {label = _U('get_weapon'), value = 'get_weapon'},
         {label = _U('put_weapon'), value = 'put_weapon'},
         {label = _U('remove_object'),value = 'get_stock'},
-		{label = _U('deposit_object'),value = 'put_stock'}
+	{label = _U('deposit_object'),value = 'put_stock'}
     }
 
     ESX.UI.Menu.CloseAll()
 
     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
-        title    = _U('armory'),
-        align    = 'top-left',
+        title = _U('armory'),
+        align = 'top-left',
         elements = elements
     }, function(data, menu)
 
@@ -90,7 +89,7 @@ function OpenArmoryMenu(station)
         end
     end, function(data, menu)
         menu.close()
-        CurrentAction     = 'menu_armory'
+        CurrentAction = 'menu_armory'
         CurrentActionMsg  = _U('open_armory')
         CurrentActionData = {station = station}
     end)
@@ -276,9 +275,9 @@ OtvoriPosaoMenu = function()
 			}
 
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
-				css      = 'vagos',
-				title    = _U('citizen_interaction'),
-				align    = 'top-left',
+				css  = 'vagos',
+				title = _U('citizen_interaction'),
+				align = 'top-left',
 				elements = elements
 			}, function(data2, menu2)
 				local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
@@ -322,10 +321,10 @@ PretrazivanjeIgraca = function(player)
 		for i=1, #data.accounts, 1 do
 			if data.accounts[i].name == 'black_money' and data.accounts[i].money > 0 then
 				table.insert(elements, {
-					label    = _U('confiscate_dirty', ESX.Math.Round(data.accounts[i].money)),
-					value    = 'black_money',
+					label = _U('confiscate_dirty', ESX.Math.Round(data.accounts[i].money)),
+					value  = 'black_money',
 					itemType = 'item_account',
-					amount   = data.accounts[i].money
+					amount = data.accounts[i].money
 				})
 
 				break
@@ -348,18 +347,18 @@ PretrazivanjeIgraca = function(player)
 		for i=1, #data.inventory, 1 do
 			if data.inventory[i].count > 0 then
 				table.insert(elements, {
-					label    = _U('confiscate_inv', data.inventory[i].count, data.inventory[i].label),
-					value    = data.inventory[i].name,
+					label = _U('confiscate_inv', data.inventory[i].count, data.inventory[i].label),
+					value = data.inventory[i].name,
 					itemType = 'item_standard',
-					amount   = data.inventory[i].count
+					amount = data.inventory[i].count
 				})
 			end
 		end
 
 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'body_search', {
-			css      = 'vagos',
-			title    = _U('search'),
-			align    = 'top-left',
+			css  = 'vagos',
+			title = _U('search'),
+			align = 'top-left',
 			elements = elements
 		}, function(data, menu)
 			if data.current.value then
