@@ -18,5 +18,7 @@ client_scripts {
 
 dependencies {
 	'es_extended',
+	'esx_addonaccount',
+	'esx_addoninventory',
 	'esx_datastore'
 }
