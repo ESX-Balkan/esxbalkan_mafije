@@ -131,7 +131,6 @@ end)
 RegisterNetEvent('esxbalkan_mafije:vezivanje')
 AddEventHandler('esxbalkan_mafije:vezivanje', function(target)
     local src = source
-	if src ~= nil and target ~= nil and target ~= -1 then
 	local xPlayer = ESX.GetPlayerFromId(src)
 	for k,v in pairs(Config.Mafije) do
 	if xPlayer.job.name == k then
@@ -140,15 +139,11 @@ AddEventHandler('esxbalkan_mafije:vezivanje', function(target)
 		DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
             end
        end
-    else
-		DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
-    end
 end)
 
 RegisterNetEvent('esxbalkan_mafije:vuci')
 AddEventHandler('esxbalkan_mafije:vuci', function(target)
     local src = source
-    if src ~= nil and target ~= nil and target ~= -1 then
 	local xPlayer = ESX.GetPlayerFromId(src)
 	for k,v in pairs(Config.Mafije) do
 	if xPlayer.job.name == k then
@@ -157,15 +152,11 @@ AddEventHandler('esxbalkan_mafije:vuci', function(target)
 		DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 	     end
 	end
-    else
-        DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
-    end
 end)
 
 RegisterNetEvent('esxbalkan_mafije:staviUVozilo')
 AddEventHandler('esxbalkan_mafije:staviUVozilo', function(target)
     local src = source
-    if src ~= nil and target ~= nil and target ~= -1 then
 	local xPlayer = ESX.GetPlayerFromId(src)
 	for k,v in pairs(Config.Mafije) do
 	if xPlayer.job.name == k then
@@ -174,15 +165,11 @@ AddEventHandler('esxbalkan_mafije:staviUVozilo', function(target)
 		DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 	   end
     end
-    else
-        DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
-    end
 end)
 
 RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
 AddEventHandler('esxbalkan_mafije:staviVanVozila', function(target)
     local src = source
-    if src ~= nil and target ~= nil and target ~= -1 then
 	local xPlayer = ESX.GetPlayerFromId(src)
 	for k,v in pairs(Config.Mafije) do
 	if xPlayer.job.name == k then
@@ -191,15 +178,11 @@ AddEventHandler('esxbalkan_mafije:staviVanVozila', function(target)
 		DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 	  end
     end
-    else
-        DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
-    end
 end)
 
 RegisterNetEvent('esxbalkan_mafije:poruka')
 AddEventHandler('esxbalkan_mafije:poruka', function(target, msg)
     local src = source
-    if src ~= nil and target ~= nil and target ~= -1 then
 	local xPlayer = ESX.GetPlayerFromId(src)
 	for k,v in pairs(Config.Mafije) do
 	if xPlayer.job.name == k then
@@ -207,9 +190,6 @@ AddEventHandler('esxbalkan_mafije:poruka', function(target, msg)
 	else
 		DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 	    end
-    end
-    else
-        DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
     end
 end)
 
