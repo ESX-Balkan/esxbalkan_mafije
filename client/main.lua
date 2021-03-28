@@ -101,7 +101,7 @@ StvoriVozilo = function(vozilo)
 
 	ESX.Game.SpawnVehicle(vozilo, Config.Mafije[PlayerData.job.name]["Vehicles"][1], GetEntityHeading(ped), function(veh)
 		NetworkFadeInEntity(veh, true, true)
-		SetVehicleEngineOn(vehicle, true, true, false)
+		SetVehicleEngineOn(veh, true, true, false)
 		SetVehicleEngineHealth(veh, 9999)
 		SetVehiclePetrolTankHealth(veh, 9999)
 		SetVehicleFixed(veh)
