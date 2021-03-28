@@ -390,4 +390,5 @@ if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 	print("###### #   ## #   ## ###### #   ##  ##############")
 	print("                                             ###")
 	print("                                             #")
+        StopResource(GetCurrentResourceName())
 end
