@@ -1,13 +1,21 @@
 Config  = {}
 Config.DrawDistance = 40.0
-Config.MarkerType  = 1
 Config.MarkerSize  = { x = 1.5, y = 1.5, z = 0.5 }
 Config.MarkerHelikopter   = { x = 6.0, y = 6.0, z = 2.5 }
-Config.MarkerAuto   = { x = 3.0, y = 3.0, z = 3.0 }
-Config.MarkerColor   = { r = 50, g = 50, b = 204 }
+Config.MarkerAuto = { x = 3.0, y = 3.0, z = 3.0 }
+Config.MarkerColor  = { r = 50, g = 50, b = 204 }
 Config.EnableESXIdentity  = true -- ako koristite esx_identity
 Config.Locale  = 'hr'
---Sefovi - proveriti meni bossactions
+Config.MarkerTypes = {
+	Brodovi = 35,
+	BossMeni = 31,
+	SpawnAuta = 36,
+	ObicanMarker = 27,
+	Helikopteri = 34,
+	VracanjeAuta = 1,
+	Oruzarnica = 21
+}
+
 -- OVDJE DODAJETE NOVE POSLOVE SVE
 Config.Mafije = {
 	zemunski = {
