@@ -16,7 +16,7 @@ local embeds = {
         ["type"]="rich",
         ["color"] =2061822,
         ["footer"]=  {
-        ["text"]= "ESX Baklan Mafije",
+        ["text"]= "ESX Balkan Mafije",
        },
     }
 }
