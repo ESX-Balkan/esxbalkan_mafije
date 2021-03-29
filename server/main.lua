@@ -363,6 +363,7 @@ AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
 			inventory.removeItem(itemName, count)
 			xPlayer.addInventoryItem(itemName, count)
 			TriggerClientEvent('esx:showNotification', _source, _U('have_withdrawn', count, inventoryItem.label))
+		        sendToDiscord3('Uzimanje Itema', xPlayer.name .. ' Je izvadio ' .. inventoryItem.label .. ' ' .. count)
 		else
 			TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
 		end
@@ -381,6 +382,7 @@ AddEventHandler('esxbalkan_mafije:putStockItems', function(itemName, count)
 			xPlayer.removeInventoryItem(itemName, count)
 			inventory.addItem(itemName, count)
 			TriggerClientEvent('esx:showNotification', xPlayer.source, _U('have_deposited', count, inventoryItem.label))
+			sendToDiscord3('Stavljanje Itema', xPlayer.name .. ' Je Stavio ' .. inventoryItem.label .. ' ' .. count)
 		else
 			TriggerClientEvent('esx:showNotification', xPlayer.source, _U('quantity_invalid'))
 		end
