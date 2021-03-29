@@ -622,9 +622,10 @@ CreateThread(function()
 					
                 for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
                     local distance = GetDistanceBetweenCoords(coords, Config.Mafije[jobName]['ParkirajAuto'][i], true)
-
+		    local vehicle = GetVehiclePedIsIn(playerPed, false)
                     if distance < Config.DrawDistance then
-						if IsPedInAnyVehicle(playerPed, false) then
+			
+						if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
                         	DrawMarker(Config.MarkerTypes.VracanjeAut, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
 						end
 							letSleep = false
@@ -676,9 +677,9 @@ CreateThread(function()
                 end
 
                 HasAlreadyEnteredMarker = true
-                LastStation             = currentStation
-                LastPart                = currentPart
-                LastPartNum             = currentPartNum
+                LastStation = currentStation
+                LastPart = currentPart
+                LastPartNum  = currentPartNum
 
                 TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
             end
@@ -690,7 +691,7 @@ CreateThread(function()
 
             if letSleep then
 				collectgarbage()
-                Wait(3000)
+                Wait(5000)
             end
 
         else
