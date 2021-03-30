@@ -185,6 +185,17 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Helikopter = {vector3(-2048.67, -517.63, 9.16)}, 
+		MeniHelikoptera = {
+			Heli1 = 'supervolito',
+			Heli2 = 'seasparrow',
+		},
+		Brodovi = {vector3(-2293.19, -658.06, 3.96)},
+		BrodoviMenu = {
+			Brod1 = 'fxho',
+			Brod2 = 'seashark',
+		},
+		--Ako treba nekom helihopter/brod evo vam
 		BossActions = {vector3(95.38, -1293.58, 29.27)},
 		ParkirajAuto = {vector3(141.32, -1267.27, 28.25)},
 	}
