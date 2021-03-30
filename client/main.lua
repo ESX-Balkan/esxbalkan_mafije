@@ -166,8 +166,8 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
         	css      = 'vagos',
             title    = 'Izaberi Vozilo | 🚗',
             elements = {
-            	{label = 'Brodovi2 | 🚗', value = 'fxho'},
-				{label = 'Brodovi | 🚗', value = 'seashark'},
+            	{label = 'Heli | 🚗', value = 'fxho'},
+		{label = 'Heli2 | 🚗', value = 'seashark'},
             }},function(data, menu)
             local playerPed = PlayerPedId()
             if data.current.value == 'fxho' then
@@ -216,7 +216,7 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
             title    = 'Izaberi Vozilo | 🚗',
             elements = {
             	{label = 'JetSkki | 🚗', value = 'fxho'},
-				{label = 'Jahta | 🚗', value = 'seashark'},
+		{label = 'Jahta | 🚗', value = 'seashark'},
             }},function(data, menu)
         	local playerPed = PlayerPedId()
             if data.current.value == 'fxho' then
