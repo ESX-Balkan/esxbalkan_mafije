@@ -362,8 +362,16 @@ PretrazivanjeIgraca = function(player)
 			elements = elements
 		}, function(data, menu)
 			if data.current.value then
+                local najbliziigrac, distancenajblizi = ESX.Game.GetClosestPlayer()
+				local pretrazenigrac = GetPlayerPed(najbliziigrac)
+                if najbliziigrac ~= -1 and distancenajblizi < 3.0 then -- fixan bug sitni :)
 				TriggerServerEvent('esxbalkan_mafije:oduzmiItem', GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
 				PretrazivanjeIgraca(player)
+                else
+                    ESX.ShowNotification('~y~Ne mozete oduzeti stvari jer ste se ~r~udaljili mnogo')
+                    TriggerServerEvent("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), false)
+                    ESX.UI.Menu.CloseAll()-- ugasi sve menije
+                end
 			end
 		end, function(data, menu)
 			TriggerServerEvent("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), false)
