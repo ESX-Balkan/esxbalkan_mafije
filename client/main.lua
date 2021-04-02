@@ -2,7 +2,6 @@ local PlayerData, CurrentActionData, handcuffTimer, dragStatus, blipsCops, curre
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, playerInService, Pretrazivan = false, false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
 dragStatus.isDragged = false
-
 ESX = nil
 
 CreateThread(function()
@@ -10,7 +9,6 @@ CreateThread(function()
 	while ESX.GetPlayerData().job == nil do Wait(10) end
 	PlayerData = ESX.GetPlayerData()
 end)
-
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
@@ -31,16 +29,15 @@ ocistiIgraca = function(playerPed)
 	ClearPedLastWeaponDamage(playerPed)
 	ResetPedMovementClipset(playerPed, 0)
 end
-
 --Sef Menu --
 function OpenArmoryMenu(station)
-    local elements = {
-        {label = _U('buy_weapon'), value = 'buy_weapons'},
-        {label = _U('get_weapon'), value = 'get_weapon'},
-        {label = _U('put_weapon'), value = 'put_weapon'},
-        {label = _U('remove_object'),value = 'get_stock'},
-	{label = _U('deposit_object'),value = 'put_stock'}
-    }
+	local elements = {
+		{label = _U('buy_weapon'), value = 'buy_weapons'},
+		{label = _U('get_weapon'), value = 'get_weapon'},
+		{label = _U('put_weapon'), value = 'put_weapon'},
+		{label = _U('remove_object'),value = 'get_stock'},
+		{label = _U('deposit_object'),value = 'put_stock'}
+	}
 
     ESX.UI.Menu.CloseAll()
 
@@ -105,9 +102,9 @@ StvoriVozilo = function(vozilo)
 		SetVehiclePetrolTankHealth(veh, 9999)
 		SetVehicleFixed(veh)
 		SetModelAsNoLongerNeeded(veh)  -- oslobodi memoryu :)
-        	SetEntityAsMissionEntity(veh, true, true)
+		SetEntityAsMissionEntity(veh, true, true)
 		TaskWarpPedIntoVehicle(ped, veh, -1)
-	        SetVehicleCurrentRpm(veh, 3000)
+		SetVehicleCurrentRpm(veh, 3000)
 		SetVehicleFuelLevel(veh, 100.0)
 		DecorSetFloat(veh, "_FUEL_LEVEL", GetVehicleFuelLevel(veh))
 		SetVehicleRadioEnabled(veh, false)
@@ -117,11 +114,11 @@ end
 ObrisiVozilo = function()
 	local playerPed = PlayerPedId()
 	local vozilo =GetVehiclePedIsIn(playerPed,false)
-    	local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
+	local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
 	local vehicleSpeed = math.floor((GetEntitySpeed(GetVehiclePedIsIn(playerPed, false))*3.6))
 
 	if (vehicleSpeed > 45) then
-	     FreezeEntityPosition(vozilo, true)
+		FreezeEntityPosition(vozilo, true)
 	end
 
 	TaskLeaveVehicle(playerPed, vozilo, 0)
@@ -258,7 +255,6 @@ end
 
 OtvoriPosaoMenu = function()
 	ESX.UI.Menu.CloseAll()
-
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'panteri_actions', {
 		title = 'Mafija Meni | 🎩',
 		align  = 'top-left',
@@ -362,25 +358,23 @@ PretrazivanjeIgraca = function(player)
 			elements = elements
 		}, function(data, menu)
 			if data.current.value then
-                local najbliziigrac, distancenajblizi = ESX.Game.GetClosestPlayer()
+				local najbliziigrac, distancenajblizi = ESX.Game.GetClosestPlayer()
 				local pretrazenigrac = GetPlayerPed(najbliziigrac)
-                if najbliziigrac ~= -1 and distancenajblizi < 3.0 then -- fixan bug sitni :)
-				TriggerServerEvent('esxbalkan_mafije:oduzmiItem', GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
-				PretrazivanjeIgraca(player)
-                else
-                    ESX.ShowNotification('~y~Ne mozete oduzeti stvari jer ste se ~r~udaljili mnogo')
-                    TriggerServerEvent("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), false)
-                    ESX.UI.Menu.CloseAll()-- ugasi sve menije
-                end
+				if najbliziigrac ~= -1 and distancenajblizi < 3.0 then -- fixan bug sitni :)
+					TriggerServerEvent('esxbalkan_mafije:oduzmiItem', GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
+					PretrazivanjeIgraca(player)
+				else
+					ESX.ShowNotification('~y~Ne mozete oduzeti stvari jer ste se ~r~udaljili mnogo')
+					TriggerServerEvent("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), false)
+					ESX.UI.Menu.CloseAll()-- ugasi sve menije
+				end
 			end
 		end, function(data, menu)
 			TriggerServerEvent("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), false)
 			menu.close()
 		end)
 	end, GetPlayerServerId(player))
-
 end
-
 -----------------------------
 --------GUI FUNKCIJE---------
 -----------------------------
@@ -388,7 +382,6 @@ local function ShowHelpText(text) --commit
 	AddTextEntry('helpNotif', text)
 	DisplayHelpTextThisFrame('helpNotif', false)
 end
-
 -----------------------------
 ---------EVENTOVI------------
 -----------------------------
@@ -541,12 +534,12 @@ RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
 AddEventHandler('esxbalkan_mafije:staviVanVozila', function()
 	local playerPed = PlayerPedId()
 	if IsPedSittingInAnyVehicle(playerPed) then
-	local vehicle = GetVehiclePedIsIn(playerPed, false)
-	TaskLeaveVehicle(playerPed, vehicle, 16)
-    	TriggerEvent('esxbalkan_mafije:odvezivanje')
-    else
-         ESX.ShowNotification('Osoba nije u vozilu i ne mozete je izvaditi van vozila!')
-    end
+		local vehicle = GetVehiclePedIsIn(playerPed, false)
+		TaskLeaveVehicle(playerPed, vehicle, 16)
+		TriggerEvent('esxbalkan_mafije:odvezivanje')
+	else
+		ESX.ShowNotification('Osoba nije u vozilu i ne mozete je izvaditi van vozila!')
+	end
 end)
 
 CreateThread(function()
@@ -603,148 +596,147 @@ CreateThread(function()
 end)
 
 CreateThread(function()
-    local wejtara = 1000
+	local wejtara = 1000
 
-    while true do
-        Wait(wejtara)
-        local jobName = PlayerData.job.name
-        if PlayerData.job and Config.Mafije[jobName] then
-            wejtara = 8
-            local playerPed = PlayerPedId()
-            local coords = GetEntityCoords(playerPed)
-            local isInMarker, hasExited, letSleep = false, false, true
-            local currentStation, currentPart, currentPartNum
+	while true do
+		Wait(wejtara)
+		local jobName = PlayerData.job.name
+		if PlayerData.job and Config.Mafije[jobName] then
+			wejtara = 8
+			local playerPed = PlayerPedId()
+			local coords = GetEntityCoords(playerPed)
+			local isInMarker, hasExited, letSleep = false, false, true
+			local currentStation, currentPart, currentPartNum
 
-            for k,v in pairs(Config.Mafije[jobName]) do
-                for i=1, #Config.Mafije[jobName]['Armories'], 1 do
-                    local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
-                    if distance < Config.DrawDistance then
-                        DrawMarker(Config.MarkerTypes.Oruzarnica, Config.Mafije[jobName]['Armories'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-                        letSleep = false
-                    end
+			for k,v in pairs(Config.Mafije[jobName]) do
+				for i=1, #Config.Mafije[jobName]['Armories'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
+					if distance < Config.DrawDistance then
+						DrawMarker(Config.MarkerTypes.Oruzarnica, Config.Mafije[jobName]['Armories'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						letSleep = false
+					end
 
-                    if distance < Config.MarkerSize.x then
-                        isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
-                    end
-                end
-					
-                for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
-                    local distance = #(coords - Config.Mafije[jobName]['ParkirajAuto'][i])
-		    local vehicle = GetVehiclePedIsIn(playerPed, false)
-                    if distance < Config.DrawDistance then
-			
+					if distance < Config.MarkerSize.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
+					end
+				end
+
+				for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['ParkirajAuto'][i])
+					local vehicle = GetVehiclePedIsIn(playerPed, false)
+					if distance < Config.DrawDistance then
 						if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
-                        	DrawMarker(Config.MarkerTypes.VracanjeAut, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
-						end
 							letSleep = false
-                    end
+							DrawMarker(Config.MarkerTypes.VracanjeAut, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
+						end
+					end
 
-                    if distance < Config.MarkerAuto.x then
-                        isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i
-                    end
-                end
+					if distance < Config.MarkerAuto.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i
+					end
+				end
 
-                for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
-                    local distance = #(coords - Config.Mafije[jobName]['Vehicles'][i])
+				for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Vehicles'][i])
 
-                    if distance < Config.DrawDistance then
+					if distance < Config.DrawDistance then
 						if not IsPedInAnyVehicle(playerPed, false) then
-                        	DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-						end
 							letSleep = false
-                    end
+							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
+					end
 
-                    if distance < Config.MarkerSize.x then
-                        isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
-                    end
-                end
-		
-		for i=1, #Config.Mafije[jobName]['Helikopter'], 1 do
-                    local distance = #(coords - Config.Mafije[jobName]['Helikopter'][i])
+					if distance < Config.MarkerSize.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
+					end
+				end
 
-                    if distance < Config.DrawDistance then
-			if not IsPedInAnyVehicle(playerPed, false) then
-                            DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Helikopter'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+				for i=1, #Config.Mafije[jobName]['Helikopter'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Helikopter'][i])
+
+					if distance < Config.DrawDistance then
+						if not IsPedInAnyVehicle(playerPed, false) then
+							letSleep = false
+							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Helikopter'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
+					end
+
+					if distance < Config.MarkerSize.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Helikopter', i
+					end
+				end
+
+				for i=1, #Config.Mafije[jobName]['Brodovi'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Brodovi'][i])
+
+					if distance < Config.DrawDistance then
+						if not IsPedInAnyVehicle(playerPed, false) then
+							letSleep = false
+							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Brodovi'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
+					end
+
+					if distance < Config.MarkerSize.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Brodovi', i
+					end
+				end
+
+				if PlayerData.job.grade_name == 'boss' then
+					for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
+						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
+
+						if distance < Config.DrawDistance then
+							DrawMarker(Config.MarkerTypes.BossMeni, Config.Mafije[jobName]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+							letSleep = false
+						end
+
+						if distance < Config.MarkerSize.x then
+							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i
+						end
+					end
+				end
 			end
-			  letSleep = false
-                    end
 
-                    if distance < Config.MarkerSize.x then
-                        isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Helikopter', i
-                    end
-                end
+			if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
+				if
+					(LastStation and LastPart and LastPartNum) and
+					(LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)
+				then
+					TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+					hasExited = true
+				end
 
-		for i=1, #Config.Mafije[jobName]['Brodovi'], 1 do
-                    local distance = #(coords - Config.Mafije[jobName]['Brodovi'][i])
+				HasAlreadyEnteredMarker = true
+ 				LastStation = currentStation
+				LastPart = currentPart
+				LastPartNum  = currentPartNum
 
-                    if distance < Config.DrawDistance then
-			if not IsPedInAnyVehicle(playerPed, false) then
-                            DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Brodovi'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+				TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
 			end
-			  letSleep = false
-                    end
 
-                    if distance < Config.MarkerSize.x then
-                        isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Brodovi', i
-                    end
-                end
+			if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
+				HasAlreadyEnteredMarker = false
+				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+			end
 
-                if PlayerData.job.grade_name == 'boss' then
-                    for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
-                        local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
-
-                        if distance < Config.DrawDistance then
-                            DrawMarker(Config.MarkerTypes.BossMeni, Config.Mafije[jobName]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-                            letSleep = false
-                        end
-
-                        if distance < Config.MarkerSize.x then
-                            isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i
-                        end
-                    end
-                end
-            end
-
-            if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
-                if
-                    (LastStation and LastPart and LastPartNum) and
-                    (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)
-                then
-                    TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
-                    hasExited = true
-                end
-
-                HasAlreadyEnteredMarker = true
-                LastStation = currentStation
-                LastPart = currentPart
-                LastPartNum  = currentPartNum
-
-                TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
-            end
-
-            if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
-                HasAlreadyEnteredMarker = false
-                TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
-            end
-
-            if letSleep then
+			if letSleep then
 				collectgarbage()
-                Wait(5000)
-            end
+				Wait(5000)
+			end
 
-        else
-            Wait(3000)
-        end
-    end
+		else
+			Wait(3000)
+		end
+	end
 end)
 
 RegisterKeyMapping('+mafijameni', 'Mafia meni', 'keyboard', 'F6')
 RegisterCommand('+mafijameni', function()
-    if not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
-	if PlayerData.job and Config.Mafije[PlayerData.job.name] then
-		OtvoriPosaoMenu()
+	if not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
+		if PlayerData.job and Config.Mafije[PlayerData.job.name] then
+			OtvoriPosaoMenu()
+		end
 	end
-    end
 end, false)
 
 RegisterCommand('-mafijameni', function()
@@ -956,7 +948,6 @@ function OpenWeaponComponentShop(components, weaponName, parentShop)
 	end)
 end
 
-
 function OpenGetStocksMenu()
 	ESX.TriggerServerCallback('esxbalkan_mafije:getajsveiteme', function(items)
 		local elements = {}
@@ -1044,8 +1035,6 @@ function OpenPutStocksMenu()
 	end)
 end
 
-
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then TriggerEvent('esxbalkan_mafije:odvezivanje') end
 end)
-
