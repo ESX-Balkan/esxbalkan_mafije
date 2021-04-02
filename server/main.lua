@@ -129,85 +129,85 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 
 RegisterNetEvent('esxbalkan_mafije:vezivanje')
 AddEventHandler('esxbalkan_mafije:vezivanje', function(target)
-		local src = source
-		local xPlayer = ESX.GetPlayerFromId(src)
-		local xJob = xPlayer.job or xPlayer.getJob()
-		local drugijebeniigrac = ESX.GetPlayerFromId(target)
+	local src = source
+	local xPlayer = ESX.GetPlayerFromId(src)
+	local xJob = xPlayer.job or xPlayer.getJob()
+	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 
-		if xJob and Config.Mafije[xJob.name] then
-			if drugijebeniigrac then -- dali id ove osobe postoji?
-				TriggerClientEvent('esxbalkan_mafije:vezivanje', target)
-				return
-			end
+	if xJob and Config.Mafije[xJob.name] then
+		if drugijebeniigrac then -- dali id ove osobe postoji?
+			TriggerClientEvent('esxbalkan_mafije:vezivanje', target)
+			return
 		end
+	end
 
 	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 end)
 
 RegisterNetEvent('esxbalkan_mafije:vuci')
 AddEventHandler('esxbalkan_mafije:vuci', function(target)
-		local src = source
-		local xPlayer = ESX.GetPlayerFromId(src)
-		local xJob = xPlayer.job or xPlayer.getJob()
-		local drugijebeniigrac = ESX.GetPlayerFromId(target)
+	local src = source
+	local xPlayer = ESX.GetPlayerFromId(src)
+	local xJob = xPlayer.job or xPlayer.getJob()
+	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 
-		if xJob and Config.Mafije[xJob.name] then
-			if drugijebeniigrac then -- dali id ove osobe postoji?
-				TriggerClientEvent('esxbalkan_mafije:vuci', target, src)
-				return
-			end
+	if xJob and Config.Mafije[xJob.name] then
+		if drugijebeniigrac then -- dali id ove osobe postoji?
+			TriggerClientEvent('esxbalkan_mafije:vuci', target, src)
+			return
 		end
+	end
 
 	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 end)
 
 RegisterNetEvent('esxbalkan_mafije:staviUVozilo')
 AddEventHandler('esxbalkan_mafije:staviUVozilo', function(target)
-		local src = source
-		local xPlayer = ESX.GetPlayerFromId(src)
-		local xJob = xPlayer.job or xPlayer.getJob()
-		local drugijebeniigrac = ESX.GetPlayerFromId(target)
+	local src = source
+	local xPlayer = ESX.GetPlayerFromId(src)
+	local xJob = xPlayer.job or xPlayer.getJob()
+	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 
-		if xJob and Config.Mafije[xJob.name] then
-			if drugijebeniigrac then -- dali id ove osobe postoji?
-				TriggerClientEvent('esxbalkan_mafije:staviUVozilo', target)
-				return
-			end
+	if xJob and Config.Mafije[xJob.name] then
+		if drugijebeniigrac then -- dali id ove osobe postoji?
+			TriggerClientEvent('esxbalkan_mafije:staviUVozilo', target)
+			return
 		end
+	end
 
 	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 end)
 
 RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
 AddEventHandler('esxbalkan_mafije:staviVanVozila', function(target)
-		local src = source
-		local xPlayer = ESX.GetPlayerFromId(src)
-		local xJob = xPlayer.job or xPlayer.getJob()
-		local drugijebeniigrac = ESX.GetPlayerFromId(target)
+	local src = source
+	local xPlayer = ESX.GetPlayerFromId(src)
+	local xJob = xPlayer.job or xPlayer.getJob()
+	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 
-		if xJob and Config.Mafije[xJob.name] then
-			if drugijebeniigrac then -- dali id ove osobe postoji?
-				TriggerClientEvent('esxbalkan_mafije:staviVanVozila', target)
-				return
-			end
+	if xJob and Config.Mafije[xJob.name] then
+		if drugijebeniigrac then -- dali id ove osobe postoji?
+			TriggerClientEvent('esxbalkan_mafije:staviVanVozila', target)
+			return
 		end
+	end
 
 	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 end)
 
 RegisterNetEvent('esxbalkan_mafije:poruka')
 AddEventHandler('esxbalkan_mafije:poruka', function(target, msg)
-		local src = source
-		local xPlayer = ESX.GetPlayerFromId(src)
-		local xJob = xPlayer.job or xPlayer.getJob()
-		local drugijebeniigrac = ESX.GetPlayerFromId(target)
+	local src = source
+	local xPlayer = ESX.GetPlayerFromId(src)
+	local xJob = xPlayer.job or xPlayer.getJob()
+	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 
-		if xJob and Config.Mafije[xJob.name] then
-			if drugijebeniigrac then -- dali id ove osobe postoji?
-				TriggerClientEvent('esx:showNotification', target, msg)
-				return
-			end
+	if xJob and Config.Mafije[xJob.name] then
+		if drugijebeniigrac then -- dali id ove osobe postoji?
+			TriggerClientEvent('esx:showNotification', target, msg)
+			return
 		end
+	end
 
 	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 end)
@@ -229,7 +229,7 @@ end)
 ESX.RegisterServerCallback('esxbalkan_mafije:staviUoruzarnicu', function(source, cb, weaponName, removeWeapon)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local org = xPlayer.job.name
-		
+
 	if not xPlayer.hasWeapon(weaponName) then
 		xPlayer.kick('Ne glitchuj kidaro') -- ili log/ban kod
 		return
@@ -417,3 +417,4 @@ if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 	Wait(5000)
 	os.exit(69) -- kresuj sve zivo, samo picke ce izbrisati ovaj kod gore
 end
+
