@@ -651,36 +651,6 @@ CreateThread(function()
 					end
 				end
 
-				for i=1, #Config.Mafije[jobName]['Helikopter'], 1 do
-					local distance = #(coords - Config.Mafije[jobName]['Helikopter'][i])
-
-					if distance < Config.DrawDistance then
-						if not IsPedInAnyVehicle(playerPed, false) then
-							letSleep = false
-							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Helikopter'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-						end
-					end
-
-					if distance < Config.MarkerSize.x then
-						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Helikopter', i
-					end
-				end
-
-				for i=1, #Config.Mafije[jobName]['Brodovi'], 1 do
-					local distance = #(coords - Config.Mafije[jobName]['Brodovi'][i])
-
-					if distance < Config.DrawDistance then
-						if not IsPedInAnyVehicle(playerPed, false) then
-							letSleep = false
-							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Brodovi'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-						end
-					end
-
-					if distance < Config.MarkerSize.x then
-						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Brodovi', i
-					end
-				end
-
 				if PlayerData.job.grade_name == 'boss' then
 					for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
 						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
