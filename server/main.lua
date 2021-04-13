@@ -131,7 +131,7 @@ RegisterNetEvent('esxbalkan_mafije:vezivanje')
 AddEventHandler('esxbalkan_mafije:vezivanje', function(target)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
-	local xJob = xPlayer.job or xPlayer.getJob()
+	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 
 	if xJob and Config.Mafije[xJob.name] then
@@ -148,7 +148,7 @@ RegisterNetEvent('esxbalkan_mafije:vuci')
 AddEventHandler('esxbalkan_mafije:vuci', function(target)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
-	local xJob = xPlayer.job or xPlayer.getJob()
+	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 
 	if xJob and Config.Mafije[xJob.name] then
@@ -165,7 +165,7 @@ RegisterNetEvent('esxbalkan_mafije:staviUVozilo')
 AddEventHandler('esxbalkan_mafije:staviUVozilo', function(target)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
-	local xJob = xPlayer.job or xPlayer.getJob()
+	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 
 	if xJob and Config.Mafije[xJob.name] then
@@ -182,7 +182,7 @@ RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
 AddEventHandler('esxbalkan_mafije:staviVanVozila', function(target)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
-	local xJob = xPlayer.job or xPlayer.getJob()
+	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 
 	if xJob and Config.Mafije[xJob.name] then
@@ -199,7 +199,7 @@ RegisterNetEvent('esxbalkan_mafije:poruka')
 AddEventHandler('esxbalkan_mafije:poruka', function(target, msg)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
-	local xJob = xPlayer.job or xPlayer.getJob()
+	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 
 	if xJob and Config.Mafije[xJob.name] then
