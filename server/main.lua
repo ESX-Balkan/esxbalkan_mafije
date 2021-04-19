@@ -350,14 +350,17 @@ AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
 	local org = xPlayer.job.name
 	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_' .. org, function(inventory)
 		local inventoryItem = inventory.getItem(itemName)
-
-		if Config.Limit and (sourceItem.limit ~= -1 and (sourceItem.count + count) > sourceItem.limit) then -- commit
-			TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
-			return
-		elseif not Config.Limit and not xPlayer.canCarryItem(sourceItem.name, sourceItem.count) then
-			TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
-			return
-		end
+		if Config.Limit then
+            if (sourceItem.limit ~= -1 and (sourceItem.count + count) > sourceItem.limit) then
+			    TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
+			    return
+            end
+		else
+            if not xPlayer.canCarryItem(sourceItem.name, sourceItem.count) then
+                xPlayer.showNotification(_U('no_space'))
+                return
+		    end
+        end
 
 		if count > 0 and inventoryItem.count >= count then
 			inventory.removeItem(itemName, count)
