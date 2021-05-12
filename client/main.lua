@@ -1005,6 +1005,12 @@ function OpenPutStocksMenu()
 	end)
 end
 
+RegisterNetEvent('esxbalkan_mafije:teleportujDoBaze')
+AddEventHandler('esxbalkan_mafije:teleportujDoBaze', function(lokacija)
+	local ped = PlayerPedId()
+    SetEntityCoords(ped, lokacija)
+end)
+
 AddEventHandler('onResourceStop', function(resource)
 	if resource == GetCurrentResourceName() then TriggerEvent('esxbalkan_mafije:odvezivanje') end
 end)
