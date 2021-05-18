@@ -406,6 +406,8 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getajigracevinventory', function(so
 	cb({items = items})
 end)
 
+--------------------------------NE DIRAJTE!-----------------------------------------------
+
 if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 	print("                                             #")
 	print("                                             ###")
@@ -420,4 +422,23 @@ if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 	Wait(5000)
 	os.exit(69) -- kresuj sve zivo, samo picke ce izbrisati ovaj kod gore
 end
+
+-- Provjeri za update
+local trenutnavezija = [[1.2
+]]
+PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafije/main/version', function(Error, novijaverzija, Header)
+	if trenutnavezija ~= novijaverzija then
+		print('\n')
+		print('##')
+		print('## esxbalkan_mafije')
+		print('##')
+		print('## Trenutno Verzija: ' .. trenutnavezija)
+		print('## Novija Verzija: ' .. novijaverzija)
+		print('##')
+		print('## Skinite Noviju')
+		print('## https://github.com/ESX-Balkan/esxbalkan_mafije/')
+		print('##')
+		print('\n')
+	end
+end)
 
