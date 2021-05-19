@@ -7,6 +7,7 @@ Config.MarkerColor  = { r = 50, g = 50, b = 204 }
 Config.EnableESXIdentity  = true -- ako koristite esx_identity
 Config.Limit = true -- Dali koristite limit? ako je true onda ce biti limit u sefovima i u pretrazivanju igraca, ako je false onda je tezina itema!
 Config.Webhuk = "" -- Ovdje dodajete svoj wehuk za mafije da imate logove itd :)
+Config.UkljuciPranje = true -- Ovdje mozete iskljuciti pranje novca kao sef...
 Config.Locale  = 'hr'
 Config.MarkerTypes = {
 	Brodovi = 35,
