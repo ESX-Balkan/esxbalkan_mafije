@@ -43,7 +43,7 @@ AddEventHandler('esxbalkan_mafije:PretrazujuMe', function(id, br)
 end)
 
 ESX.RegisterServerCallback('esxbalkan_mafije:JelPretrazivan', function(source, cb, target)
-	if Pretrazivan[target] ~= nil then
+	if Pretrazivan[target] then
 		if Pretrazivan[target] then
 			cb(true)
 		else
@@ -65,14 +65,8 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 	local _source = source
 	local sourceXPlayer = ESX.GetPlayerFromId(_source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
-
-	if not targetXPlayer then
-		return
-	end
-
-	if not sourceXPlayer then
-		return
-	end
+	if not targetXPlayer then return end
+	if not sourceXPlayer then return end
 
 	if itemType == 'item_standard' then
 		local targetItem = targetXPlayer.getInventoryItem(itemName)
@@ -406,7 +400,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getajigracevinventory', function(so
 	cb({items = items})
 end)
 
---------------------------------NE DIRAJTE!-----------------------------------------------
+---------------------------------------------------------------------NE DIRAJTE!-------------------------------------------------------------------------------------
 
 if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 	print("                                             #")
