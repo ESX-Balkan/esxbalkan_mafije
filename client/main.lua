@@ -431,30 +431,24 @@ RegisterNetEvent('esxbalkan_mafije:vezivanje')
 AddEventHandler('esxbalkan_mafije:vezivanje', function()
 	isHandcuffed = not isHandcuffed
 	local playerPed = PlayerPedId()
-	CreateThread(function()
 		if isHandcuffed then
-			RequestAnimDict('mp_arresting')
-			while not HasAnimDictLoaded('mp_arresting') do
-				Wait(100)
-			end
-
-			TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
-
-			SetEnableHandcuffs(playerPed, true)
-			DisablePlayerFiring(playerPed, true)
-			SetCurrentPedWeapon(playerPed, GetHashKey('WEAPON_UNARMED'), true) -- unarm player
-			SetPedCanPlayGestureAnims(playerPed, false)
-			FreezeEntityPosition(playerPed, true)
-			DisplayRadar(false)
-		else
-			ClearPedSecondaryTask(playerPed)
-			SetEnableHandcuffs(playerPed, false)
-			DisablePlayerFiring(playerPed, false)
-			SetPedCanPlayGestureAnims(playerPed, true)
-			FreezeEntityPosition(playerPed, false)
-			DisplayRadar(true)
-		end
-	end)
+		RequestAnimDict('mp_arresting')
+		while not HasAnimDictLoaded('mp_arresting') do Wait(0) end
+		TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0, 0, 0, 0)
+		SetEnableHandcuffs(playerPed, true)
+		DisablePlayerFiring(playerPed, true)
+		SetCurrentPedWeapon(playerPed, GetHashKey('WEAPON_UNARMED'), true) -- unarm player
+		SetPedCanPlayGestureAnims(playerPed, false)
+		FreezeEntityPosition(playerPed, true)
+		DisplayRadar(false)
+	else
+		ClearPedSecondaryTask(playerPed)
+		SetEnableHandcuffs(playerPed, false)
+		DisablePlayerFiring(playerPed, false)
+		SetPedCanPlayGestureAnims(playerPed, true)
+		FreezeEntityPosition(playerPed, false)
+		DisplayRadar(true)
+	end
 end)
 
 RegisterNetEvent('esxbalkan_mafije:odvezivanje')
@@ -482,7 +476,7 @@ CreateThread(function()
 	local playerPed
 	local targetPed
 	while true do
-		Wait(1)
+		Wait(5)
 		if isHandcuffed then
 			playerPed = PlayerPedId()
 			if dragStatus.isDragged then
@@ -743,7 +737,7 @@ CreateThread(function()
 					CurrentAction  = 'menu_boss_actions'
 					CurrentActionMsg  = _U('open_bossmenu')
 					CurrentActionData = {}
-					end, { wash = false }) 
+					end, { wash = Config.UkljuciPranje })
 				end
 				CurrentAction = nil
 			end
