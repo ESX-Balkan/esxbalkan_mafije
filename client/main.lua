@@ -5,8 +5,8 @@ dragStatus.isDragged = false
 ESX = nil
 
 CreateThread(function()
-	while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(0) end
-	while ESX.GetPlayerData().job == nil do Wait(10) end
+	while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(250) end
+	while ESX.GetPlayerData().job == nil do Wait(100) end
 	PlayerData = ESX.GetPlayerData()
 end)
 
@@ -584,7 +584,7 @@ CreateThread(function()
 			DisableControlAction(0, 143, true) -- Disable melee
 			DisableControlAction(0, 75, true)  -- Disable exit vehicle
 			DisableControlAction(27, 75, true) -- Disable exit vehicle
-			if IsEntityPlayingAnim(playerPed, 'mp_arresting', 'idle', 3) ~= 1 then
+			if not IsEntityPlayingAnim(playerPed, 'mp_arresting', 'idle', 3) then
 				ESX.Streaming.RequestAnimDict('mp_arresting', function()
 					TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0.0, false, false, false)
 				end)
@@ -596,13 +596,14 @@ CreateThread(function()
 end)
 
 CreateThread(function()
+	Wait(1000)
 	local wejtara = 1000
-
+	print("esxbalkan_mafije: Skripta je uspjesno loadovana i ucitana bez errora..")
 	while true do
 		Wait(wejtara)
 		local jobName = PlayerData.job.name
 		if PlayerData.job and Config.Mafije[jobName] then
-			wejtara = 8
+			wejtara = 800
 			local playerPed = PlayerPedId()
 			local coords = GetEntityCoords(playerPed)
 			local isInMarker, hasExited, letSleep = false, false, true
@@ -613,6 +614,7 @@ CreateThread(function()
 					local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
 					if distance < Config.DrawDistance then
 						DrawMarker(Config.MarkerTypes.Oruzarnica, Config.Mafije[jobName]['Armories'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						wejtara = 5
 						letSleep = false
 					end
 
@@ -626,6 +628,7 @@ CreateThread(function()
 					local vehicle = GetVehiclePedIsIn(playerPed, false)
 					if distance < Config.DrawDistance then
 						if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
+							wejtara = 5
 							letSleep = false
 							DrawMarker(Config.MarkerTypes.VracanjeAut, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
 						end
@@ -641,6 +644,7 @@ CreateThread(function()
 
 					if distance < Config.DrawDistance then
 						if not IsPedInAnyVehicle(playerPed, false) then
+							wejtara = 5
 							letSleep = false
 							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 						end
@@ -656,6 +660,7 @@ CreateThread(function()
 						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
 
 						if distance < Config.DrawDistance then
+							wejtara = 5
 							DrawMarker(Config.MarkerTypes.BossMeni, Config.Mafije[jobName]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 							letSleep = false
 						end
@@ -715,7 +720,7 @@ end, false)
 -- Trenutna akcija za markere i key kontrole--
 CreateThread(function()
 	while true do
-		Wait(8)
+		Wait(10)
 		if CurrentAction and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
 			ShowHelpText(CurrentActionMsg) -- commit
 			if IsControlJustReleased(0, 38)  then
