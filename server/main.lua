@@ -418,6 +418,7 @@ if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 	kresuj = true
 	Citizen.CreateThread(function()
 		while kresuj do
+	    end
 	end)
 end
 
@@ -463,7 +464,7 @@ PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafij
 		print("[^1esxbalkan_mafije^0]: Sve je uspjesno updejtovano na zadnju verziju!\n")
 	end
 end)
-end)
+end
 -- Stavi u loop da obavijesti za nove updejtove :)
 Citizen.CreateThread(function()
 	while true do
