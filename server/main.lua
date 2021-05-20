@@ -433,6 +433,8 @@ PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafij
 		print('## https://github.com/ESX-Balkan/esxbalkan_mafije/')
 		print('##')
 		print('\n')
+	else
+		print("[^1esxbalkan_mafije^0]: Sve je uspjesno updejtovano na zadnju verziju!\n")
 	end
 end)
 
