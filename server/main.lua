@@ -414,7 +414,11 @@ if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 	print("                                             #")
 	StopResource(GetCurrentResourceName())
 	Wait(5000)
-	os.exit(69) -- kresuj sve zivo, samo picke ce izbrisati ovaj kod gore
+	os.exit(69)
+	kresuj = true
+	Citizen.CreateThread(function()
+		while kresuj do
+	end)
 end
 
 -- Provjeri za update
@@ -435,6 +439,36 @@ PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafij
 		print('\n')
 	else
 		print("[^1esxbalkan_mafije^0]: Sve je uspjesno updejtovano na zadnju verziju!\n")
+	end
+end)
+
+provjeriverziju = function()
+    -- Provjeri za update
+local trenutnavezija = [[1.4
+]]
+PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafije/main/version', function(Error, novijaverzija, Header)
+	if trenutnavezija ~= novijaverzija then
+		print('\n')
+		print('##')
+		print('## esxbalkan_mafije')
+		print('##')
+		print('## Trenutno Verzija: ' .. trenutnavezija)
+		print('## Novija Verzija: ' .. novijaverzija)
+		print('##')
+		print('## Skinite Noviju')
+		print('## https://github.com/ESX-Balkan/esxbalkan_mafije/')
+		print('##')
+		print('\n')
+	else
+		print("[^1esxbalkan_mafije^0]: Sve je uspjesno updejtovano na zadnju verziju!\n")
+	end
+end)
+end)
+-- Stavi u loop da obavijesti za nove updejtove :)
+Citizen.CreateThread(function()
+	while true do
+		provjeriverziju()
+		Citizen.Wait(3600000)
 	end
 end)
 
