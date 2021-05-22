@@ -423,8 +423,7 @@ if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 end
 
 -- Provjeri za update
-local trenutnavezija = [[1.4
-]]
+local trenutnavezija = GetResourceMetadata(GetCurrentResourceName(), "version")
 PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafije/main/version', function(Error, novijaverzija, Header)
 	if trenutnavezija ~= novijaverzija then
 		print('\n')
