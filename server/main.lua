@@ -447,7 +447,7 @@ PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafij
 	if trenutnavezija ~= novijaverzija then
 		print("^3[esxbalkan_mafije] ^1Ova skripta nije updejtovana. Trenutna verzija je: " .. (trenutnavezija) .. ". Zadnja verzija je: " .. (novijaverzija)  .. ". ^7")
 	else
-		print("^3[esxbalkan_mafije] ^2Sve je uspjesno updejtovano na zadnju verziju!. Verzija: " .. (novijaverzija) .. ".^7" )
+		print("^3[esxbalkan_mafije] ^2Sve je uspjesno updejtovano na zadnju verziju!)
 	end
 end)
 
@@ -458,7 +458,7 @@ PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafij
 	if trenutnavezija ~= novijaverzija then
 		print("^3[esxbalkan_mafije] ^1Ova skripta nije updejtovana. Trenutna verzija je: " .. (trenutnavezija) .. ". Zadnja verzija je: " .. (novijaverzija)  .. ". ^7")
 	else
-		print("^3[esxbalkan_mafije] ^2Sve je uspjesno updejtovano na zadnju verziju!. Verzija: " .. (trenutnavezija) .. ".^7" )
+		print("^3[esxbalkan_mafije] ^2Sve je uspjesno updejtovano na zadnju verziju!)
 	end
 end)
 end
