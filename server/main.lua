@@ -445,19 +445,9 @@ end
 local trenutnavezija = GetResourceMetadata(GetCurrentResourceName(), "version")
 PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafije/main/version', function(Error, novijaverzija, Header)
 	if trenutnavezija ~= novijaverzija then
-		print('\n')
-		print('##')
-		print('## esxbalkan_mafije')
-		print('##')
-		print('## Trenutno Verzija: ' .. trenutnavezija)
-		print('## Novija Verzija: ' .. novijaverzija)
-		print('##')
-		print('## Skinite Noviju')
-		print('## https://github.com/ESX-Balkan/esxbalkan_mafije/')
-		print('##')
-		print('\n')
+		print("^3[esxbalkan_mafije] ^1Ova skripta nije updejtovana. Trenutna verzija je: " .. (trenutnavezija) .. ". Zadnja verzija je: " .. (novijaverzija)  .. ". ^7")
 	else
-		print("[^1esxbalkan_mafije^0]: Sve je uspjesno updejtovano na zadnju verziju!\n")
+		print("^3[esxbalkan_mafije] ^2Sve je uspjesno updejtovano na zadnju verziju!. Verzija: " .. (novijaverzija) .. ".^7" )
 	end
 end)
 
@@ -466,19 +456,9 @@ provjeriverziju = function()
 local trenutnavezija = GetResourceMetadata(GetCurrentResourceName(), "version")
 PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafije/main/version', function(Error, novijaverzija, Header)
 	if trenutnavezija ~= novijaverzija then
-		print('\n')
-		print('##')
-		print('## esxbalkan_mafije')
-		print('##')
-		print('## Trenutno Verzija: ' .. trenutnavezija)
-		print('## Novija Verzija: ' .. novijaverzija)
-		print('##')
-		print('## Skinite Noviju')
-		print('## https://github.com/ESX-Balkan/esxbalkan_mafije/')
-		print('##')
-		print('\n')
+		print("^3[esxbalkan_mafije] ^1Ova skripta nije updejtovana. Trenutna verzija je: " .. (trenutnavezija) .. ". Zadnja verzija je: " .. (novijaverzija)  .. ". ^7")
 	else
-		print("[^1esxbalkan_mafije^0]: Sve je uspjesno updejtovano na zadnju verziju!\n")
+		print("^3[esxbalkan_mafije] ^2Sve je uspjesno updejtovano na zadnju verziju!. Verzija: " .. (trenutnavezija) .. ".^7" )
 	end
 end)
 end
