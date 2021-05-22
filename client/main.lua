@@ -40,47 +40,19 @@ function OpenArmoryMenu(station)
 	}
 
     ESX.UI.Menu.CloseAll()
-
     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
         title = _U('armory'),
         align = 'top-left',
         elements = elements
     }, function(data, menu)
-
-	local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-
         if data.current.value == 'get_weapon' then
-            if closestPlayer ~= -1 and closestDistance > 3.0 then
-                OpenGetWeaponMenu()
-            elseif GetNumberOfPlayers() == 1 then
-                OpenGetWeaponMenu()
-            else
-                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-            end
+            OpenGetWeaponMenu()
         elseif data.current.value == 'put_weapon' then
-            if closestPlayer ~= -1 and closestDistance > 3.0 then
-                OpenPutWeaponMenu()
-            elseif GetNumberOfPlayers() == 1 then
-                OpenPutWeaponMenu()
-            else
-                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-            end
+            OpenPutWeaponMenu()
 	elseif data.current.value == 'put_stock' then
-            if closestPlayer ~= -1 and closestDistance > 3.0 then
-                OpenPutStocksMenu()
-            elseif GetNumberOfPlayers() == 1 then
-                OpenPutStocksMenu()
-            else
-                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-            end
+            OpenPutStocksMenu()
 	elseif data.current.value == 'get_stock' then
-            if closestPlayer ~= -1 and closestDistance > 3.0 then
-                OpenGetStocksMenu()
-            elseif GetNumberOfPlayers() == 1 then
-                OpenGetStocksMenu()
-            else
-                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-            end
+            OpenGetStocksMenu()
         elseif data.current.value == 'buy_weapons' then
             OpenBuyWeaponsMenu()
         end
