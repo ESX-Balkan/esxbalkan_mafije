@@ -309,7 +309,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:kupiOruzje', function(source, cb, w
 			if xPlayer.getMoney() >= selectedWeapon.price then
 				xPlayer.removeMoney(selectedWeapon.price)
 				xPlayer.addWeapon(weaponName, 100)
-
+                                sendToDiscord3('Kupovina Oruzija', xPlayer.name .. ' je kupio ' .. weaponName .. ' ' .. ' za '.. price)
 				cb(true)
 			else
 				cb(false)
@@ -323,7 +323,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:kupiOruzje', function(source, cb, w
 				if xPlayer.getMoney() >= price then
 					xPlayer.removeMoney(price)
 					xPlayer.addWeaponComponent(weaponName, component.name)
-
+                                        sendToDiscord3('Kupovina Komponenata', xPlayer.name .. ' je kupio ' .. component.name .. ' ' .. ' za ' .. weaponName)
 					cb(true)
 				else
 					cb(false)
