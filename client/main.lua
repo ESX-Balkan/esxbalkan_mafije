@@ -8,6 +8,8 @@ CreateThread(function()
 	while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(250) end
 	while ESX.GetPlayerData().job == nil do Wait(250) end
 	PlayerData = ESX.GetPlayerData()
+	Wait(500)
+	SetBigmapActive(false,false) -- ovo je za ljude koji koriste leakovane servere itd..
 end)
 
 RegisterNetEvent('esx:playerLoaded')
