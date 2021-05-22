@@ -5,9 +5,7 @@ Podrzava ESX 1.1 i ESX 1.2 i ESX V1 Final :) Ove mafije nece nikad podrzavati ES
 
 Ove mafije su protectovane od glichovanja i od exploitanja preko cheata!
 
-VAZNO OVO SU POTREBNE SKRIPTE KOJE SU VAM TREBAJU INACE NECE RADITI KAKO TREBA!:
-
-### Potrebno
+### Potrebne skripte (ako nemas ove skripte, skini ih)
   * [esx_addoninventory](https://github.com/ESX-Org/esx_addoninventory)
   * [esx_datastore](https://github.com/ESX-Org/esx_datastore)
   * [esx_society](https://github.com/ESX-Org/esx_society)
