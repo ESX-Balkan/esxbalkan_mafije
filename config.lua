@@ -8,6 +8,7 @@ Config.EnableESXIdentity  = true -- ako koristite esx_identity
 Config.Limit = true -- Dali koristite limit? ako je true onda ce biti limit u sefovima i u pretrazivanju igraca, ako je false onda je tezina itema!
 Config.Webhuk = "" -- Ovdje dodajete svoj wehuk za mafije da imate logove itd :)
 Config.UkljuciPranje = true -- Ovdje mozete iskljuciti pranje novca kao sef...
+Config.UkljuciProvjeruVerzije = true -- Ovdje mozete iskljuciti ako zelite provjeru verzije, mada bi vam preporucio da imate ovo upaljeno da znate novi update...
 Config.Locale  = 'hr'
 Config.MarkerTypes = {
 	Brodovi = 35,
