@@ -6,7 +6,7 @@ ESX = nil
 
 CreateThread(function()
 	while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(250) end
-	while ESX.GetPlayerData().job == nil do Wait(100) end
+	while ESX.GetPlayerData().job == nil do Wait(250) end
 	PlayerData = ESX.GetPlayerData()
 end)
 
@@ -66,20 +66,13 @@ end
 
 StvoriVozilo = function(vozilo)
 	local ped = PlayerPedId()
-
 	ESX.Game.SpawnVehicle(vozilo, Config.Mafije[PlayerData.job.name]["Vehicles"][1], GetEntityHeading(ped), function(veh)
 		NetworkFadeInEntity(veh, true, true)
 		SetVehicleEngineOn(veh, true, true, false)
-		SetVehicleEngineHealth(veh, 9999)
-		SetVehiclePetrolTankHealth(veh, 9999)
-		SetVehicleFixed(veh)
 		SetModelAsNoLongerNeeded(veh)  -- oslobodi memoryu :)
-		SetEntityAsMissionEntity(veh, true, true)
 		TaskWarpPedIntoVehicle(ped, veh, -1)
-		SetVehicleCurrentRpm(veh, 3000)
 		SetVehicleFuelLevel(veh, 100.0)
 		DecorSetFloat(veh, "_FUEL_LEVEL", GetVehicleFuelLevel(veh))
-		SetVehicleRadioEnabled(veh, false)
 	end)
 end
 
@@ -142,11 +135,7 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
             if data.current.value == 'fxho' then
 				ESX.Game.SpawnVehicle("supervolito2", vector3(-2320.86, -658.25, 13.48), 266.92, function(vehicle) -- 
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
-					SetVehicleEngineHealth(vehicle, 9999)
-					SetVehiclePetrolTankHealth(vehicle, 9999)
-					SetVehicleFixed(vehicle)
 					SetVehicleEngineOn(vehicle, true, true, false)
-					SetVehicleCurrentRpm(vehicle, 3000)
 				end)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
@@ -158,11 +147,7 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
             elseif data.current.value == 'seashark' then
 				ESX.Game.SpawnVehicle("seasparrow", vector3(-2320.86, -658.25, 13.48), 266.92, function(vehicle) -- 
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
-					SetVehicleEngineHealth(vehicle, 9999)
-					SetVehiclePetrolTankHealth(vehicle, 9999)
-					SetVehicleFixed(vehicle)
 					SetVehicleEngineOn(vehicle, true, true, false)
-					SetVehicleCurrentRpm(vehicle, 3000)
 				end)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
@@ -191,11 +176,7 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
             if data.current.value == 'fxho' then
 				ESX.Game.SpawnVehicle("fxho", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
-					SetVehicleEngineHealth(vehicle, 9999)
-					SetVehiclePetrolTankHealth(vehicle, 9999)
-					SetVehicleFixed(vehicle)
 					SetVehicleEngineOn(vehicle, true, true, false)
-					SetVehicleCurrentRpm(vehicle, 3000)
 				end)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
@@ -206,11 +187,7 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
             elseif data.current.value == 'seashark' then
 				ESX.Game.SpawnVehicle("yacht2", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
-					SetVehicleCurrentRpm(vehicle, 3000)
-					SetVehicleEngineHealth(vehicle, 9999)
-					SetVehiclePetrolTankHealth(vehicle, 9999)
 					SetVehicleEngineOn(vehicle, true, true, false)
-					SetVehicleFixed(vehicle)
 				end)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
