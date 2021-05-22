@@ -2,6 +2,25 @@ ESX = nil
 local nmafija,Pretrazivan = 0, {}
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
+teleportujSeDoBaze = function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	if not Config.Mafije[xPlayer.job.name] then xPlayer.showNotification('Nemate setanu mafiju!') return end
+	for mafijoze=1, #Config.Mafije[xPlayer.job.name]['Vehicles'], 1 do
+		local lokacija = Config.Mafije[xPlayer.job.name]['Vehicles'][mafijoze]
+		SetEntityCoords(GetPlayerPed(source), lokacija)
+		xPlayer.showNotification('Teleportani ste do baze od - ' .. xPlayer.job.label)
+	end
+end
+
+RegisterCommand('tpdobaze', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	if xPlayer.getGroup() == 'admin' or xPlayer.getGroup() == 'superadmin' then
+		teleportujSeDoBaze(source)
+	else
+		xPlayer.showNotification('Ne mozes koristiti ovu komandu, nisi admin!')
+	end
+end)
+
 for k,v in pairs(Config.Mafije) do
 	TriggerEvent('esx_society:registerSociety', k, k, 'society_' .. k, 'society_'..k, 'society_'..k, {type = 'public'})
 	nmafija = nmafija + 1
