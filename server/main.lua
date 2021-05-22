@@ -465,8 +465,10 @@ end
 -- Stavi u loop da obavijesti za nove updejtove :)
 Citizen.CreateThread(function()
 	while true do
+	if Config.UkljuciProvjeruVerzije then
 		provjeriverziju()
 		Citizen.Wait(3600000)
+	end
 	end
 end)
 
