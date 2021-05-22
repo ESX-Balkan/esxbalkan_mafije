@@ -79,6 +79,13 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getPlayerInventory', function(sourc
 	cb({ items = items })
 end)
 
+AddEventHandler('esx:playerDropped', function(playerId, reason)
+	-- isprazni tabelee
+	if Pretrazivan[playerId] then
+		Pretrazivan[playerId] = nil
+	end
+end)
+
 RegisterNetEvent('esxbalkan_mafije:oduzmiItem')
 AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemName, amount)
 	local _source = source
