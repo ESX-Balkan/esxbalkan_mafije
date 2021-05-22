@@ -302,7 +302,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:kupiOruzje', function(source, cb, w
 
 	if not selectedWeapon then
 		print(('esxbalkan_mafije: %s je pokusao kupiti krivu pusku!'):format(xPlayer.identifier))
-		xPlayer.kick('You have been kicked from this server for exploiting!')
+		xPlayer.kick('Kikovani ste sa servera jer ste pokusali da cheatujete!')
 		cb(false)
 	else
 		if type == 1 then
@@ -330,7 +330,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:kupiOruzje', function(source, cb, w
 				end
 			else
 				print(('esxbalkan_mafije: %s je pokusao kupiti krivi dodatak.'):format(xPlayer.identifier))
-				xPlayer.kick('You have been kicked from this server for exploiting!')
+				xPlayer.kick('Kikovani ste sa servera jer ste pokusali da cheatujete!')
 			end
 		end
 	end
