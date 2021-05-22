@@ -26,7 +26,7 @@ for k,v in pairs(Config.Mafije) do
 	nmafija = nmafija + 1
 end
 
-print('[^1esxbalkan_mafije^0]: Napravljeno od ^5ESX-Balkan^0 | Ucitano ^4' .. nmafija .. '^0 mafia')
+print('[^1esxbalkan_mafije^0]: Napravio tim ^5ESX-Balkan^0 | Ucitano ^4' .. nmafija .. '^0 mafia')
 
 function sendToDiscord3 (name,message)
 local embeds = {
@@ -447,7 +447,7 @@ PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafij
 	if trenutnavezija ~= novijaverzija then
 		print("^3[esxbalkan_mafije] ^1Ova skripta nije updejtovana. Trenutna verzija je: " .. (trenutnavezija) .. ". Zadnja verzija je: " .. (novijaverzija)  .. ". ^7")
 	else
-		print("^3[esxbalkan_mafije] ^2Sve je uspjesno updejtovano na zadnju verziju!)
+		print("^3[esxbalkan_mafije] ^2Ova skripta je na najnovijoj verziji ("..(trenutnavezija)..")!")
 	end
 end)
 
@@ -458,7 +458,7 @@ PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafij
 	if trenutnavezija ~= novijaverzija then
 		print("^3[esxbalkan_mafije] ^1Ova skripta nije updejtovana. Trenutna verzija je: " .. (trenutnavezija) .. ". Zadnja verzija je: " .. (novijaverzija)  .. ". ^7")
 	else
-		print("^3[esxbalkan_mafije] ^2Sve je uspjesno updejtovano na zadnju verziju!)
+		print("^3[esxbalkan_mafije] ^2Ova skripta je na najnovijoj verziji ("..(trenutnavezija)..")!")
 	end
 end)
 end
