@@ -457,8 +457,8 @@ PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafij
 	else
 		print("^3[esxbalkan_mafije] ^2Ova skripta je na najnovijoj verziji ("..(trenutnavezija)..")!")
 	end
-	end
-end)
+    end)
+end
 
 provjeriverziju = function()
     -- Provjeri za update
