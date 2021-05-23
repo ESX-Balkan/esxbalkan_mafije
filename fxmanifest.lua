@@ -1,5 +1,7 @@
 fx_version 'cerulean'
-game 'gta5'
+game {'gta5'}
+
+lua54 'yes'
 
 server_scripts {
 	'@mysql-async/lib/MySQL.lua',
@@ -20,5 +22,6 @@ dependencies {
 	'es_extended',
 	'esx_addonaccount',
 	'esx_addoninventory',
-	'esx_datastore'
+	'esx_datastore',
+	'esx_society'
 }
