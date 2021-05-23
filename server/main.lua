@@ -8,7 +8,7 @@ teleportujSeDoBaze = function(source)
 	for mafijoze=1, #Config.Mafije[xPlayer.job.name]['Vehicles'], 1 do
 		local lokacija = Config.Mafije[xPlayer.job.name]['Vehicles'][mafijoze]
 		SetEntityCoords(GetPlayerPed(source), lokacija)
-		xPlayer.showNotification('Teleportani ste do baze od - ' .. xPlayer.job.label)
+		TriggerClientEvent('esx:showNotification', source, ('Teleportani ste do baze od - ' .. xPlayer.job.label))
 	end
 end
 
@@ -17,7 +17,7 @@ RegisterCommand('tpdobaze', function(source)
 	if xPlayer.getGroup() == 'admin' or xPlayer.getGroup() == 'superadmin' then
 		teleportujSeDoBaze(source)
 	else
-		xPlayer.showNotification('Ne mozes koristiti ovu komandu, nisi admin!')
+		TriggerClientEvent('esx:showNotification', source, ('Ne mozes koristiti ovu komandu, nisi admin!'))
 	end
 end)
 
