@@ -449,21 +449,22 @@ if GetCurrentResourceName() ~= "esxbalkan_mafije" then
 end
 
 -- Provjeri za update
-local trenutnavezija = GetResourceMetadata(GetCurrentResourceName(), "version")
+Citizen.CreateThread(function()
 if Config.UkljuciProvjeruVerzije then
-PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafije/main/version', function(Error, novijaverzija, Header)
-	if trenutnavezija ~= novijaverzija then
-		print("^3[esxbalkan_mafije] ^1Ova skripta nije updejtovana. Trenutna verzija je: " .. (trenutnavezija) .. ". Zadnja verzija je: " .. (novijaverzija)  .. ". ^7")
-	else
-		print("^3[esxbalkan_mafije] ^2Ova skripta je na najnovijoj verziji ("..(trenutnavezija)..")!")
+PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafije/main/version', function(err, novijaverzija, headers)
+	local trenutnaverzija = GetResourceMetadata(GetCurrentResourceName(), "version")
+		if trenutnaverzija ~= novijaverzija then
+			print("^3[esxbalkan_mafije] ^1Ova skripta nije updejtovana. Trenutna verzija je: " .. (trenutnaverzija) .. ". Zadnja verzija je: " .. (novijaverzija)  .. ". ^7")
+		else
+			print("^3[esxbalkan_mafije] ^2Ova skripta je na najnovijoj verziji ("..(trenutnaverzija)..")!")
+		end
+	end)
 	end
-    end)
-end
+end)
 
 provjeriverziju = function()
-    -- Provjeri za update
-local trenutnavezija = GetResourceMetadata(GetCurrentResourceName(), "version")
-PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafije/main/version', function(Error, novijaverzija, Header)
+PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafije/main/version', function(err, novijaverzija, headers)
+	local trenutnavezija = GetResourceMetadata(GetCurrentResourceName(), "version")
 	if trenutnavezija ~= novijaverzija then
 		print("^3[esxbalkan_mafije] ^1Ova skripta nije updejtovana. Trenutna verzija je: " .. (trenutnavezija) .. ". Zadnja verzija je: " .. (novijaverzija)  .. ". ^7")
 	else
