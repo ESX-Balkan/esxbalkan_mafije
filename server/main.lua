@@ -298,8 +298,6 @@ ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(sourc
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local org = xPlayer.job.name
 
-	xPlayer.addWeapon(weaponName, 150)
-
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
 		local weapons = store.get('weapons') or {}
 
@@ -319,7 +317,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(sourc
 				count = 0
 			})
 		end
-
+		xPlayer.addWeapon(weaponName, 150) -- ovo bi trebalo biti ovjde xd, da nebi doslo do glichanja
 		store.set('weapons', weapons)
 		cb()
 	end)
