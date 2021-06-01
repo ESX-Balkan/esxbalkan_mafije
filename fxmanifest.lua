@@ -1,23 +1,21 @@
 fx_version 'cerulean'
-game {'gta5'}
+game 'gta5'
 version "1.75"
 
 lua54 'yes'
 
-server_scripts {
-	'@mysql-async/lib/MySQL.lua',
+shared_scripts {
 	'@es_extended/locale.lua',
 	'prevod/*',
-	'config.lua',
+	'config.lua'
+}
+
+server_scripts {
+	'@mysql-async/lib/MySQL.lua',
 	'server/*'
 }
 
-client_scripts {
-	'@es_extended/locale.lua',
-	'prevod/*',
-	'config.lua',
-	'client/*'
-}
+client_script 'client/*'
 
 dependencies {
 	'es_extended',
