@@ -1,0 +1,87 @@
+{
+    "zemunski": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "yakuza": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "vagos": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "peaky": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "ludisrbi": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "lcn": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "lazarevacki": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "juzniv": {
+        "stats": {
+            "max": 3,
+            "level": 1
+        }
+    },
+    "gsf": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "favela": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "camorra": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "ballas": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "automafija": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    },
+    "stikla": {
+        "stats": {
+            "max": 3,
+            "level": 0
+        }
+    }
+
+}
