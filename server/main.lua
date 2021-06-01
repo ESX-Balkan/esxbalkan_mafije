@@ -1,6 +1,17 @@
-ESX = nil
+ESX, levelTabela = nil, {} 
 local nmafija,Pretrazivan = 0, {}
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+
+function loadFile() 
+    local file = LoadResourceFile(GetCurrentResourceName(), "level.json")
+    levelTabela = json.decode(file)
+end
+
+loadFile()
+
+function saveFile(data)
+    SaveResourceFile(GetCurrentResourceName(), "level.json", json.encode(data, {indent = true}), -1)
+end
 
 teleportujSeDoBaze = function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -510,5 +521,40 @@ Citizen.CreateThread(function()
 		);
 
 	]])
+end)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------- L E V E L I -------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------
+RegisterServerEvent('esxbalkan_mafije:updateLvL1')
+AddEventHandler('esxbalkan_mafije:updateLvL1', function(job)
+	local src = source 
+	local xPlayer = ESX.GetPlayerFromId(src)
+	local imaNovac = xPlayer.getMoney()
+	local cijena = Config.lvl1
+	local org = xPlayer.job.name
+
+	if imaNovac >= cijena then
+		if levelTabela[job].stats.level <= levelTabela[job].stats.max then
+			levelTabela[job].stats.level = levelTabela[job].stats.level + 1
+			saveFile(levelTabela)
+			xPlayer.removeMoney(cijena)
+			TriggerClientEvent('esx:showNotification', src, ('Uspješno si unaprijedio organizaciju na Level 1!'))
+			sendToDiscord3('Levelanje Baze', xPlayer.name .. ' je unaprijedio bazu '..org..' na Level 1')
+		end
+	else
+		TriggerClientEvent('esx:showNotification', src, ('Nemas dovoljno novca!'))
+	end
+end)
+
+ESX.RegisterServerCallback('esxbalkan_mafije:getLvL', function(source, cb, job)
+	local tabela = {}
+	tabela = {
+		stats = {
+			max = levelTabela[job].stats.max,
+			level = levelTabela[job].stats.level
+		}
+	}
+	cb(tabela)
 end)
 
