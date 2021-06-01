@@ -24,11 +24,12 @@ teleportujSeDoBaze = function(source)
 end
 
 RegisterCommand('tpdobaze', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
+	local kod = source
+	local xPlayer = ESX.GetPlayerFromId(kod)
 	if xPlayer.getGroup() == 'admin' or xPlayer.getGroup() == 'superadmin' then
-		teleportujSeDoBaze(source)
+		teleportujSeDoBaze(kod)
 	else
-		TriggerClientEvent('esx:showNotification', source, ('Ne mozes koristiti ovu komandu, nisi admin!'))
+		TriggerClientEvent('esx:showNotification', kod, ('Ne mozes koristiti ovu komandu, nisi admin!'))
 	end
 end)
 
@@ -87,14 +88,12 @@ end)
 ESX.RegisterServerCallback('esxbalkan_mafije:getPlayerInventory', function(source, cb)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local items = xPlayer.inventory
-	cb({ items = items })
+	cb({items = items})
 end)
 
 AddEventHandler('esx:playerDropped', function(playerId, reason)
 	-- isprazni tabelee
-	if Pretrazivan[playerId] then
-		Pretrazivan[playerId] = nil
-	end
+	if Pretrazivan[playerId] then Pretrazivan[playerId] = nil end
 end)
 
 RegisterNetEvent('esxbalkan_mafije:oduzmiItem')
