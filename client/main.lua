@@ -1,4 +1,4 @@
-local PlayerData, CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask, spawnedVehicles = {}, {}, {}, {}, {}, {}, {}
+local PlayerData, CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask, spawnedVehicles, levelTabela = {}, {}, {}, {}, {}, {}, {}, nil
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, playerInService, Pretrazivan = false, false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
 dragStatus.isDragged = false
@@ -10,6 +10,7 @@ CreateThread(function()
 	PlayerData = ESX.GetPlayerData()
 	Wait(500)
 	SetBigmapActive(false,false) -- ovo je za ljude koji koriste leakovane servere itd..
+	getajLevel()
 end)
 
 RegisterNetEvent('esx:playerLoaded')
@@ -19,7 +20,9 @@ end)
 
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
+	levelTabela = nil
 	PlayerData.job = job
+	getajLevel()
 end)
 -----------------------
 -------FUNKCIJE--------
@@ -31,15 +34,66 @@ ocistiIgraca = function(playerPed)
 	ClearPedLastWeaponDamage(playerPed)
 	ResetPedMovementClipset(playerPed, 0)
 end
+
+
+getajLevel = function ()
+	if Config.Levelanje then
+		if Config.Mafije[PlayerData.job.name] ~= nil then
+			ESX.TriggerServerCallback('esxbalkan_mafije:getLvL', function(data)
+				levelTabela = data 
+			end, PlayerData.job.name)
+		end
+	end
+end
+
+function LvL()
+	local elements = {}
+
+	if Config.Levelanje then 
+		if levelTabela.stats.level == 0 then 
+			table.insert(elements, { label = 'Level 1 (50 000$)', value = 'lvl1' })		
+		end
+	end
+
+	
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'lvl', {
+		title    = 'Odaberi level',
+		align    = 'top-left',
+		elements = elements
+	}, function(data, menu)
+		if data.current.value == 'lvl1' then
+			TriggerServerEvent("esxbalkan_mafije:updateLvL1", PlayerData.job.name)
+			menu.close()
+			getajLevel()
+		end
+  end, function(data, menu)
+    menu.close()	
+	end)
+end
+
 --Sef Menu --
 function OpenArmoryMenu(station)
-	local elements = {
-		{label = _U('buy_weapon'), value = 'buy_weapons'},
-		{label = _U('get_weapon'), value = 'get_weapon'},
-		{label = _U('put_weapon'), value = 'put_weapon'},
-		{label = _U('remove_object'),value = 'get_stock'},
-		{label = _U('deposit_object'),value = 'put_stock'}
-	}
+
+	local elements = {}
+
+	if PlayerData.job.grade_name == 'boss' then
+		table.insert(elements, {label = 'Levelanje Baze | 💼', value = 'level'})
+	end 
+
+	if Config.Levelanje then
+		if levelTabela.stats.level  == 1 then
+			table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+			table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+		end
+	else
+		table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+		table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+		table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+	end
+		
 
     ESX.UI.Menu.CloseAll()
     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
@@ -51,12 +105,14 @@ function OpenArmoryMenu(station)
             OpenGetWeaponMenu()
         elseif data.current.value == 'put_weapon' then
             OpenPutWeaponMenu()
-	elseif data.current.value == 'put_stock' then
+		elseif data.current.value == 'put_stock' then
             OpenPutStocksMenu()
-	elseif data.current.value == 'get_stock' then
+		elseif data.current.value == 'get_stock' then
             OpenGetStocksMenu()
         elseif data.current.value == 'buy_weapons' then
             OpenBuyWeaponsMenu()
+		elseif data.current.value == 'level' then
+			LvL()
         end
     end, function(data, menu)
         menu.close()
