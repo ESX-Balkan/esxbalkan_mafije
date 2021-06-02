@@ -552,7 +552,7 @@ AddEventHandler('esxbalkan_mafije:updateLvL1', function(job)
 end)
 
 RegisterServerEvent('esxbalkan_mafije:updateLvL2')
-AddEventHandler('esxbalkan_mafije:updateLvL1', function(job)
+AddEventHandler('esxbalkan_mafije:updateLvL2', function(job)
 	local src = source 
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local imaNovac = xPlayer.getMoney()
@@ -579,6 +579,33 @@ AddEventHandler('esxbalkan_mafije:updateLvL1', function(job)
     end
 end)
 
+RegisterServerEvent('esxbalkan_mafije:updateLvL3')
+AddEventHandler('esxbalkan_mafije:updateLvL3', function(job)
+	local src = source 
+	local xPlayer = ESX.GetPlayerFromId(src)
+	local imaNovac = xPlayer.getMoney()
+	local cijena = Config.lvl3
+	local org = xPlayer.job.name
+    local xJob = xPlayer.job
+
+    if xJob and Config.Mafije[xJob.name] then
+        if imaNovac >= cijena then
+            if levelTabela[job].stats.level <= levelTabela[job].stats.max then
+                levelTabela[job].stats.level = levelTabela[job].stats.level + 1
+                saveFile(levelTabela)
+                xPlayer.removeMoney(cijena)
+                TriggerClientEvent('esx:showNotification', src, ('Uspješno si unaprijedio organizaciju na Level 3!'))
+                sendToDiscord3('Levelanje Baze', xPlayer.name .. ' je unaprijedio bazu '..org..' na Level 3')
+            else
+                TriggerClientEvent('esx:showNotification', src, ('Imate vec maksimalan level!'))
+            end
+        else
+            TriggerClientEvent('esx:showNotification', src, ('Nemas dovoljno novca!'))
+        end
+    else
+        DropPlayer(src, '(:')
+    end
+end)
 
 ESX.RegisterServerCallback('esxbalkan_mafije:getLvL', function(source, cb, job)
 	local tabela = {}
