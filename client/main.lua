@@ -55,6 +55,9 @@ function LvL()
 		elseif levelTabela.stats.level == 1 then 
 			table.insert(elements, { label = 'Level 2 (50 000$)', value = 'lvl2' })		
 		end
+                elseif levelTabela.stats.level == 2 then
+               table.insert(elements, { label = 'Level 3 (75 000$)', value = 'lvl3' })
+             end	
 	end
 
 	
@@ -64,13 +67,19 @@ function LvL()
 		elements = elements
 	}, function(data, menu)
 		if data.current.value == 'lvl1' then
-			TriggerServerEvent("esxbalkan_mafije:updateLvL1", PlayerData.job.name)
-			menu.close()
-			getajLevel()
-		elseif data.current.value == 'lvl2' then
-			TriggerServerEvent("esxbalkan_mafije:updateLvL2", PlayerData.job.name)
-			menu.close()
-			getajLevel()
+		TriggerServerEvent("esxbalkan_mafije:updateLvL1", PlayerData.job.name)
+		menu.close()
+		getajLevel()
+		end
+		if data.current.value == 'lvl2' then
+		TriggerServerEvent("esxbalkan_mafije:updateLvL2", PlayerData.job.name)
+		menu.close()
+		getajLevel()
+		end
+		if data.current.value == 'lvl3' then
+		TriggerServerEvent("esxbalkan_mafije:updateLvL3", PlayerData.job.name)
+		menu.close()
+		getajLevel()
 		end
   end, function(data, menu)
     menu.close()	
@@ -99,11 +108,13 @@ function OpenArmoryMenu(station)
 			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
 			table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
 		end
-	else
+	elseif  levelTabela.stats.level == 3 then
 		table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
 		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
 		table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
 		table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+                table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+                table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
 	end
 		
 
@@ -148,6 +159,8 @@ function OpenArmoryMenu(station)
             end
         elseif data.current.value == 'buy_weapons' then
             OpenBuyWeaponsMenu()
+elseif data.current.value == 'pancir' then
+            SetPedArmour(playerPed, 100)
 		elseif data.current.value == 'level' then
 			LvL()
         end
