@@ -55,35 +55,34 @@ function LvL()
 		elseif levelTabela.stats.level == 1 then 
 			table.insert(elements, { label = 'Level 2 (50 000$)', value = 'lvl2' })		
 		end
-                elseif levelTabela.stats.level == 2 then
+        elseif levelTabela.stats.level == 2 then
                table.insert(elements, { label = 'Level 3 (75 000$)', value = 'lvl3' })
              end	
-	end
 
-	
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'lvl', {
 		title    = 'Odaberi level',
 		align    = 'top-left',
 		elements = elements
 	}, function(data, menu)
 		if data.current.value == 'lvl1' then
-		TriggerServerEvent("esxbalkan_mafije:updateLvL1", PlayerData.job.name)
-		menu.close()
-		getajLevel()
+			TriggerServerEvent("esxbalkan_mafije:updateLvL1", PlayerData.job.name)
+			menu.close()
+			getajLevel()
 		end
-		if data.current.value == 'lvl2' then
+	if data.current.value == 'lvl2' then
 		TriggerServerEvent("esxbalkan_mafije:updateLvL2", PlayerData.job.name)
 		menu.close()
 		getajLevel()
-		end
-		if data.current.value == 'lvl3' then
+	end
+	if data.current.value == 'lvl3' then
 		TriggerServerEvent("esxbalkan_mafije:updateLvL3", PlayerData.job.name)
 		menu.close()
 		getajLevel()
-		end
+	end
   end, function(data, menu)
-    menu.close()	
-end)
+    menu.close()
+	end)
+end
 
 --Sef Menu --
 function OpenArmoryMenu(station)
