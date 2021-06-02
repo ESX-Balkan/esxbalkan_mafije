@@ -538,6 +538,8 @@ AddEventHandler('esxbalkan_mafije:updateLvL1', function(job)
 			xPlayer.removeMoney(cijena)
 			TriggerClientEvent('esx:showNotification', src, ('Uspješno si unaprijedio organizaciju na Level 1!'))
 			sendToDiscord3('Levelanje Baze', xPlayer.name .. ' je unaprijedio bazu '..org..' na Level 1')
+		else
+			TriggerClientEvent('esx:showNotification', src, ('Imate vec maksimalan level!'))
 		end
 	else
 		TriggerClientEvent('esx:showNotification', src, ('Nemas dovoljno novca!'))
