@@ -83,9 +83,7 @@ function OpenArmoryMenu(station)
 	local elements = {}
 
 	if PlayerData.job.grade_name == 'boss' then
-		if not levelTabela.stats.level == 3 then 
-			table.insert(elements, {label = 'Levelanje Baze | 💼', value = 'level'})
-		end
+		table.insert(elements, {label = 'Levelanje Baze | 💼', value = 'level'})
 	end 
 
 	if Config.Levelanje then
