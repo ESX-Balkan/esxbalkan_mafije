@@ -385,7 +385,7 @@ AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
             end
 		else
             if not xPlayer.canCarryItem(sourceItem.name, sourceItem.count) then
-                xPlayer.showNotification(_U('no_space'))
+                TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
                 return
 		    end
         end
