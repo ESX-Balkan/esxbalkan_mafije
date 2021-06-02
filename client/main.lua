@@ -83,8 +83,7 @@ function LvL()
 		end
   end, function(data, menu)
     menu.close()	
-	end)
-end
+end)
 
 --Sef Menu --
 function OpenArmoryMenu(station)
