@@ -51,7 +51,9 @@ function LvL()
 
 	if Config.Levelanje then 
 		if levelTabela.stats.level == 0 then 
-			table.insert(elements, { label = 'Level 1 (50 000$)', value = 'lvl1' })		
+			table.insert(elements, { label = 'Level 1 (25 000$)', value = 'lvl1' })		
+		elseif levelTabela.stats.level == 1 then 
+			table.insert(elements, { label = 'Level 2 (50 000$)', value = 'lvl2' })		
 		end
 	end
 
@@ -63,6 +65,10 @@ function LvL()
 	}, function(data, menu)
 		if data.current.value == 'lvl1' then
 			TriggerServerEvent("esxbalkan_mafije:updateLvL1", PlayerData.job.name)
+			menu.close()
+			getajLevel()
+		elseif data.current.value == 'lvl1' then
+			TriggerServerEvent("esxbalkan_mafije:updateLvL2", PlayerData.job.name)
 			menu.close()
 			getajLevel()
 		end
@@ -88,6 +94,12 @@ function OpenArmoryMenu(station)
 			table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
 			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
 			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+		elseif levelTabela.stats.level == 2 then 
+			table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+			table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+			table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
 		end
 	else
 		table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
