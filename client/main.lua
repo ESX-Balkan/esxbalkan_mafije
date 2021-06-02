@@ -67,7 +67,7 @@ function LvL()
 			TriggerServerEvent("esxbalkan_mafije:updateLvL1", PlayerData.job.name)
 			menu.close()
 			getajLevel()
-		elseif data.current.value == 'lvl1' then
+		elseif data.current.value == 'lvl2' then
 			TriggerServerEvent("esxbalkan_mafije:updateLvL2", PlayerData.job.name)
 			menu.close()
 			getajLevel()
