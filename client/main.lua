@@ -90,7 +90,7 @@ function OpenArmoryMenu(station)
 
 	local elements = {}
 
-	if PlayerData.job.grade_name == 'boss' then
+	if PlayerData.job.grade_name == 'boss' and Config.Levelanje then
 		table.insert(elements, {label = 'Levelanje Baze | 💼', value = 'level'})
 	end 
 
