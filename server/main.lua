@@ -15,7 +15,7 @@ end
 
 teleportujSeDoBaze = function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	if not Config.Mafije[xPlayer.job.name] then xPlayer.showNotification('Nemate setanu mafiju!') return end
+	if not Config.Mafije[xPlayer.job.name] then TriggerClientEvent('esx:showNotification', source, ('Nemate setanu mafiju!')) return end
 	for mafijoze=1, #Config.Mafije[xPlayer.job.name]['Vehicles'], 1 do
 		local lokacija = Config.Mafije[xPlayer.job.name]['Vehicles'][mafijoze]
 		SetEntityCoords(GetPlayerPed(source), lokacija)
