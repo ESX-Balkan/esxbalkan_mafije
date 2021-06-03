@@ -54,10 +54,10 @@ function LvL()
 			table.insert(elements, { label = 'Level 1 (25 000$)', value = 'lvl1' })		
 		elseif levelTabela.stats.level == 1 then 
 			table.insert(elements, { label = 'Level 2 (50 000$)', value = 'lvl2' })		
-		end
-        elseif levelTabela.stats.level == 2 then
-               table.insert(elements, { label = 'Level 3 (75 000$)', value = 'lvl3' })
-             end	
+        	elseif levelTabela.stats.level == 2 then
+            		table.insert(elements, { label = 'Level 3 (75 000$)', value = 'lvl3' })
+       		 end
+    	end
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'lvl', {
 		title    = 'Odaberi level',
@@ -105,14 +105,21 @@ function OpenArmoryMenu(station)
 			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
 			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
 			table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-		end
-	elseif  levelTabela.stats.level == 3 then
-		table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-		table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-		table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-                table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-                table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+        	elseif levelTabela.stats.level == 3 then
+           		table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+            		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+            		table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+            		table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+            		table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+            		table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+        	end
+   	 else
+        	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+        	table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+        	table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+        	table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+        	table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+        	table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
 	end
 		
 
@@ -157,8 +164,8 @@ function OpenArmoryMenu(station)
             end
         elseif data.current.value == 'buy_weapons' then
             OpenBuyWeaponsMenu()
-elseif data.current.value == 'pancir' then
-            SetPedArmour(playerPed, 100)
+        elseif data.current.value == 'pancir' then
+            SetPedArmour(PlayerPedId(), 100)
 		elseif data.current.value == 'level' then
 			LvL()
         end
@@ -169,7 +176,6 @@ elseif data.current.value == 'pancir' then
         CurrentActionData = {station = station}
     end)
 end
-
 StvoriVozilo = function(vozilo)
 	local ped = PlayerPedId()
 	ESX.Game.SpawnVehicle(vozilo, Config.Mafije[PlayerData.job.name]["Vehicles"][1], GetEntityHeading(ped), function(veh)
