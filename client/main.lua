@@ -812,11 +812,13 @@ function OpenGetWeaponMenu()
 			align  = 'top-left',
 			elements = elements
 		}, function(data, menu)
-			menu.close()
-
-			ESX.TriggerServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function()
-				OpenGetWeaponMenu()
-			end, data.current.value)
+			local oruzije = data.current.value
+			if oruzije then
+				menu.close()
+				ESX.TriggerServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function()
+			        OpenGetWeaponMenu()
+				end, data.current.value)
+			end
 		end, function(data, menu)
 			menu.close()
 		end)
