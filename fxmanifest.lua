@@ -1,6 +1,6 @@
 fx_version 'cerulean'
 game 'gta5'
-version "1.9.2"
+version "1.9.3"
 
 lua54 'yes'
 
