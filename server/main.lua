@@ -296,19 +296,18 @@ end)
 ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(source, cb, weaponName)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local org = xPlayer.job.name
-
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
 		local weapons = store.get('weapons') or {}
-
 		local foundWeapon = false
 
-		for i=1, #weapons, 1 do
-			if weapons[i].name == weaponName then
-				weapons[i].count = (weapons[i].count > 0 and weapons[i].count - 1 or 0)
-				foundWeapon = true
-				break
-			end
-		end
+		for k, v in pairs(weapons) do
+                    if v.name == weaponName and v.count > 0 then
+                        v.count = v.count - 1
+                        xPlayer.addWeapon(weaponName, 100)
+			foundWeapon = true
+			break
+                    end
+                end
 
 		if not foundWeapon then
 			table.insert(weapons, {
@@ -316,7 +315,6 @@ ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(sourc
 				count = 0
 			})
 		end
-		xPlayer.addWeapon(weaponName, 150) -- ovo bi trebalo biti ovjde xd, da nebi doslo do glichanja
 		store.set('weapons', weapons)
 		cb()
 	end)
