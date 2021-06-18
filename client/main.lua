@@ -173,6 +173,7 @@ StvoriVozilo = function(vozilo)
 		SetModelAsNoLongerNeeded(veh)  -- oslobodi memoryu :)
 		TaskWarpPedIntoVehicle(ped, veh, -1)
 		SetVehicleFuelLevel(veh, 100.0)
+		SetVehicleOilLevel(veh, 10.0) -- eto da ima full ulje, ne znam jeli ovo ista znaci :)
 		DecorSetFloat(veh, "_FUEL_LEVEL", GetVehicleFuelLevel(veh))
 	end)
 end
