@@ -1,16 +1,36 @@
-ESX, levelTabela = nil, {} 
+--[[EEEEEEEEEEEEEEEEEEEEEE   SSSSSSSSSSSSSSS XXXXXXX       XXXXXXX     BBBBBBBBBBBBBBBBB           AAA               LLLLLLLLLLL             KKKKKKKKK    KKKKKKK               AAA               NNNNNNNN        NNNNNNNN
+E::::::::::::::::::::E SS:::::::::::::::SX:::::X       X:::::X     B::::::::::::::::B             A:::A              L:::::::::L             K:::::::K    K:::::K              A:::A              N:::::::N       N::::::N
+E::::::::::::::::::::ES:::::SSSSSS::::::SX:::::X       X:::::X     B::::::BBBBBB:::::B           A:::::A             L:::::::::L             K:::::::K    K:::::K             A:::::A             N::::::::N      N::::::N
+EE::::::EEEEEEEEE::::ES:::::S     SSSSSSSX::::::X     X::::::X     BB:::::B     B:::::B         A:::::::A            LL:::::::LL             K:::::::K   K::::::K            A:::::::A            N:::::::::N     N::::::N
+  E:::::E       EEEEEES:::::S            XXX:::::X   X:::::XXX       B::::B     B:::::B        A:::::::::A             L:::::L               KK::::::K  K:::::KKK           A:::::::::A           N::::::::::N    N::::::N
+  E:::::E             S:::::S               X:::::X X:::::X          B::::B     B:::::B       A:::::A:::::A            L:::::L                 K:::::K K:::::K             A:::::A:::::A          N:::::::::::N   N::::::N
+  E::::::EEEEEEEEEE    S::::SSSS             X:::::X:::::X           B::::BBBBBB:::::B       A:::::A A:::::A           L:::::L                 K::::::K:::::K             A:::::A A:::::A         N:::::::N::::N  N::::::N
+  E:::::::::::::::E     SS::::::SSSSS         X:::::::::X            B:::::::::::::BB       A:::::A   A:::::A          L:::::L                 K:::::::::::K             A:::::A   A:::::A        N::::::N N::::N N::::::N
+  E:::::::::::::::E       SSS::::::::SS       X:::::::::X            B::::BBBBBB:::::B     A:::::A     A:::::A         L:::::L                 K:::::::::::K            A:::::A     A:::::A       N::::::N  N::::N:::::::N
+  E::::::EEEEEEEEEE          SSSSSS::::S     X:::::X:::::X           B::::B     B:::::B   A:::::AAAAAAAAA:::::A        L:::::L                 K::::::K:::::K          A:::::AAAAAAAAA:::::A      N::::::N   N:::::::::::N
+  E:::::E                         S:::::S   X:::::X X:::::X          B::::B     B:::::B  A:::::::::::::::::::::A       L:::::L                 K:::::K K:::::K        A:::::::::::::::::::::A     N::::::N    N::::::::::N
+  E:::::E       EEEEEE            S:::::SXXX:::::X   X:::::XXX       B::::B     B:::::B A:::::AAAAAAAAAAAAA:::::A      L:::::L         LLLLLLKK::::::K  K:::::KKK    A:::::AAAAAAAAAAAAA:::::A    N::::::N     N:::::::::N
+EE::::::EEEEEEEE:::::ESSSSSSS     S:::::SX::::::X     X::::::X     BB:::::BBBBBB::::::BA:::::A             A:::::A   LL:::::::LLLLLLLLL:::::LK:::::::K   K::::::K   A:::::A             A:::::A   N::::::N      N::::::::N
+E::::::::::::::::::::ES::::::SSSSSS:::::SX:::::X       X:::::X     B:::::::::::::::::BA:::::A               A:::::A  L::::::::::::::::::::::LK:::::::K    K:::::K  A:::::A               A:::::A  N::::::N       N:::::::N
+E::::::::::::::::::::ES:::::::::::::::SS X:::::X       X:::::X     B::::::::::::::::BA:::::A                 A:::::A L::::::::::::::::::::::LK:::::::K    K:::::K A:::::A                 A:::::A N::::::N        N::::::N
+EEEEEEEEEEEEEEEEEEEEEE SSSSSSSSSSSSSSS   XXXXXXX       XXXXXXX     BBBBBBBBBBBBBBBBBAAAAAAA                   AAAAAAALLLLLLLLLLLLLLLLLLLLLLLLKKKKKKKKK    KKKKKKKAAAAAAA                   AAAAAAANNNNNNNN         NNNNNNN
+]]
+
+
+ESX, levelTabela = nil, {}
 local nmafija,Pretrazivan = 0, {}
+local getajresourcename = GetCurrentResourceName()
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 function loadFile() 
-    local file = LoadResourceFile(GetCurrentResourceName(), "level.json")
+    local file = LoadResourceFile(getajresourcename, "level.json")
     levelTabela = json.decode(file)
 end
 
 loadFile()
 
 function saveFile(data)
-    SaveResourceFile(GetCurrentResourceName(), "level.json", json.encode(data, {indent = true}), -1)
+    SaveResourceFile(getajresourcename, "level.json", json.encode(data, {indent = true}), -1)
 end
 
 teleportujSeDoBaze = function(source)
@@ -41,34 +61,29 @@ end
 print('[^1esxbalkan_mafije^0]: Napravio tim ^5ESX-Balkan^0 | Ucitano ^4' .. nmafija .. '^0 mafia')
 
 function sendToDiscord3 (name,message)
-local embeds = {
-	{
-		["title"]=message,
-		["type"]="rich",
-		["color"] =2061822,
-		["footer"]=  {
-		["text"]= "ESX Balkan Mafije",
-		},
-	}
-}
+local embeds = {{
+	["title"]=message,
+	["type"]="rich",
+	["color"] =2061822,
+	["footer"]=  {
+	["text"]= "ESX Balkan Mafije",
+},}}
 
-if message == nil or message == '' then return FALSE end
-  PerformHttpRequest(Config.Webhuk, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds}), { ['Content-Type'] = 'application/json' })
-end
+if message == nil or message == '' then return FALSE end PerformHttpRequest(Config.Webhuk, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds}), { ['Content-Type'] = 'application/json' }) end
 
 ESX.RegisterServerCallback('esxbalkan_mafije:getOtherPlayerData', function(source, cb, target)
 		local xPlayer = ESX.GetPlayerFromId(target)
 		local data = {
-			name      = GetPlayerName(target),
-			job       = xPlayer.job,
+			name = GetPlayerName(target),
+			job  = xPlayer.job,
 			inventory = xPlayer.inventory,
-			accounts  = xPlayer.accounts,
-			weapons   = xPlayer.loadout
+			accounts = xPlayer.accounts,
+			weapons = xPlayer.loadout
 		}
 		cb(data)
 end)
 
-RegisterServerEvent('esxbalkan_mafije:PretrazujuMe')
+RegisterNetEvent('esxbalkan_mafije:PretrazujuMe')
 AddEventHandler('esxbalkan_mafije:PretrazujuMe', function(id, br)
 	Pretrazivan[id] = br
 end)
@@ -89,11 +104,6 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getPlayerInventory', function(sourc
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local items = xPlayer.inventory
 	cb({items = items})
-end)
-
-AddEventHandler('esx:playerDropped', function(playerId, reason)
-	-- isprazni tabelee
-	if Pretrazivan[playerId] then Pretrazivan[playerId] = nil end
 end)
 
 RegisterNetEvent('esxbalkan_mafije:oduzmiItem')
@@ -129,12 +139,13 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 		-- Dali igrac ima dovoljno novca kod sebe?
 		if targetAccount.money >= amount then
 		targetXPlayer.removeAccountMoney(itemName, amount)
-		sourceXPlayer.addAccountMoney   (itemName, amount)
+		sourceXPlayer.addAccountMoney (itemName, amount)
 		TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_account', amount, itemName, targetXPlayer.name))
 		TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated_account', amount, itemName, sourceXPlayer.name))
 		sendToDiscord3('Oduzeti prljav novac', sourceXPlayer.name ..' je oduzeo prljav novac kolicine: $'.. amount ..' od igraca: ' ..targetXPlayer.name)
 	else
-		DropPlayer(_source, 'Dobar pokusaj da glichas retarde! Protected by ESX-Balkan :)')
+		sourceXPlayer.kick('Dobar pokusaj da glichas retarde! Protected by ESX-Balkan :)')
+		print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da glicha!'):format(xPlayer.identifier))
 	end
 	elseif itemType == 'item_weapon' then
 		if amount == nil then amount = 0 end
@@ -143,12 +154,13 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 				-- dali igrac posjeduje to oruzije jos kod sebe?
 				if targetXPlayer.hasWeapon(itemName) then
 					targetXPlayer.removeWeapon(itemName, amount)
-					sourceXPlayer.addWeapon   (itemName, amount)
+					sourceXPlayer.addWeapon (itemName, amount)
 					TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_weapon', ESX.GetWeaponLabel(itemName), targetXPlayer.name, amount))
 					TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, sourceXPlayer.name))
 					sendToDiscord3('Oduzeto oruzije', sourceXPlayer.name ..' je oduzeo oruzije: '.. ESX.GetWeaponLabel(itemName) ..' od igraca: ' ..targetXPlayer.name.. ' kolicine metaka: ' ..amount)
 				else
-					DropPlayer(_source, 'Dobar pokusaj da glichas retarde! Protected by ESX-Balkan :)')
+					sourceXPlayer.kick('Dobar pokusaj da glichas retarde! Protected by ESX-Balkan :)')
+					print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da glicha!'):format(xPlayer.identifier))
 				end
 			else
 				TriggerClientEvent('esx:showNotification', _source, ('~y~Vec posjedujete to oruzije i ~r~imate kod sebe!'))
@@ -163,15 +175,21 @@ AddEventHandler('esxbalkan_mafije:vezivanje', function(target)
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
+	local udaljenost = #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(target)))
 
 	if xJob and Config.Mafije[xJob.name] then
 		if drugijebeniigrac then -- dali id ove osobe postoji?
-			TriggerClientEvent('esxbalkan_mafije:vezivanje', target)
-			return
+			if udaljenost < 8.0 then
+				if src ~= target then
+					TriggerClientEvent('esxbalkan_mafije:vezivanje', target)
+					return
+				end
+			end
 		end
 	end
 
-	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
+	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :) Protected by ESX-BALKAN Mafije')
+	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da zaveze osobu preko cheata!'):format(xPlayer.identifier))
 end)
 
 RegisterNetEvent('esxbalkan_mafije:vuci')
@@ -180,15 +198,19 @@ AddEventHandler('esxbalkan_mafije:vuci', function(target)
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
+	local udaljenost = #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(target)))
 
 	if xJob and Config.Mafije[xJob.name] then
 		if drugijebeniigrac then -- dali id ove osobe postoji?
-			TriggerClientEvent('esxbalkan_mafije:vuci', target, src)
-			return
+			if src ~= target then
+				TriggerClientEvent('esxbalkan_mafije:vuci', target, src)
+				return
+			end
 		end
 	end
 
 	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
+	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da vuce osobu preko cheata!'):format(xPlayer.identifier))
 end)
 
 RegisterNetEvent('esxbalkan_mafije:staviUVozilo')
@@ -197,15 +219,21 @@ AddEventHandler('esxbalkan_mafije:staviUVozilo', function(target)
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
+	local udaljenost = #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(target)))
 
 	if xJob and Config.Mafije[xJob.name] then
 		if drugijebeniigrac then -- dali id ove osobe postoji?
-			TriggerClientEvent('esxbalkan_mafije:staviUVozilo', target)
-			return
+			if udaljenost < 8.0 then
+				if src ~= target then
+					TriggerClientEvent('esxbalkan_mafije:staviUVozilo', target)
+					return
+				end
+			end
 		end
 	end
 
 	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
+	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da stavi osobu preko cheata!'):format(xPlayer.identifier))
 end)
 
 RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
@@ -214,15 +242,21 @@ AddEventHandler('esxbalkan_mafije:staviVanVozila', function(target)
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
+	local udaljenost = #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(target)))
 
 	if xJob and Config.Mafije[xJob.name] then
 		if drugijebeniigrac then -- dali id ove osobe postoji?
-			TriggerClientEvent('esxbalkan_mafije:staviVanVozila', target)
-			return
+			if udaljenost < 8.0 then
+				if src ~= target then
+					TriggerClientEvent('esxbalkan_mafije:staviVanVozila', target)
+					return
+				end
+			end
 		end
 	end
 
 	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
+	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da izbaci osobu preko cheata!'):format(xPlayer.identifier))
 end)
 
 RegisterNetEvent('esxbalkan_mafije:poruka')
@@ -234,12 +268,15 @@ AddEventHandler('esxbalkan_mafije:poruka', function(target, msg)
 
 	if xJob and Config.Mafije[xJob.name] then
 		if drugijebeniigrac then -- dali id ove osobe postoji?
-			TriggerClientEvent('esx:showNotification', target, msg)
-			return
+			if src ~= target then
+				TriggerClientEvent('esx:showNotification', target, msg)
+				return
+			end
 		end
 	end
 
 	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
+	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da posalje svakome poruku preko cheata!'):format(xPlayer.identifier))
 end)
 
 ESX.RegisterServerCallback('esxbalkan_mafije:dbGettajPuske', function(source, cb)
@@ -247,11 +284,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:dbGettajPuske', function(source, cb
 	local org = xPlayer.job.name
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
 		local weapons = store.get('weapons')
-
-		if weapons == nil then
-			weapons = {}
-		end
-
+		if weapons == nil then weapons = {} end
 		cb(weapons)
 	end)
 end)
@@ -342,7 +375,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:kupiOruzje', function(source, cb, w
 			if xPlayer.getMoney() >= selectedWeapon.price then
 				xPlayer.removeMoney(selectedWeapon.price)
 				xPlayer.addWeapon(weaponName, 100)
-                                sendToDiscord3('Kupovina Oruzija', xPlayer.name .. ' je kupio ' .. ESX.GetWeaponLabel(weaponName) .. ' ' .. ' za '.. selectedWeapon.price)
+				sendToDiscord3('Kupovina Oruzija', xPlayer.name .. ' je kupio ' .. ESX.GetWeaponLabel(weaponName) .. ' ' .. ' za '.. selectedWeapon.price)
 				cb(true)
 			else
 				cb(false)
@@ -356,7 +389,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:kupiOruzje', function(source, cb, w
 				if xPlayer.getMoney() >= price then
 					xPlayer.removeMoney(price)
 					xPlayer.addWeaponComponent(weaponName, component.name)
-                                        sendToDiscord3('Kupovina Komponenata', xPlayer.name .. ' je kupio ' .. component.name .. ' ' .. ' za ' .. ESX.GetWeaponLabel(weaponName))
+					sendToDiscord3('Kupovina Komponenata', xPlayer.name .. ' je kupio ' .. component.name .. ' ' .. ' za ' .. ESX.GetWeaponLabel(weaponName))
 					cb(true)
 				else
 					cb(false)
@@ -378,16 +411,16 @@ AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
 	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_' .. org, function(inventory)
 		local inventoryItem = inventory.getItem(itemName)
 		if Config.Limit then
-            if (sourceItem.limit ~= -1 and (sourceItem.count + count) > sourceItem.limit) then
-			    TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
-			    return
+			if (sourceItem.limit ~= -1 and (sourceItem.count + count) > sourceItem.limit) then
+				TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
+				return
             end
 		else
-            if not xPlayer.canCarryItem(sourceItem.name, sourceItem.count) then
-                xPlayer.showNotification(_U('no_space'))
-                return
-		    end
-        end
+			if not xPlayer.canCarryItem(sourceItem.name, sourceItem.count) then
+				xPlayer.showNotification(_U('no_space'))
+				return
+			end
+		end
 
 		if count > 0 and inventoryItem.count >= count then
 			inventory.removeItem(itemName, count)
@@ -433,91 +466,6 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getajigracevinventory', function(so
 	cb({items = items})
 end)
 
----------------------------------------------------------------------NE DIRAJTE!-------------------------------------------------------------------------------------
-
-if GetCurrentResourceName() ~= "esxbalkan_mafije" then
-	print("                                             #")
-	print("                                             ###")
-	print("###### ###### ###### ###### ######  ##############")
-	print("#      #    # #    # #    # #    #  ################    Promjeni '" .. GetCurrentResourceName() .. "' u 'esxbalkan_mafije'")
-	print("###    ###### ###### #    # ######  ##################  ili ces dobiti DDOS i SKRIPTA NECE RADITI!")
-	print("#      # ##   # ##   #    # # ##    ################    OSTAVI IME SKRIPTE KAKO JE DAJ REKLAMU NA ESX BALKANU !!!")
-	print("###### #   ## #   ## ###### #   ##  ##############")
-	print("                                             ###")
-	print("                                             #")
-	StopResource(GetCurrentResourceName())
-	Wait(5000)
-	os.exit(69)
-	kresuj = true
-	Citizen.CreateThread(function()
-		while kresuj do
-	    end
-	end)
-end
-
-Citizen.CreateThread(function()
-	Wait(5000)
-	MySQL.Sync.execute([[
-		CREATE TABLE IF NOT EXISTS `datastore` (
-			`name` VARCHAR(60) NOT NULL,
-			`label` VARCHAR(100) NOT NULL,
-			`shared` INT NOT NULL,
-
-			PRIMARY KEY (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `datastore_data` (
-			`id` INT NOT NULL AUTO_INCREMENT,
-			`name` VARCHAR(60) NOT NULL,
-			`owner` VARCHAR(40),
-			`data` LONGTEXT,
-
-			PRIMARY KEY (`id`),
-			UNIQUE INDEX `index_datastore_data_name_owner` (`name`, `owner`),
-			INDEX `index_datastore_data_name` (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `addon_inventory` (
-			`name` VARCHAR(60) NOT NULL,
-			`label` VARCHAR(100) NOT NULL,
-			`shared` INT NOT NULL,
-
-			PRIMARY KEY (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `addon_inventory_items` (
-			`id` INT NOT NULL AUTO_INCREMENT,
-			`inventory_name` VARCHAR(100) NOT NULL,
-			`name` VARCHAR(100) NOT NULL,
-			`count` INT NOT NULL,
-			`owner` VARCHAR(40) DEFAULT NULL,
-
-			PRIMARY KEY (`id`),
-			INDEX `index_addon_inventory_items_inventory_name_name` (`inventory_name`, `name`),
-			INDEX `index_addon_inventory_items_inventory_name_name_owner` (`inventory_name`, `name`, `owner`),
-			INDEX `index_addon_inventory_inventory_name` (`inventory_name`)
-		);
-		CREATE TABLE IF NOT EXISTS `addon_account` (
-			`name` VARCHAR(60) NOT NULL,
-			`label` VARCHAR(100) NOT NULL,
-			`shared` INT NOT NULL,
-
-			PRIMARY KEY (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `addon_account_data` (
-			`id` INT NOT NULL AUTO_INCREMENT,
-			`account_name` VARCHAR(100) DEFAULT NULL,
-			`money` INT NOT NULL,
-			`owner` VARCHAR(40) DEFAULT NULL,
-
-			PRIMARY KEY (`id`),
-			UNIQUE INDEX `index_addon_account_data_account_name_owner` (`account_name`, `owner`),
-			INDEX `index_addon_account_data_account_name` (`account_name`)
-		);
-
-	]])
-end)
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------- L E V E L I -------------------------------------------------------------------
@@ -657,3 +605,88 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getLvL', function(source, cb, job)
 	cb(tabela)
 end)
 
+---------------------------------------------------------------------NE DIRAJTE!-------------------------------------------------------------------------------------
+
+if getajresourcename ~= "esxbalkan_mafije" then
+	print("                                             #")
+	print("                                             ###")
+	print("###### ###### ###### ###### ######  ##############")
+	print("#      #    # #    # #    # #    #  ################    Promjeni '" .. getajresourcename .. "' u 'esxbalkan_mafije'")
+	print("###    ###### ###### #    # ######  ##################  ili ces dobiti DDOS i SKRIPTA NECE RADITI!")
+	print("#      # ##   # ##   #    # # ##    ################    OSTAVI IME SKRIPTE KAKO JE DAJ REKLAMU NA ESX BALKANU !!!")
+	print("###### #   ## #   ## ###### #   ##  ##############")
+	print("                                             ###")
+	print("                                             #")
+	StopResource(getajresourcename)
+	Wait(5000)
+	os.exit(69)
+	kresuj = true
+	Citizen.CreateThread(function()
+		while kresuj do
+	    end
+	end)
+end
+
+Citizen.CreateThread(function()
+	Wait(5000)
+	MySQL.Sync.execute([[
+		CREATE TABLE IF NOT EXISTS `datastore` (
+			`name` VARCHAR(60) NOT NULL,
+			`label` VARCHAR(100) NOT NULL,
+			`shared` INT NOT NULL,
+
+			PRIMARY KEY (`name`)
+		);
+
+		CREATE TABLE IF NOT EXISTS `datastore_data` (
+			`id` INT NOT NULL AUTO_INCREMENT,
+			`name` VARCHAR(60) NOT NULL,
+			`owner` VARCHAR(40),
+			`data` LONGTEXT,
+
+			PRIMARY KEY (`id`),
+			UNIQUE INDEX `index_datastore_data_name_owner` (`name`, `owner`),
+			INDEX `index_datastore_data_name` (`name`)
+		);
+
+		CREATE TABLE IF NOT EXISTS `addon_inventory` (
+			`name` VARCHAR(60) NOT NULL,
+			`label` VARCHAR(100) NOT NULL,
+			`shared` INT NOT NULL,
+
+			PRIMARY KEY (`name`)
+		);
+
+		CREATE TABLE IF NOT EXISTS `addon_inventory_items` (
+			`id` INT NOT NULL AUTO_INCREMENT,
+			`inventory_name` VARCHAR(100) NOT NULL,
+			`name` VARCHAR(100) NOT NULL,
+			`count` INT NOT NULL,
+			`owner` VARCHAR(40) DEFAULT NULL,
+
+			PRIMARY KEY (`id`),
+			INDEX `index_addon_inventory_items_inventory_name_name` (`inventory_name`, `name`),
+			INDEX `index_addon_inventory_items_inventory_name_name_owner` (`inventory_name`, `name`, `owner`),
+			INDEX `index_addon_inventory_inventory_name` (`inventory_name`)
+		);
+		CREATE TABLE IF NOT EXISTS `addon_account` (
+			`name` VARCHAR(60) NOT NULL,
+			`label` VARCHAR(100) NOT NULL,
+			`shared` INT NOT NULL,
+
+			PRIMARY KEY (`name`)
+		);
+
+		CREATE TABLE IF NOT EXISTS `addon_account_data` (
+			`id` INT NOT NULL AUTO_INCREMENT,
+			`account_name` VARCHAR(100) DEFAULT NULL,
+			`money` INT NOT NULL,
+			`owner` VARCHAR(40) DEFAULT NULL,
+
+			PRIMARY KEY (`id`),
+			UNIQUE INDEX `index_addon_account_data_account_name_owner` (`account_name`, `owner`),
+			INDEX `index_addon_account_data_account_name` (`account_name`)
+		);
+
+	]])
+end)
