@@ -32,6 +32,12 @@ ocistiIgraca = function(playerPed)
 	ResetPedMovementClipset(playerPed, 0)
 end
 
+RegisterNetEvent('esxbalkan_mafije:updateHouse')
+AddEventHandler('esxbalkan_mafije:updateHouse', function(text)
+	getajLevel()
+	ESX.ShowNotification(text)
+end)
+
 getajLevel = function ()
 	if Config.Levelanje then
 		if Config.Mafije[PlayerData.job.name] ~= nil then
