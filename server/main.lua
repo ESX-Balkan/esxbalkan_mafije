@@ -554,28 +554,13 @@ AddEventHandler('esxbalkan_mafije:updateLvL3', function(job)
     end
 end)
 
-
-RegisterCommand('lvlup', function(source, args)
-	job = args[1]
-	level = args[2]
-	local xPlayer = ESX.GetPlayerFromId(source)
-	if source == 0 or xPlayer.getGroup() == "superadmin" then -- source == 0 kozola
-		if args[1] ~= nil and args[2] ~= nil then 
-			lvlUp(job, level, broj)	
-			print("^5 Baza ^0" ..job.. "^5 je unaprijeđena na level ^7" ..level.. "")
-		end
-	else
-		TriggerClientEvent('esx:showNotification', source, ('Ne mozes koristiti ovu komandu, nisi admin!'))
-	end
-end)
-
 RegisterCommand('setlvl', function(source, args)
 	job = args[1]
 	level = tonumber(args[2])
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if source == 0 or xPlayer.getGroup() == "superadmin" then
 		if args[1] ~= nil and args[2] ~= nil then 
-			lvlDown(job, level, broj)	
+			setLevel(job, level, broj)	
 			print("^5Gang ^0" ..job.. "^5 was set to level: ^7" ..level.. "")
 		end
 	else
