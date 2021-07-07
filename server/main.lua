@@ -554,29 +554,14 @@ AddEventHandler('esxbalkan_mafije:updateLvL3', function(job)
     end
 end)
 
-
-RegisterCommand('lvlup', function(source, args)
+RegisterCommand('setlvl', function(source, args)
 	job = args[1]
-	level = args[2]
-	local xPlayer = ESX.GetPlayerFromId(source)
-	if source == 0 or xPlayer.getGroup() == "superadmin" then -- source == 0 kozola
-		if args[1] ~= nil and args[2] ~= nil then 
-			lvlUp(job, level, broj)	
-			print("^5 Baza ^0" ..job.. "^5 je unaprijeđena na level ^7" ..level.. "")
-		end
-	else
-		TriggerClientEvent('esx:showNotification', source, ('Ne mozes koristiti ovu komandu, nisi admin!'))
-	end
-end)
-
-RegisterCommand('lvldown', function(source, args)
-	job = args[1]
-	level = args[2]
+	level = tonumber(args[2])
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if source == 0 or xPlayer.getGroup() == "superadmin" then
 		if args[1] ~= nil and args[2] ~= nil then 
-			lvlDown(job, level, broj)	
-			print("^5 Baza ^0" ..job.. "^5 je degradirana na level ^7" ..level.. "")
+			setLevel(job, level, broj)	
+			print("^5Gang ^0" ..job.. "^5 was set to level: ^7" ..level.. "")
 		end
 	else
 		TriggerClientEvent('esx:showNotification', source, ('Ne mozes koristiti ovu komandu, nisi admin!'))
@@ -584,14 +569,10 @@ RegisterCommand('lvldown', function(source, args)
 end)
 
 
-lvlUp = function(job, broj)
-	levelTabela[job].stats.level = levelTabela[job].stats.level + json.decode(broj)
+setLevel = function(job, broj)
+	levelTabela[job].stats.level = level
 	saveFile(levelTabela)
-end
-
-lvlDown = function(job, broj)
-	levelTabela[job].stats.level = levelTabela[job].stats.level - json.decode(broj)
-	saveFile(levelTabela)
+	TriggerClientEvent('esxbalkan_mafije:updateHouse', -1, 'Gang: ~r~'..job..'~s~\nWas set to level: '..levelTabela[job].stats.level)
 end
 
 ESX.RegisterServerCallback('esxbalkan_mafije:getLvL', function(source, cb, job)
