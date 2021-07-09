@@ -52,17 +52,9 @@ Locales['hr'] = {
   ['vehicleshop_awaiting_model'] = 'Vozilo se trenutno ~b~PREUZIMA & UČITAVA~s~ molimo vas sacekajte',
   ['confirm_no'] = 'Ne ❌',
   ['confirm_yes'] = 'Da ✅',
-  -- Servis
-  ['service_max'] = 'Ne možete da uđete u službu, maksimalan broj službenika je u službi: %s/%s',
-  ['service_not'] = 'Niste ušli u službu! Morate se prvo presvući.',
-  ['service_anonunce'] = 'Informacije o sluzbi',
-  ['service_in'] = 'Ušli ste u službu, dobrodošli!',
-  ['service_in_announce'] = 'Operator ~b~%s~s~ je usao u sluzbu!',
-  ['service_out'] = 'Napustili ste sluzbu.',
-  ['service_out_announce'] = 'Operator ~b~%s~s~ je napustio sluzbu.',
   -- Radnje
-  ['citizen_interaction'] = 'Upravljaj sa ljudima | 👨',
-  ['vehicle_interaction'] = 'Upravljaj sa vozilom | 🚗',
+  ['citizen_interaction'] = 'Upravljaj ljudima | 👨',
+  ['vehicle_interaction'] = 'Upravljaj vozilom | 🚗',
   ['object_spawner'] = 'Stvaraj Predmete | 👜',
 
   ['id_card'] = 'Licna karta | 💳',
