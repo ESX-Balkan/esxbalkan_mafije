@@ -53,10 +53,10 @@ Locales['hr'] = {
   ['confirm_no'] = 'Ne ❌',
   ['confirm_yes'] = 'Da ✅',
   -- Servis
-  ['service_max'] = 'ne možete da uđete u službu, maksimalan službenik je u službi: %s/%s',
-  ['service_not'] = 'niste ušli u službu! Morate se prvo promeniti.',
+  ['service_max'] = 'ne možete da uđete u službu, maksimalan broj službenik je u službi: %s/%s',
+  ['service_not'] = 'niste ušli u službu! Morate se prvo presvući.',
   ['service_anonunce'] = 'Informacije o sluzbi',
-  ['service_in'] = 'usli ste u sluzbu dobrodosli!',
+  ['service_in'] = 'usli ste u službu, dobrodosli!',
   ['service_in_announce'] = 'operator ~b~%s~s~ je usao u sluzbu!',
   ['service_out'] = 'napustili ste sluzbu.',
   ['service_out_announce'] = 'operator ~b~%s~s~ je napustio sluzbu.',
@@ -93,7 +93,7 @@ Locales['hr'] = {
   -- ID Card Menu
   ['name'] = 'Ime: %s',
   ['job'] = 'Posao: %s',
-  ['sex'] = 'Pol: %s',
+  ['sex'] = 'Spol: %s',
   ['dob'] = 'DOB: %s',
   ['height'] = 'Visina: %s',
   ['id'] = 'Indetifikacija: %s',
