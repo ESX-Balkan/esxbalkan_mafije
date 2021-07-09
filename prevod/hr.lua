@@ -136,7 +136,4 @@ Locales['hr'] = {
   ['remove_prop'] = 'Pritisnite ~INPUT_CONTEXT~ da obrišete ~b~objekat~s~.',
   ['map_blip'] = 'Mafija',
   ['unrestrained_timer'] = 'Lisice vam se polako olabavljaju i spadaju sa ruku.',
-  -- Notifications - Telefon od policije (ovo ne treba)
-  --['alert_mafia'] = 'Mafijaško upozorenje',
-  --['phone_mafia'] = 'Mafija',
 }
