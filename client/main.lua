@@ -633,7 +633,7 @@ CreateThread(function()
 		end
 	end
 end)
-
+if not Config.CheckPointovi then
 CreateThread(function()
 	Wait(1000)
 	local wejtara = 1000
@@ -709,16 +709,118 @@ CreateThread(function()
 					end
 				end
 			end
-
 			if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
-				if
-					(LastStation and LastPart and LastPartNum) and
-					(LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)
-				then
+				if (LastStation and LastPart and LastPartNum) and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum) then
 					TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
 					hasExited = true
 				end
+				HasAlreadyEnteredMarker = true
+ 				LastStation = currentStation
+				LastPart = currentPart
+				LastPartNum  = currentPartNum
+				TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
+			end
 
+			if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
+				HasAlreadyEnteredMarker = false
+				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+			end
+			if letSleep then Wait(5000) end
+		else
+			Wait(5000)
+		end
+	end
+end)
+else
+CreateThread(function()
+	Wait(1000)
+	local wejtara = 1000
+	print("esxbalkan_mafije: Skripta je uspjesno loadovana i ucitana bez errora..")
+	local tablica = {}
+	while true do
+		Wait(wejtara)
+		local jobName = PlayerData.job.name
+		if PlayerData.job and Config.Mafije[jobName] then
+			wejtara = 800
+			local playerPed = PlayerPedId()
+			local coords = GetEntityCoords(playerPed)
+			local isInMarker, hasExited, letSleep = false, false, true
+			local currentStation, currentPart, currentPartNum
+			for i = 1, #tablica do
+				DeleteCheckpoint(tablica[i])
+			end
+			for k,v in pairs(Config.Mafije[jobName]) do
+				for i=1, #Config.Mafije[jobName]['Armories'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
+					if distance < Config.DrawDistance then
+						local armory = CreateCheckpoint(47,Config.Mafije[jobName]['Armories'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
+						SetCheckpointCylinderHeight(armory, 2.0, 2.0, 2.0)
+						table.insert(tablica, armory)
+						letSleep = false
+					end
+
+					if distance < Config.MarkerSize.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
+					end
+				end
+
+				for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['ParkirajAuto'][i])
+					local vehicle = GetVehiclePedIsIn(playerPed, false)
+					if distance < Config.DrawDistance then
+						if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
+							local parkirajvozilo = CreateCheckpoint(47, Config.Mafije[jobName]['ParkirajAuto'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
+							SetCheckpointCylinderHeight(parkirajvozilo, 2.0, 2.0, 2.0)
+							table.insert(tablica, parkirajvozilo)
+							letSleep = false
+						end
+					end
+
+					if distance < Config.MarkerAuto.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i
+					end
+				end
+
+				for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Vehicles'][i])
+
+					if distance < Config.DrawDistance then
+						if not IsPedInAnyVehicle(playerPed, false) then
+							local vozila = CreateCheckpoint(47, Config.Mafije[jobName]['Vehicles'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
+							SetCheckpointCylinderHeight(vozila, 2.0, 2.0, 2.0)
+							table.insert(tablica, vozila)
+							letSleep = false
+						end
+					end
+
+					if distance < Config.MarkerSize.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
+					end
+				end
+
+				if PlayerData.job.grade_name == 'boss' then
+					for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
+						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
+
+						if distance < Config.DrawDistance then
+							local bossmeni = CreateCheckpoint(47, Config.Mafije[jobName]['BossActions'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
+							SetCheckpointCylinderHeight(bossmeni, 2.0, 2.0, 2.0)
+							table.insert(tablica, bossmeni)
+							letSleep = false
+						end
+
+						if distance < Config.MarkerSize.x then
+							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i
+						end
+					end
+				end
+			end
+
+			if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
+				if (LastStation and LastPart and LastPartNum) and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum) then
+					TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+					hasExited = true
+				end
 				HasAlreadyEnteredMarker = true
  				LastStation = currentStation
 				LastPart = currentPart
@@ -731,16 +833,13 @@ CreateThread(function()
 				HasAlreadyEnteredMarker = false
 				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
 			end
-
-			if letSleep then
-				Wait(5000)
-			end
-
+			if letSleep then Wait(5000) end
 		else
-			Wait(3000)
+			Wait(5000)
 		end
 	end
 end)
+end
 
 RegisterKeyMapping('+mafijameni', 'Mafia meni', 'keyboard', 'F6')
 RegisterCommand('+mafijameni', function()
