@@ -21,7 +21,7 @@ Locales['hr'] = {
   ['armory_componenttitle'] = 'Dodaci za oružje | ⚙️',
   ['armory_bought'] = 'Kupili ste ~b~%s~s~ za ~b~%s€~s~',
   ['armory_money'] = 'Nemate dovoljno novca za ovo oruŽje',
-  ['armory_hascomponent'] = 'VeĆ imate taj dodatak!',
+  ['armory_hascomponent'] = 'Već imate taj dodatak!',
   ['get_weapon_menu'] = 'Oružarnica | ⚙️ ➥ Uzmi oružje',
   ['put_weapon_menu'] = 'Oružarnica | ⚙️ ➥ Ostavi oružje',
   -- Garaža
