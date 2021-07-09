@@ -426,13 +426,7 @@ PretrazivanjeIgraca = function(player)
 		end)
 	end, GetPlayerServerId(player))
 end
------------------------------
---------GUI FUNKCIJE---------
------------------------------
-local function ShowHelpText(text) --commit
-	AddTextEntry('helpNotif', text)
-	DisplayHelpTextThisFrame('helpNotif', false)
-end
+
 -----------------------------
 ---------EVENTOVI------------
 -----------------------------
@@ -653,7 +647,6 @@ CreateThread(function()
 			local coords = GetEntityCoords(playerPed)
 			local isInMarker, hasExited, letSleep = false, false, true
 			local currentStation, currentPart, currentPartNum
-
 			for k,v in pairs(Config.Mafije[jobName]) do
 				for i=1, #Config.Mafije[jobName]['Armories'], 1 do
 					local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
@@ -765,10 +758,10 @@ end, false)
 -- Trenutna akcija za markere i key kontrole--
 CreateThread(function()
 	while true do
-		Wait(10)
+		Wait(20)
 		if CurrentAction and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
-			ShowHelpText(CurrentActionMsg) -- commit
-			if IsControlJustReleased(0,38)  then
+			pokazi3dtinky(GetEntityCoords(PlayerPedId()), CurrentActionMsg, 250)
+			if IsControlPressed(0,38) then
 				if CurrentAction == 'menu_cloakroom' then
 					OpenCloakroomMenu()
 				elseif CurrentAction == 'menu_armory' then
@@ -797,6 +790,22 @@ CreateThread(function()
 		end
 	end
 end)
+
+pokazi3dtinky = function(pos, text, boja)
+	local pocni = text
+    local pocetak, kraj = string.find(text, '~([^~]+)~')
+    if pocetak then
+        pocetak = pocetak - 2
+        kraj = kraj + 2
+        pocni = ''
+        pocni = pocni .. string.sub(text, 0, pocetak) .. '   '.. string.sub(text, pocetak+2, kraj-2) .. string.sub(text, kraj, #text)
+    end
+    AddTextEntry(GetCurrentResourceName(), pocni)
+    BeginTextCommandDisplayHelp(GetCurrentResourceName())
+    EndTextCommandDisplayHelp(2, false, false, -1)
+    SetFloatingHelpTextWorldPosition(1, pos + vector3(0.0, 0.0, 1.0))
+    SetFloatingHelpTextStyle(1, 1, boja, -1, 3, 0)
+end
 AddEventHandler('playerSpawned', function(spawn) isDead = false end)
 AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
 ---------------------------------------------------
