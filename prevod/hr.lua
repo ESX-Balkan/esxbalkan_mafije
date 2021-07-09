@@ -53,7 +53,7 @@ Locales['hr'] = {
   ['confirm_no'] = 'Ne ❌',
   ['confirm_yes'] = 'Da ✅',
   -- Servis
-  ['service_max'] = 'ne možete da uđete u službu, maksimalan broj službenik je u službi: %s/%s',
+  ['service_max'] = 'ne možete da uđete u službu, maksimalan broj službenika je u službi: %s/%s',
   ['service_not'] = 'niste ušli u službu! Morate se prvo presvući.',
   ['service_anonunce'] = 'Informacije o sluzbi',
   ['service_in'] = 'usli ste u službu, dobrodosli!',
