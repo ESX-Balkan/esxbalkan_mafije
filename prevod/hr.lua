@@ -107,11 +107,6 @@ Locales['hr'] = {
   ['got_confiscated_account'] = '~b~%s€~s~ (%s) oduzeta od ~b~%s~s~',
   ['you_confiscated_weapon'] = 'Oduzeli ste ~b~%s~s~ od ~b~%s~s~ sa ~o~%s~s~ metkova',
   ['got_confiscated_weapon'] = 'Tvoj ~b~%s~s~ sa ~o~%s~s~ metkova je oduzet od strane ~b~%s~s~',
-  ['traffic_offense'] = 'Saobracajni prekrsaj | 🚦',
-  ['minor_offense'] = 'Suprostavljanje policiji | 😈',
-  ['average_offense'] = 'Prosečan Prekrsaj | 😠',
-  ['major_offense'] = 'Veći prekršaj | 😡',
-  ['fine_total'] = 'Kazna ➥ %s',
   -- Vehicle Info Menu
   ['plate'] = 'Tablice ➥ %s',
   ['owner_unknown'] = 'Vlasnik ➥ Nepoznat',
