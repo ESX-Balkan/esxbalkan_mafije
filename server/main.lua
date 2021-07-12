@@ -120,20 +120,30 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 		-- provera kolicine
 		if targetItem.count > 0 and targetItem.count <= amount then
 			-- da li moze da nosi stvari
-			if Config.Limit and (sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit) then
-				TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
-			elseif not Config.Limit and not xPlayer.canCarryItem(sourceItem.name, sourceItem.limit) then
-				TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
-			else
-				targetXPlayer.removeInventoryItem(itemName, amount)
-				sourceXPlayer.addInventoryItem   (itemName, amount)
-				TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
-				TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
-				sendToDiscord3('Oduzeti Item', sourceXPlayer.name ..' je oduzeo stvar: '.. sourceItem.label.. ' od igraca ' ..targetXPlayer.name.. ' kolicine: ' ..amount)
-			end
-		else
-			TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
-		end
+			if Config.Limit then 
+                if (sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit) then
+				    TriggerClientEvent('esx:showNotification', _source, ('Nemate dovoljno prostora da nosite taj item'))
+			    else
+				    targetXPlayer.removeInventoryItem(itemName, amount)
+				    sourceXPlayer.addInventoryItem(itemName, amount)
+				    TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
+				    TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
+				    sendToDiscord3('Oduzeti Item', sourceXPlayer.name ..' je oduzeo stvar: '.. sourceItem.label.. ' od igraca ' ..targetXPlayer.name.. ' kolicine: ' ..amount)
+			    end
+		    else
+			    if not sourceXPlayer.canCarryItem(itemName, sourceItem.count) then
+                    sourceXPlayer.showNotification('Nemate dovoljno prostora da nosite taj item')
+                else
+                    targetXPlayer.removeInventoryItem(itemName, amount)
+				    sourceXPlayer.addInventoryItem(itemName, amount)
+				    TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
+				    TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
+				    sendToDiscord3('Oduzeti Item', sourceXPlayer.name ..' je oduzeo stvar: '.. sourceItem.label.. ' od igraca ' ..targetXPlayer.name.. ' kolicine: ' ..amount)
+                end
+		    end
+        else
+            TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
+        end
 	elseif itemType == 'item_account' then
 		local targetAccount = targetXPlayer.getAccount(itemName)
 		-- Dali igrac ima dovoljno novca kod sebe?
