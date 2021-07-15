@@ -671,7 +671,7 @@ CreateThread(function()
 					local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
 					if distance < Config.DrawDistance then
 						DrawMarker(Config.MarkerTypes.Oruzarnica, Config.Mafije[jobName]['Armories'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
-						wejtara = 7
+						wejtara = 5
 						letSleep = false
 					end
 
@@ -685,7 +685,7 @@ CreateThread(function()
 					local vehicle = GetVehiclePedIsIn(playerPed, false)
 					if distance < Config.DrawDistance then
 						if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
-							wejtara = 7
+							wejtara = 5
 							letSleep = false
 							DrawMarker(Config.MarkerTypes.VracanjeAuta, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
 						end
@@ -701,7 +701,7 @@ CreateThread(function()
 
 					if distance < Config.DrawDistance then
 						if not IsPedInAnyVehicle(playerPed, false) then
-							wejtara = 7
+							wejtara = 5
 							letSleep = false
 							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 						end
@@ -717,7 +717,7 @@ CreateThread(function()
 						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
 
 						if distance < Config.DrawDistance then
-							wejtara = 7
+							wejtara = 5
 							DrawMarker(Config.MarkerTypes.BossMeni, Config.Mafije[jobName]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 							letSleep = false
 						end
@@ -744,9 +744,9 @@ CreateThread(function()
 				HasAlreadyEnteredMarker = false
 				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
 			end
-			if letSleep then Wait(5000) end
+			if letSleep then wejtara = 5000 end
 		else
-			Wait(5000)
+			wejtara = 5000
 		end
 	end
 end)
@@ -852,9 +852,9 @@ CreateThread(function()
 				HasAlreadyEnteredMarker = false
 				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
 			end
-			if letSleep then Wait(5000) end
+			if letSleep then wejtara = 5000 end
 		else
-			Wait(5000)
+			wejtara = 5000
 		end
 	end
 end)
