@@ -1,3 +1,6 @@
+/* Realno svi pisu error da nema whitelisted tabela tako da evo i taj kod */
+ALTER TABLE jobs add whitelisted BOOLEAN NOT NULL DEFAULT FALSE;
+
 INSERT INTO `addon_account` (name, label, shared) VALUES 
   ('society_zemunski','Zemunski',1),
   ('society_vagos','Vagos',1),
