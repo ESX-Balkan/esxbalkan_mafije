@@ -22,6 +22,23 @@ local nmafija,Pretrazivan = 0, {}
 local getajresourcename = GetCurrentResourceName()
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
+
+CreateThread(function ()
+    -- Provjeri jeli startane ove skripte:
+    while GetResourceState('mysql-async') ~= 'started' do
+        Citizen.Wait(1000)
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA mysql-async nije startana na serveru!!! ili ste promjenili ime skripte?')
+    end
+    while GetResourceState('esx_addoninventory') ~= 'started' do
+        Citizen.Wait(1000)
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_addoninventory nije startana na serveru!!! ili ste promjenili ime skripte?')
+    end
+    while GetResourceState('esx_society') ~= 'started' do
+        Citizen.Wait(1000)
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_society nije startana na serveru!!! ili ste promjenili ime skripte?')
+    end
+end)
+
 function loadFile() 
     local file = LoadResourceFile(getajresourcename, "level.json")
     levelTabela = json.decode(file)
