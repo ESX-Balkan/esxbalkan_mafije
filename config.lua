@@ -36,6 +36,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(1395.4, 1159.86, 114.33)},
 		ParkirajAuto = {vector3(1409.85, 1118.93, 114.84)},
 	},
@@ -49,6 +52,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(-60.26, 982.09, 233.65)},
 		ParkirajAuto = {vector3(-124.36, 1007.92, 234.80)},
 	},
@@ -61,6 +67,10 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(362.51, -2039.68, 24.71)},
 		ParkirajAuto = {vector3(336.02, -2040.49, 20.40)},
 	},
@@ -74,6 +84,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(-1498.29, 128.96, 54.97)},
 		ParkirajAuto = {vector3(-1520.91, 82.05, 55.75)},
 	},
@@ -87,6 +100,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(-811.47, 180.73, 76.74)},
 		ParkirajAuto = {vector3(-812.41, 187.05, 72.47)},
 	},
@@ -100,6 +116,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(0.13, 524.47, 173.90)},
 		ParkirajAuto = {vector3(22.08, 544.82, 175.30)},
 	},
@@ -113,6 +132,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(-113.43, -12.1, 70.52)},
 		ParkirajAuto = {vector3(-85.12, -28.92, 66.32)},
 	},
@@ -126,6 +148,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(909.92, -1025.6, 38.15)},
 		ParkirajAuto = {vector3(894.7, -1018.52, 34.97)},
 	},
@@ -139,6 +164,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(122.22, -1971.89, 20.55)},
 		ParkirajAuto = {vector3(102.56, -1963.89, 20.00)},
 	},
@@ -152,6 +180,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(2048.04, -144.84, 270.29)},
 		ParkirajAuto = {vector3(1990.85, -75.19, 211.1)},
 	},
@@ -165,6 +196,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(2180.36, 3910.1, 36.51)},
 		ParkirajAuto = {vector3(2170.93, 3897.4, 32.87)},
 	},
@@ -178,6 +212,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(-19.28, -1412.47, 29.31)},
 		ParkirajAuto = {vector3(-11.75, -1408.63, 29.31)},
 	},
@@ -191,6 +228,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		BossActions = {vector3(727.04, -1066.75, 28.31)},
 		ParkirajAuto = {vector3(728.83, -1088.96, 21.71)},
 	},
@@ -204,6 +244,9 @@ Config.Mafije = {
 			['sultan'] = 'Sultan'
 		},
 		Boja = 145, -- boja vozila :)
+		Zatamni = false,
+		Nabudzi = false,
+		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		Helikopter = {vector3(-2048.67, -517.63, 9.16)}, 
 		MeniHelikoptera = {
 			Heli1 = 'supervolito',
