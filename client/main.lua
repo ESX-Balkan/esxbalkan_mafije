@@ -59,7 +59,7 @@ end)
 
 getajLevel = function ()
 	if Config.Levelanje then
-		if Config.Mafije[PlayerData.job.name] ~= nil then
+		if Config.Mafije[PlayerData.job.name] then
 			ESX.TriggerServerCallback('esxbalkan_mafije:getLvL', function(data)
 				levelTabela = data 
 			end, PlayerData.job.name)
@@ -74,10 +74,10 @@ function LvL()
 			table.insert(elements, { label = 'Level 1 (25 000$)', value = 'lvl1' })		
 		elseif levelTabela.stats.level == 1 then 
 			table.insert(elements, { label = 'Level 2 (50 000$)', value = 'lvl2' })		
-        	elseif levelTabela.stats.level == 2 then
-            		table.insert(elements, { label = 'Level 3 (75 000$)', value = 'lvl3' })
-       		 end
-    	end
+			elseif levelTabela.stats.level == 2 then
+			table.insert(elements, { label = 'Level 3 (75 000$)', value = 'lvl3' })
+		end
+	end
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'lvl', {
 		title    = 'Odaberi level',
@@ -99,8 +99,8 @@ function LvL()
 		menu.close()
 		getajLevel()
 	end
-  end, function(data, menu)
-    menu.close()
+	end, function(data, menu)
+	menu.close()
 	end)
 end
 
@@ -120,8 +120,8 @@ function OpenArmoryMenu(station)
 			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
 			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
 			table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-        	elseif levelTabela.stats.level == 3 then
-           		table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+			elseif levelTabela.stats.level == 3 then
+					table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
             		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
             		table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
             		table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
@@ -195,11 +195,18 @@ StvoriVozilo = function(vozilo)
 	ESX.Game.SpawnVehicle(vozilo, Config.Mafije[PlayerData.job.name]["Vehicles"][1], GetEntityHeading(ped), function(veh)
 		NetworkFadeInEntity(veh, true, true)
 		SetVehicleEngineOn(veh, true, true, false)
-		SetModelAsNoLongerNeeded(veh)  -- oslobodi memoryu :)
+		SetModelAsNoLongerNeeded(veh)
 		TaskWarpPedIntoVehicle(ped, veh, -1)
 		SetVehicleFuelLevel(veh, 100.0)
-		SetVehicleOilLevel(veh, 10.0) -- eto da ima full ulje, ne znam jeli ovo ista znaci :)
+		SetVehicleOilLevel(veh, 10.0)
 		DecorSetFloat(veh, "_FUEL_LEVEL", GetVehicleFuelLevel(veh))
+		if Config.Mafije[PlayerData.job.name]['Boja'] then -- Boja vozila, imate u config.lua!
+			local props = {
+				color1 = Config.Mafije[PlayerData.job.name]['Boja'],
+				color2 = Config.Mafije[PlayerData.job.name]['Boja'],
+			}
+			ESX.Game.SetVehicleProperties(veh, props)
+		end
 	end)
 end
 
