@@ -207,8 +207,47 @@ StvoriVozilo = function(vozilo)
 			}
 			ESX.Game.SetVehicleProperties(veh, props)
 		end
+		if Config.Mafije[PlayerData.job.name]['Zatamni'] then
+			Zatamni(vozilo)
+		end
+		if Config.Mafije[PlayerData.job.name]['Nabudzi'] then
+			Nabudzi(vozilo)
+		end
+		if Config.Mafije[PlayerData.job.name]['Tablice'] then
+			Tablice(vozilo, Config.Mafije[PlayerData.job.name]['Tablice'])
+		end
 	end)
 end
+
+function Zatamni(vozilo)
+    local props = {
+    	windowTint      = 1,
+      	wheelColor      = 0,
+      	plateIndex      = 1
+    }
+    ESX.Game.SetVehicleProperties(vozilo, props)
+end
+
+function Nabudzi(vozilo)
+    local props = {
+      modArmor        = 4,
+      modXenon        = true,
+      modEngine       = 3,
+      modBrakes       = 2,
+      modTransmission = 2,
+      modSuspension   = 3,
+      modTurbo        = true,
+    }
+    ESX.Game.SetVehicleProperties(vozilo, props)
+end
+
+function Tablice(vozilo, tablice)
+    local props = {
+		plate = tablice,
+    }
+    ESX.Game.SetVehicleProperties(vozilo, props)
+end
+
 
 ObrisiVozilo = function()
 	local playerPed = PlayerPedId()
