@@ -25,10 +25,6 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 CreateThread(function ()
     -- Provjeri jeli startane ove skripte:
-    while GetResourceState('mysql-async') ~= 'started' do
-        Citizen.Wait(1000)
-	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA mysql-async nije startana na serveru!!! ili ste promjenili ime skripte?')
-    end
     while GetResourceState('esx_addoninventory') ~= 'started' do
         Citizen.Wait(1000)
 	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_addoninventory nije startana na serveru!!! ili ste promjenili ime skripte?')
@@ -636,66 +632,3 @@ if getajresourcename ~= "esxbalkan_mafije" then
 	end)
 end
 
-Citizen.CreateThread(function()
-	Wait(5000)
-	MySQL.Sync.execute([[
-		CREATE TABLE IF NOT EXISTS `datastore` (
-			`name` VARCHAR(60) NOT NULL,
-			`label` VARCHAR(100) NOT NULL,
-			`shared` INT NOT NULL,
-
-			PRIMARY KEY (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `datastore_data` (
-			`id` INT NOT NULL AUTO_INCREMENT,
-			`name` VARCHAR(60) NOT NULL,
-			`owner` VARCHAR(40),
-			`data` LONGTEXT,
-
-			PRIMARY KEY (`id`),
-			UNIQUE INDEX `index_datastore_data_name_owner` (`name`, `owner`),
-			INDEX `index_datastore_data_name` (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `addon_inventory` (
-			`name` VARCHAR(60) NOT NULL,
-			`label` VARCHAR(100) NOT NULL,
-			`shared` INT NOT NULL,
-
-			PRIMARY KEY (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `addon_inventory_items` (
-			`id` INT NOT NULL AUTO_INCREMENT,
-			`inventory_name` VARCHAR(100) NOT NULL,
-			`name` VARCHAR(100) NOT NULL,
-			`count` INT NOT NULL,
-			`owner` VARCHAR(40) DEFAULT NULL,
-
-			PRIMARY KEY (`id`),
-			INDEX `index_addon_inventory_items_inventory_name_name` (`inventory_name`, `name`),
-			INDEX `index_addon_inventory_items_inventory_name_name_owner` (`inventory_name`, `name`, `owner`),
-			INDEX `index_addon_inventory_inventory_name` (`inventory_name`)
-		);
-		CREATE TABLE IF NOT EXISTS `addon_account` (
-			`name` VARCHAR(60) NOT NULL,
-			`label` VARCHAR(100) NOT NULL,
-			`shared` INT NOT NULL,
-
-			PRIMARY KEY (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `addon_account_data` (
-			`id` INT NOT NULL AUTO_INCREMENT,
-			`account_name` VARCHAR(100) DEFAULT NULL,
-			`money` INT NOT NULL,
-			`owner` VARCHAR(40) DEFAULT NULL,
-
-			PRIMARY KEY (`id`),
-			UNIQUE INDEX `index_addon_account_data_account_name_owner` (`account_name`, `owner`),
-			INDEX `index_addon_account_data_account_name` (`account_name`)
-		);
-
-	]])
-end)
