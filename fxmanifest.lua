@@ -1,7 +1,10 @@
 fx_version 'cerulean'
 game 'gta5'
+name 'esxbalkan_mafije'
+author 'ESX-Balkan'
+url 'https://github.com/ESX-Balkan/esxbalkan_mafije'
 version "1.9.3"
-
+use_fxv2_oal 'yes'
 lua54 'yes'
 
 shared_scripts {
