@@ -702,7 +702,6 @@ if not Config.CheckPointovi then
 CreateThread(function()
 	Wait(1000)
 	local wejtara = 1000
-	print("esxbalkan_mafije: Skripta je uspjesno loadovana i ucitana bez errora..")
 	while true do
 		Wait(wejtara)
 		local jobName = PlayerData.job.name
@@ -800,7 +799,6 @@ else
 CreateThread(function()
 	Wait(1000)
 	local wejtara = 1000
-	print("esxbalkan_mafije: Skripta je uspjesno loadovana i ucitana bez errora..")
 	local tablica = {}
 	while true do
 		Wait(wejtara)
@@ -916,7 +914,7 @@ RegisterCommand('+mafijameni', function()
 end, false)
 
 RegisterCommand('-mafijameni', function()
-	-- ovo mora biti prazno!
+	-- ovo nemojte dirati!
 end, false)
 
 -- Trenutna akcija za markere i key kontrole--
@@ -972,10 +970,7 @@ pokazi3dtinky = function(pos, text, boja)
 end
 AddEventHandler('playerSpawned', function(spawn) isDead = false end)
 AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
----------------------------------------------------
--- /////////////////////////////////////////////////
---		FUNCKIJE OD POLICEJOBA ZA ARMORYA -
--- ////////////////////////////////////////////////
+AddEventHandler('onResourceStop', function(resource) if resource == GetCurrentResourceName() then TriggerEvent('esxbalkan_mafije:odvezivanje') end end)
 function OpenGetWeaponMenu()
 	ESX.TriggerServerCallback('esxbalkan_mafije:dbGettajPuske', function(weapons)
 		local elements = {}
@@ -1232,6 +1227,3 @@ function OpenPutStocksMenu()
 	end)
 end
 
-AddEventHandler('onResourceStop', function(resource)
-	if resource == GetCurrentResourceName() then TriggerEvent('esxbalkan_mafije:odvezivanje') end
-end)
