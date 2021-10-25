@@ -25,6 +25,5 @@ dependencies {
 	'esx_addonaccount',
 	'esx_addoninventory',
 	'esx_datastore',
-	'esx_society',
-	'mysql-async'
+	'esx_society'
 }
