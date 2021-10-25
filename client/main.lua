@@ -221,22 +221,22 @@ end
 
 function Zatamni(vozilo)
     local props = {
-    	windowTint      = 1,
-      	wheelColor      = 0,
-      	plateIndex      = 1
+    	windowTint = 1,
+      	wheelColor = 0,
+      	plateIndex = 1
     }
     ESX.Game.SetVehicleProperties(vozilo, props)
 end
 
 function Nabudzi(vozilo)
     local props = {
-      modArmor        = 4,
-      modXenon        = true,
-      modEngine       = 3,
-      modBrakes       = 2,
+      modArmor = 4,
+      modXenon = true,
+      modEngine = 3,
+      modBrakes = 2,
       modTransmission = 2,
-      modSuspension   = 3,
-      modTurbo        = true,
+      modSuspension = 3,
+      modTurbo = true,
     }
     ESX.Game.SetVehicleProperties(vozilo, props)
 end
@@ -789,9 +789,9 @@ CreateThread(function()
 				HasAlreadyEnteredMarker = false
 				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
 			end
-			if letSleep then wejtara = 5000 end
+			if letSleep then wejtara = 800 end
 		else
-			wejtara = 5000
+			wejtara = 800
 		end
 	end
 end)
@@ -896,9 +896,9 @@ CreateThread(function()
 				HasAlreadyEnteredMarker = false
 				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
 			end
-			if letSleep then wejtara = 5000 end
+			if letSleep then wejtara = 800 end
 		else
-			wejtara = 5000
+			wejtara = 800
 		end
 	end
 end)
@@ -920,7 +920,7 @@ end, false)
 -- Trenutna akcija za markere i key kontrole--
 CreateThread(function()
 	while true do
-		Wait(20)
+		Wait(15)
 		if CurrentAction and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
 			pokazi3dtinky(GetEntityCoords(PlayerPedId()), CurrentActionMsg, 250)
 			if IsControlPressed(0,38) then
@@ -948,7 +948,7 @@ CreateThread(function()
 				CurrentAction = nil
 			end
 		else
-			Wait(1000)
+			Wait(800)
 		end
 	end
 end)
