@@ -15,8 +15,6 @@ E::::::::::::::::::::ES::::::SSSSSS:::::SX:::::X       X:::::X     B::::::::::::
 E::::::::::::::::::::ES:::::::::::::::SS X:::::X       X:::::X     B::::::::::::::::BA:::::A                 A:::::A L::::::::::::::::::::::LK:::::::K    K:::::K A:::::A                 A:::::A N::::::N        N::::::N
 EEEEEEEEEEEEEEEEEEEEEE SSSSSSSSSSSSSSS   XXXXXXX       XXXXXXX     BBBBBBBBBBBBBBBBBAAAAAAA                   AAAAAAALLLLLLLLLLLLLLLLLLLLLLLLKKKKKKKKK    KKKKKKKAAAAAAA                   AAAAAAANNNNNNNN         NNNNNNN
 ]]
-
-
 local PlayerData, CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask, spawnedVehicles, levelTabela = {}, {}, {}, {}, {}, {}, {}, nil
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, Pretrazivan = false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
@@ -586,12 +584,11 @@ CreateThread(function()
 	local playerPed
 	local targetPed
 	while true do
-		Wait(5)
+		Wait(10)
 		if isHandcuffed then
 			playerPed = PlayerPedId()
 			if dragStatus.isDragged then
 				targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.CopId))
-				-- Odvezi ako je igrac u autu
 				if not IsPedSittingInAnyVehicle(targetPed) then
 					AttachEntityToEntity(playerPed, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
 				else
@@ -613,21 +610,22 @@ end)
 
 RegisterNetEvent('esxbalkan_mafije:staviUVozilo')
 AddEventHandler('esxbalkan_mafije:staviUVozilo', function()
-	local playerPed = PlayerPedId()
-	local coords = GetEntityCoords(playerPed)
-	if not isHandcuffed then return end
-	if IsAnyVehicleNearPoint(coords, 5.0) then
-		local vehicle = GetClosestVehicle(coords, 5.0, 0, 71)
-		if DoesEntityExist(vehicle) then
-			local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
-			for i=maxSeats - 1, 0, -1 do
-				if IsVehicleSeatFree(vehicle, i) then
-					freeSeat = i
+	if isHandcuffed then
+		local igrac = PlayerPedId()
+		local vozilo, udaljenost = ESX.Game.GetClosestVehicle()
+
+		if vozilo and udaljenost < 5 then
+			local max, slobodno = GetVehicleMaxNumberOfPassengers(vozilo)
+
+			for i=max - 1, 0, -1 do
+				if IsVehicleSeatFree(vozilo, i) then
+					slobodno = i
 					break
 				end
 			end
-			if freeSeat then
-				TaskWarpPedIntoVehicle(playerPed, vehicle, freeSeat)
+
+			if slobodno then
+				TaskWarpPedIntoVehicle(igrac, vozilo, slobodno)
 				dragStatus.isDragged = false
 			end
 		end
