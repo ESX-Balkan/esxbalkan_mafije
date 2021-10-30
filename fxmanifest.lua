@@ -3,7 +3,7 @@ game 'gta5'
 name 'esxbalkan_mafije'
 author 'ESX-Balkan'
 url 'https://github.com/ESX-Balkan/esxbalkan_mafije'
-version "1.9.3"
+version "2.0.0"
 use_fxv2_oal 'yes'
 lua54 'yes'
 
