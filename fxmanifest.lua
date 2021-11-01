@@ -20,7 +20,6 @@ server_scripts {
 client_script 'client/*'
 
 dependencies {
-	'/server:4500', -- potrebno je da bar imate recommended build za server 4500
 	'es_extended',
 	'esx_addonaccount',
 	'esx_addoninventory',
