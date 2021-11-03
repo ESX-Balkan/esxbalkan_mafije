@@ -118,21 +118,21 @@ function OpenArmoryMenu(station)
 			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
 			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
 			table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-			elseif levelTabela.stats.level == 3 then
-					table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-            		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-            		table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-            		table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-            		table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-            		table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
-        	end
-   	 else
-        	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-        	table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-        	table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-        	table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-        	table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-        	table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+		elseif levelTabela.stats.level == 3 then
+			table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+			table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+			table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+			table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+		end
+	else
+		table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+		table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+		table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+		table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+		table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
 	end
 
     ESX.UI.Menu.CloseAll()
@@ -205,15 +205,9 @@ StvoriVozilo = function(vozilo)
 			}
 			ESX.Game.SetVehicleProperties(veh, props)
 		end
-		if Config.Mafije[PlayerData.job.name]['Zatamni'] then
-			Zatamni(vozilo)
-		end
-		if Config.Mafije[PlayerData.job.name]['Nabudzi'] then
-			Nabudzi(vozilo)
-		end
-		if Config.Mafije[PlayerData.job.name]['Tablice'] then
-			Tablice(vozilo, Config.Mafije[PlayerData.job.name]['Tablice'])
-		end
+		if Config.Mafije[PlayerData.job.name]['Zatamni'] then Zatamni(vozilo) end
+		if Config.Mafije[PlayerData.job.name]['Nabudzi'] then Nabudzi(vozilo) end
+		if Config.Mafije[PlayerData.job.name]['Tablice'] then Tablice(vozilo, Config.Mafije[PlayerData.job.name]['Tablice']) end
 	end)
 end
 
@@ -324,21 +318,21 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
             end
         end,
         function(data, menu)
-            menu.close()
-        end
-    )
+			menu.close()
+		end
+	)
 end
 
 OtvoriBrodSpawnMenu = function(type, station, part, partNum)
     ESX.UI.Menu.CloseAll()
     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
-            title    = 'Izaberi Vozilo | 🚗',
-            elements = {
-            	{label = 'JetSkki | 🚗', value = 'fxho'},
+			title    = 'Izaberi Vozilo | 🚗',
+			elements = {
+				{label = 'JetSkki | 🚗', value = 'fxho'},
 		{label = 'Jahta | 🚗', value = 'seashark'},
-            }},function(data, menu)
-        	local playerPed = PlayerPedId()
-            if data.current.value == 'fxho' then
+			}},function(data, menu)
+			local playerPed = PlayerPedId()
+			if data.current.value == 'fxho' then
 				ESX.Game.SpawnVehicle("fxho", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
 					SetVehicleEngineOn(vehicle, true, true, false)
@@ -346,10 +340,10 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
 				SetVehicleDirtLevel(vehicle, 0.0)
-                		SetVehicleFuelLevel(vehicle, 100.0)
+				SetVehicleFuelLevel(vehicle, 100.0)
 				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
 				ESX.UI.Menu.CloseAll()
-            elseif data.current.value == 'seashark' then
+			elseif data.current.value == 'seashark' then
 				ESX.Game.SpawnVehicle("yacht2", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
 					SetVehicleEngineOn(vehicle, true, true, false)
@@ -357,14 +351,14 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
 				SetVehicleDirtLevel(vehicle, 0.0)
-               			SetVehicleFuelLevel(vehicle, 100.0)
+				SetVehicleFuelLevel(vehicle, 100.0)
 				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
 				ESX.UI.Menu.CloseAll()
-            end
-        end,
-        function(data, menu)
-            menu.close()
-        end)
+			end
+		end,
+		function(data, menu)
+		menu.close()
+	end)
 end
 
 OtvoriPosaoMenu = function()
@@ -648,7 +642,6 @@ CreateThread(function()
 	while true do
 		Wait(0)
 		local playerPed = PlayerPedId()
-
 		if isHandcuffed then
 			DisableControlAction(0, 1, true) -- Disable pan
 			DisableControlAction(0, 2, true) -- Disable tilt
@@ -696,9 +689,7 @@ CreateThread(function()
 		end
 	end
 end)
-if not Config.CheckPointovi then
 CreateThread(function()
-	Wait(1000)
 	local wejtara = 1000
 	while true do
 		Wait(wejtara)
@@ -717,12 +708,8 @@ CreateThread(function()
 						wejtara = 5
 						letSleep = false
 					end
-
-					if distance < Config.MarkerSize.x then
-						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
-					end
+					if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i end
 				end
-
 				for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
 					local distance = #(coords - Config.Mafije[jobName]['ParkirajAuto'][i])
 					local vehicle = GetVehiclePedIsIn(playerPed, false)
@@ -733,15 +720,10 @@ CreateThread(function()
 							DrawMarker(Config.MarkerTypes.VracanjeAuta, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
 						end
 					end
-
-					if distance < Config.MarkerAuto.x then
-						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i
-					end
+					if distance < Config.MarkerAuto.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i end
 				end
-
 				for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
 					local distance = #(coords - Config.Mafije[jobName]['Vehicles'][i])
-
 					if distance < Config.DrawDistance then
 						if not IsPedInAnyVehicle(playerPed, false) then
 							wejtara = 5
@@ -749,12 +731,8 @@ CreateThread(function()
 							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 						end
 					end
-
-					if distance < Config.MarkerSize.x then
-						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
-					end
+					if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i end
 				end
-
 				if PlayerData.job.grade_name == 'boss' then
 					for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
 						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
@@ -764,10 +742,7 @@ CreateThread(function()
 							DrawMarker(Config.MarkerTypes.BossMeni, Config.Mafije[jobName]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 							letSleep = false
 						end
-
-						if distance < Config.MarkerSize.x then
-							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i
-						end
+						if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i end
 					end
 				end
 			end
@@ -793,114 +768,6 @@ CreateThread(function()
 		end
 	end
 end)
-else
-CreateThread(function()
-	Wait(1000)
-	local wejtara = 1000
-	local tablica = {}
-	while true do
-		Wait(wejtara)
-		local jobName = PlayerData.job.name
-		if PlayerData.job and Config.Mafije[jobName] then
-			wejtara = 800
-			local playerPed = PlayerPedId()
-			local coords = GetEntityCoords(playerPed)
-			local isInMarker, hasExited, letSleep = false, false, true
-			local currentStation, currentPart, currentPartNum
-			for i = 1, #tablica do
-				DeleteCheckpoint(tablica[i])
-			end
-			for k,v in pairs(Config.Mafije[jobName]) do
-				for i=1, #Config.Mafije[jobName]['Armories'], 1 do
-					local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
-					if distance < Config.DrawDistance then
-						local armory = CreateCheckpoint(47,Config.Mafije[jobName]['Armories'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
-						SetCheckpointCylinderHeight(armory, 2.0, 2.0, 2.0)
-						table.insert(tablica, armory)
-						letSleep = false
-					end
-
-					if distance < Config.MarkerSize.x then
-						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
-					end
-				end
-
-				for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
-					local distance = #(coords - Config.Mafije[jobName]['ParkirajAuto'][i])
-					local vehicle = GetVehiclePedIsIn(playerPed, false)
-					if distance < Config.DrawDistance then
-						if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
-							local parkirajvozilo = CreateCheckpoint(47, Config.Mafije[jobName]['ParkirajAuto'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
-							SetCheckpointCylinderHeight(parkirajvozilo, 2.0, 2.0, 2.0)
-							table.insert(tablica, parkirajvozilo)
-							letSleep = false
-						end
-					end
-
-					if distance < Config.MarkerAuto.x then
-						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i
-					end
-				end
-
-				for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
-					local distance = #(coords - Config.Mafije[jobName]['Vehicles'][i])
-
-					if distance < Config.DrawDistance then
-						if not IsPedInAnyVehicle(playerPed, false) then
-							local vozila = CreateCheckpoint(47, Config.Mafije[jobName]['Vehicles'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
-							SetCheckpointCylinderHeight(vozila, 2.0, 2.0, 2.0)
-							table.insert(tablica, vozila)
-							letSleep = false
-						end
-					end
-
-					if distance < Config.MarkerSize.x then
-						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
-					end
-				end
-
-				if PlayerData.job.grade_name == 'boss' then
-					for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
-						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
-
-						if distance < Config.DrawDistance then
-							local bossmeni = CreateCheckpoint(47, Config.Mafije[jobName]['BossActions'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
-							SetCheckpointCylinderHeight(bossmeni, 2.0, 2.0, 2.0)
-							table.insert(tablica, bossmeni)
-							letSleep = false
-						end
-
-						if distance < Config.MarkerSize.x then
-							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i
-						end
-					end
-				end
-			end
-
-			if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
-				if (LastStation and LastPart and LastPartNum) and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum) then
-					TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
-					hasExited = true
-				end
-				HasAlreadyEnteredMarker = true
- 				LastStation = currentStation
-				LastPart = currentPart
-				LastPartNum  = currentPartNum
-
-				TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
-			end
-
-			if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
-				HasAlreadyEnteredMarker = false
-				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
-			end
-			if letSleep then wejtara = 800 end
-		else
-			wejtara = 800
-		end
-	end
-end)
-end
 
 RegisterKeyMapping('+mafijameni', 'Mafia meni', 'keyboard', 'F6')
 RegisterCommand('+mafijameni', function()
@@ -1224,4 +1091,3 @@ function OpenPutStocksMenu()
 		end)
 	end)
 end
-
