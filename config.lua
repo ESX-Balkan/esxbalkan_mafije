@@ -1,5 +1,4 @@
 Config  = {}
-Config.CheckPointovi = false -- Ukoliko zelite stalno 0.01ms :D i opsjednuti ste optimizacijom, # BETA JOS NIJE TESTIRANO DA VALJA!
 Config.DrawDistance = 20.0 -- 20 je savim dovoljno ne treb ni manje ni preko 20..
 Config.MarkerSize  = { x = 1.5, y = 1.5, z = 0.5 }
 Config.MarkerHelikopter   = { x = 6.0, y = 6.0, z = 2.5 }
