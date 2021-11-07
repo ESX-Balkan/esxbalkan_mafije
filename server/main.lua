@@ -127,11 +127,16 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 	if not targetXPlayer then return end
 	if not sourceXPlayer then return end
 
+    if targetXPlayer ~= _source then -- jedan fix :)
+
 	if itemType == 'item_standard' then
 		local targetItem = targetXPlayer.getInventoryItem(itemName)
 		local sourceItem = sourceXPlayer.getInventoryItem(itemName)
 		-- provera kolicine
 		if targetItem.count > 0 and targetItem.count <= amount then
+            if targetItem.count ~= amount then
+                sourceXPlayer.kick('Dobar pokusaj da glichas retarde :)') -- fix glich?
+            else
 			-- da li moze da nosi stvari
 			if Config.Limit then 
                 if (sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit) then
@@ -152,8 +157,9 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 				    TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
 				    TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
 				    sendToDiscord3('Oduzeti Item', sourceXPlayer.name ..' je oduzeo stvar: '.. sourceItem.label.. ' od igraca ' ..targetXPlayer.name.. ' kolicine: ' ..amount)
-                end
-		    end
+                    end
+		        end
+            end
         else
             TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
         end
@@ -189,7 +195,10 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 				TriggerClientEvent('esx:showNotification', _source, ('~y~Vec posjedujete to oruzije i ~r~imate kod sebe!'))
 			end
 		end
+    else
+        TriggerClientEvent('esx:showNotification', _source, ('~y~Ne mozes sam sebe pretraziti?'))
 	end
+end
 )
 
 RegisterNetEvent('esxbalkan_mafije:vezivanje')
