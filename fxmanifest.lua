@@ -19,6 +19,7 @@ server_scripts {
 client_script 'client/*'
 
 dependencies {
+	'/onesync',
 	'es_extended',
 	'esx_addonaccount',
 	'esx_addoninventory',
