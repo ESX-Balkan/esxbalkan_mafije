@@ -25,6 +25,14 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 CreateThread(function ()
     -- Provjeri jeli startane ove skripte:
+    while GetResourceState('esx_datastore') ~= 'started' do
+        Citizen.Wait(1000)
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_datastore nije startana na serveru!!! ili ste promjenili ime skripte?')
+    end
+    while GetResourceState('esx_addonaccount') ~= 'started' do
+        Citizen.Wait(1000)
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_addonaccount nije startana na serveru!!! ili ste promjenili ime skripte?')
+    end
     while GetResourceState('esx_addoninventory') ~= 'started' do
         Citizen.Wait(1000)
 	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_addoninventory nije startana na serveru!!! ili ste promjenili ime skripte?')
