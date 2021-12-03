@@ -1,3 +1,6 @@
+### UPOZERENJE: esxbalkan_mafije 2.0.1+ potrebno je da koristite server build 4837+. Inace skripta nece da radi kako treba!.
+
+
 # esxbalkan_mafije
 ESX Balkan Mafije verzija.
 
