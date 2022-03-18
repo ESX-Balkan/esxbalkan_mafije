@@ -15,6 +15,8 @@ E::::::::::::::::::::ES::::::SSSSSS:::::SX:::::X       X:::::X     B::::::::::::
 E::::::::::::::::::::ES:::::::::::::::SS X:::::X       X:::::X     B::::::::::::::::BA:::::A                 A:::::A L::::::::::::::::::::::LK:::::::K    K:::::K A:::::A                 A:::::A N::::::N        N::::::N
 EEEEEEEEEEEEEEEEEEEEEE SSSSSSSSSSSSSSS   XXXXXXX       XXXXXXX     BBBBBBBBBBBBBBBBBAAAAAAA                   AAAAAAALLLLLLLLLLLLLLLLLLLLLLLLKKKKKKKKK    KKKKKKKAAAAAAA                   AAAAAAANNNNNNNN         NNNNNNN
 ]]
+
+
 local PlayerData, CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask, spawnedVehicles, levelTabela = {}, {}, {}, {}, {}, {}, {}, nil
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, Pretrazivan = false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
@@ -57,7 +59,7 @@ end)
 
 getajLevel = function ()
 	if Config.Levelanje then
-		if Config.Mafije[PlayerData.job.name] then
+		if Config.Mafije[PlayerData.job.name] ~= nil then
 			ESX.TriggerServerCallback('esxbalkan_mafije:getLvL', function(data)
 				levelTabela = data 
 			end, PlayerData.job.name)
@@ -72,10 +74,10 @@ function LvL()
 			table.insert(elements, { label = 'Level 1 (25 000$)', value = 'lvl1' })		
 		elseif levelTabela.stats.level == 1 then 
 			table.insert(elements, { label = 'Level 2 (50 000$)', value = 'lvl2' })		
-			elseif levelTabela.stats.level == 2 then
-			table.insert(elements, { label = 'Level 3 (75 000$)', value = 'lvl3' })
-		end
-	end
+        	elseif levelTabela.stats.level == 2 then
+            		table.insert(elements, { label = 'Level 3 (75 000$)', value = 'lvl3' })
+       		 end
+    	end
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'lvl', {
 		title    = 'Odaberi level',
@@ -97,8 +99,8 @@ function LvL()
 		menu.close()
 		getajLevel()
 	end
-	end, function(data, menu)
-	menu.close()
+  end, function(data, menu)
+    menu.close()
 	end)
 end
 
@@ -108,31 +110,31 @@ function OpenArmoryMenu(station)
 	if PlayerData.job.grade_name == 'boss' and Config.Levelanje then table.insert(elements, {label = 'Levelanje Baze | 💼', value = 'level'}) end 
 	if Config.Levelanje then
 		if levelTabela.stats.level  == 1 then
-			table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-			table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+			--table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+			--table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
 			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
 			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
 		elseif levelTabela.stats.level == 2 then 
-			table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-			table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+			--table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+			--table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
 			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
 			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
 			table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-		elseif levelTabela.stats.level == 3 then
-			table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-			table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-			table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-			table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
-		end
-	else
-		table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-		table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-		table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-		table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-		table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+        	elseif levelTabela.stats.level == 3 then
+           	--	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+            --		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+            		table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+            		table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+            		--table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+            		table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+        	end
+   	 else
+        --	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+        --	table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+        	table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+        	table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+        	--table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+        	table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
 	end
 
     ESX.UI.Menu.CloseAll()
@@ -193,53 +195,13 @@ StvoriVozilo = function(vozilo)
 	ESX.Game.SpawnVehicle(vozilo, Config.Mafije[PlayerData.job.name]["Vehicles"][1], GetEntityHeading(ped), function(veh)
 		NetworkFadeInEntity(veh, true, true)
 		SetVehicleEngineOn(veh, true, true, false)
-		SetModelAsNoLongerNeeded(veh)
+		SetModelAsNoLongerNeeded(veh)  -- oslobodi memoryu :)
 		TaskWarpPedIntoVehicle(ped, veh, -1)
 		SetVehicleFuelLevel(veh, 100.0)
-		SetVehicleOilLevel(veh, 10.0)
+		SetVehicleOilLevel(veh, 10.0) -- eto da ima full ulje, ne znam jeli ovo ista znaci :)
 		DecorSetFloat(veh, "_FUEL_LEVEL", GetVehicleFuelLevel(veh))
-		if Config.Mafije[PlayerData.job.name]['Boja'] then -- Boja vozila, imate u config.lua!
-			local props = {
-				color1 = Config.Mafije[PlayerData.job.name]['Boja'],
-				color2 = Config.Mafije[PlayerData.job.name]['Boja'],
-			}
-			ESX.Game.SetVehicleProperties(veh, props)
-		end
-		if Config.Mafije[PlayerData.job.name]['Zatamni'] then Zatamni(vozilo) end
-		if Config.Mafije[PlayerData.job.name]['Nabudzi'] then Nabudzi(vozilo) end
-		if Config.Mafije[PlayerData.job.name]['Tablice'] then Tablice(vozilo, Config.Mafije[PlayerData.job.name]['Tablice']) end
 	end)
 end
-
-function Zatamni(vozilo)
-    local props = {
-    	windowTint = 1,
-      	wheelColor = 0,
-      	plateIndex = 1
-    }
-    ESX.Game.SetVehicleProperties(vozilo, props)
-end
-
-function Nabudzi(vozilo)
-    local props = {
-      modArmor = 4,
-      modXenon = true,
-      modEngine = 3,
-      modBrakes = 2,
-      modTransmission = 2,
-      modSuspension = 3,
-      modTurbo = true,
-    }
-    ESX.Game.SetVehicleProperties(vozilo, props)
-end
-
-function Tablice(vozilo, tablice)
-    local props = {
-		plate = tablice,
-    }
-    ESX.Game.SetVehicleProperties(vozilo, props)
-end
-
 
 ObrisiVozilo = function()
 	local playerPed = PlayerPedId()
@@ -318,21 +280,21 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
             end
         end,
         function(data, menu)
-			menu.close()
-		end
-	)
+            menu.close()
+        end
+    )
 end
 
 OtvoriBrodSpawnMenu = function(type, station, part, partNum)
     ESX.UI.Menu.CloseAll()
     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
-			title    = 'Izaberi Vozilo | 🚗',
-			elements = {
-				{label = 'JetSkki | 🚗', value = 'fxho'},
+            title    = 'Izaberi Vozilo | 🚗',
+            elements = {
+            	{label = 'JetSkki | 🚗', value = 'fxho'},
 		{label = 'Jahta | 🚗', value = 'seashark'},
-			}},function(data, menu)
-			local playerPed = PlayerPedId()
-			if data.current.value == 'fxho' then
+            }},function(data, menu)
+        	local playerPed = PlayerPedId()
+            if data.current.value == 'fxho' then
 				ESX.Game.SpawnVehicle("fxho", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
 					SetVehicleEngineOn(vehicle, true, true, false)
@@ -340,10 +302,10 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
 				SetVehicleDirtLevel(vehicle, 0.0)
-				SetVehicleFuelLevel(vehicle, 100.0)
+                		SetVehicleFuelLevel(vehicle, 100.0)
 				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
 				ESX.UI.Menu.CloseAll()
-			elseif data.current.value == 'seashark' then
+            elseif data.current.value == 'seashark' then
 				ESX.Game.SpawnVehicle("yacht2", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
 					SetVehicleEngineOn(vehicle, true, true, false)
@@ -351,14 +313,14 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
 				SetVehicleDirtLevel(vehicle, 0.0)
-				SetVehicleFuelLevel(vehicle, 100.0)
+               			SetVehicleFuelLevel(vehicle, 100.0)
 				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
 				ESX.UI.Menu.CloseAll()
-			end
-		end,
-		function(data, menu)
-		menu.close()
-	end)
+            end
+        end,
+        function(data, menu)
+            menu.close()
+        end)
 end
 
 OtvoriPosaoMenu = function()
@@ -435,16 +397,16 @@ PretrazivanjeIgraca = function(player)
 			end
 		end
 
-		table.insert(elements, {label = _U('guns_label')})
+		-- table.insert(elements, {label = _U('guns_label')})
 
-		for i=1, #data.weapons, 1 do
-			table.insert(elements, {
-				label = _U('confiscate_weapon', ESX.GetWeaponLabel(data.weapons[i].name), data.weapons[i].ammo),
-				value = data.weapons[i].name,
-				itemType = 'item_weapon',
-				amount = data.weapons[i].ammo
-			})
-		end
+		-- for i=1, #data.weapons, 1 do
+		-- 	table.insert(elements, {
+		-- 		label = _U('confiscate_weapon', ESX.GetWeaponLabel(data.weapons[i].name), data.weapons[i].ammo),
+		-- 		value = data.weapons[i].name,
+		-- 		itemType = 'item_weapon',
+		-- 		amount = data.weapons[i].ammo
+		-- 	})
+		-- end
 
 		table.insert(elements, {label = _U('inventory_label')})
 
@@ -578,11 +540,12 @@ CreateThread(function()
 	local playerPed
 	local targetPed
 	while true do
-		Wait(10)
+		Wait(5)
 		if isHandcuffed then
 			playerPed = PlayerPedId()
 			if dragStatus.isDragged then
 				targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.CopId))
+				-- Odvezi ako je igrac u autu
 				if not IsPedSittingInAnyVehicle(targetPed) then
 					AttachEntityToEntity(playerPed, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
 				else
@@ -604,22 +567,21 @@ end)
 
 RegisterNetEvent('esxbalkan_mafije:staviUVozilo')
 AddEventHandler('esxbalkan_mafije:staviUVozilo', function()
-	if isHandcuffed then
-		local igrac = PlayerPedId()
-		local vozilo, udaljenost = ESX.Game.GetClosestVehicle()
-
-		if vozilo and udaljenost < 5 then
-			local max, slobodno = GetVehicleMaxNumberOfPassengers(vozilo)
-
-			for i=max - 1, 0, -1 do
-				if IsVehicleSeatFree(vozilo, i) then
-					slobodno = i
+	local playerPed = PlayerPedId()
+	local coords = GetEntityCoords(playerPed)
+	if not isHandcuffed then return end
+	if IsAnyVehicleNearPoint(coords, 5.0) then
+		local vehicle = GetClosestVehicle(coords, 5.0, 0, 71)
+		if DoesEntityExist(vehicle) then
+			local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
+			for i=maxSeats - 1, 0, -1 do
+				if IsVehicleSeatFree(vehicle, i) then
+					freeSeat = i
 					break
 				end
 			end
-
-			if slobodno then
-				TaskWarpPedIntoVehicle(igrac, vozilo, slobodno)
+			if freeSeat then
+				TaskWarpPedIntoVehicle(playerPed, vehicle, freeSeat)
 				dragStatus.isDragged = false
 			end
 		end
@@ -642,6 +604,7 @@ CreateThread(function()
 	while true do
 		Wait(0)
 		local playerPed = PlayerPedId()
+
 		if isHandcuffed then
 			DisableControlAction(0, 1, true) -- Disable pan
 			DisableControlAction(0, 2, true) -- Disable tilt
@@ -689,8 +652,11 @@ CreateThread(function()
 		end
 	end
 end)
+if not Config.CheckPointovi then
 CreateThread(function()
+	Wait(1000)
 	local wejtara = 1000
+	print("esxbalkan_mafije: Skripta je uspjesno loadovana i ucitana bez errora..")
 	while true do
 		Wait(wejtara)
 		local jobName = PlayerData.job.name
@@ -708,8 +674,12 @@ CreateThread(function()
 						wejtara = 5
 						letSleep = false
 					end
-					if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i end
+
+					if distance < Config.MarkerSize.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
+					end
 				end
+
 				for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
 					local distance = #(coords - Config.Mafije[jobName]['ParkirajAuto'][i])
 					local vehicle = GetVehiclePedIsIn(playerPed, false)
@@ -720,10 +690,15 @@ CreateThread(function()
 							DrawMarker(Config.MarkerTypes.VracanjeAuta, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
 						end
 					end
-					if distance < Config.MarkerAuto.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i end
+
+					if distance < Config.MarkerAuto.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i
+					end
 				end
+
 				for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
 					local distance = #(coords - Config.Mafije[jobName]['Vehicles'][i])
+
 					if distance < Config.DrawDistance then
 						if not IsPedInAnyVehicle(playerPed, false) then
 							wejtara = 5
@@ -731,8 +706,12 @@ CreateThread(function()
 							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 						end
 					end
-					if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i end
+
+					if distance < Config.MarkerSize.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
+					end
 				end
+
 				if PlayerData.job.grade_name == 'boss' then
 					for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
 						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
@@ -742,7 +721,10 @@ CreateThread(function()
 							DrawMarker(Config.MarkerTypes.BossMeni, Config.Mafije[jobName]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 							letSleep = false
 						end
-						if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i end
+
+						if distance < Config.MarkerSize.x then
+							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i
+						end
 					end
 				end
 			end
@@ -762,12 +744,121 @@ CreateThread(function()
 				HasAlreadyEnteredMarker = false
 				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
 			end
-			if letSleep then wejtara = 800 end
+			if letSleep then wejtara = 5000 end
 		else
-			wejtara = 800
+			wejtara = 5000
 		end
 	end
 end)
+else
+CreateThread(function()
+	Wait(1000)
+	local wejtara = 1000
+	print("esxbalkan_mafije: Skripta je uspjesno loadovana i ucitana bez errora..")
+	local tablica = {}
+	while true do
+		Wait(wejtara)
+		local jobName = PlayerData.job.name
+		if PlayerData.job and Config.Mafije[jobName] then
+			wejtara = 800
+			local playerPed = PlayerPedId()
+			local coords = GetEntityCoords(playerPed)
+			local isInMarker, hasExited, letSleep = false, false, true
+			local currentStation, currentPart, currentPartNum
+			for i = 1, #tablica do
+				DeleteCheckpoint(tablica[i])
+			end
+			for k,v in pairs(Config.Mafije[jobName]) do
+				for i=1, #Config.Mafije[jobName]['Armories'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
+					if distance < Config.DrawDistance then
+						local armory = CreateCheckpoint(47,Config.Mafije[jobName]['Armories'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
+						SetCheckpointCylinderHeight(armory, 2.0, 2.0, 2.0)
+						table.insert(tablica, armory)
+						letSleep = false
+					end
+
+					if distance < Config.MarkerSize.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
+					end
+				end
+
+				for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['ParkirajAuto'][i])
+					local vehicle = GetVehiclePedIsIn(playerPed, false)
+					if distance < Config.DrawDistance then
+						if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
+							local parkirajvozilo = CreateCheckpoint(47, Config.Mafije[jobName]['ParkirajAuto'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
+							SetCheckpointCylinderHeight(parkirajvozilo, 2.0, 2.0, 2.0)
+							table.insert(tablica, parkirajvozilo)
+							letSleep = false
+						end
+					end
+
+					if distance < Config.MarkerAuto.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i
+					end
+				end
+
+				for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Vehicles'][i])
+
+					if distance < Config.DrawDistance then
+						if not IsPedInAnyVehicle(playerPed, false) then
+							local vozila = CreateCheckpoint(47, Config.Mafije[jobName]['Vehicles'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
+							SetCheckpointCylinderHeight(vozila, 2.0, 2.0, 2.0)
+							table.insert(tablica, vozila)
+							letSleep = false
+						end
+					end
+
+					if distance < Config.MarkerSize.x then
+						isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
+					end
+				end
+
+				if PlayerData.job.grade_name == 'boss' then
+					for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
+						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
+
+						if distance < Config.DrawDistance then
+							local bossmeni = CreateCheckpoint(47, Config.Mafije[jobName]['BossActions'][i] - 1, v, 2.0, 0, 0, 255, 200, 0)
+							SetCheckpointCylinderHeight(bossmeni, 2.0, 2.0, 2.0)
+							table.insert(tablica, bossmeni)
+							letSleep = false
+						end
+
+						if distance < Config.MarkerSize.x then
+							isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i
+						end
+					end
+				end
+			end
+
+			if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
+				if (LastStation and LastPart and LastPartNum) and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum) then
+					TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+					hasExited = true
+				end
+				HasAlreadyEnteredMarker = true
+ 				LastStation = currentStation
+				LastPart = currentPart
+				LastPartNum  = currentPartNum
+
+				TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
+			end
+
+			if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
+				HasAlreadyEnteredMarker = false
+				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+			end
+			if letSleep then wejtara = 5000 end
+		else
+			wejtara = 5000
+		end
+	end
+end)
+end
 
 RegisterKeyMapping('+mafijameni', 'Mafia meni', 'keyboard', 'F6')
 RegisterCommand('+mafijameni', function()
@@ -779,13 +870,13 @@ RegisterCommand('+mafijameni', function()
 end, false)
 
 RegisterCommand('-mafijameni', function()
-	-- ovo nemojte dirati!
+	-- ovo mora biti prazno!
 end, false)
 
 -- Trenutna akcija za markere i key kontrole--
 CreateThread(function()
 	while true do
-		Wait(15)
+		Wait(20)
 		if CurrentAction and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
 			pokazi3dtinky(GetEntityCoords(PlayerPedId()), CurrentActionMsg, 250)
 			if IsControlPressed(0,38) then
@@ -803,22 +894,39 @@ CreateThread(function()
 					OtvoriBrodSpawnMenu('car', CurrentActionData.station, CurrentActionData.part, CurrentActionData.partNum)
 				elseif CurrentAction == 'menu_boss_actions' then
 					ESX.UI.Menu.CloseAll()
-					TriggerEvent('esx_society:openBossMenu', PlayerData.job.name, function(data, menu)
-					menu.close()
-					CurrentAction  = 'menu_boss_actions'
-					CurrentActionMsg  = _U('open_bossmenu')
-					CurrentActionData = {}
-					end, { wash = Config.UkljuciPranje })
+					if Config.KoristiNUI == true then
+					    SetNuiFocus(true, true)
+							ESX.TriggerServerCallback('begijanes', function(data)
+							
+							SendNUIMessage({type = 'open', 
+							organizacija = PlayerData.job.label, 
+							organizacijarank = PlayerData.job.grade_label, 
+							pareKes = data.cash, 
+							pareFirma = data.society, 
+							pareBanka = data.bank,
+							radnici = elementi, 
+							imeRadnika = identifier,
+							radnicirank = PlayerData.job.grade_label,
+							})
+						end)
+				    else
+						TriggerEvent('esx_society:openBossMenu', PlayerData.job.name, function(data, menu)
+							menu.close()
+							CurrentAction  = 'menu_boss_actions'
+							CurrentActionMsg  = _U('open_bossmenu')
+							CurrentActionData = {}
+							end, { wash = Config.UkljuciPranje })
+					end
 				end
-				CurrentAction = nil
+				CurrentAction = nil		
 			end
 		else
-			Wait(800)
+			Wait(1000)
 		end
 	end
 end)
 
-pokazi3dtinky = function(pos, text, boja)
+pokazi3dtinky = function(pos, text)
 	local pocni = text
     local pocetak, kraj = string.find(text, '~([^~]+)~')
     if pocetak then
@@ -831,177 +939,180 @@ pokazi3dtinky = function(pos, text, boja)
     BeginTextCommandDisplayHelp(GetCurrentResourceName())
     EndTextCommandDisplayHelp(2, false, false, -1)
     SetFloatingHelpTextWorldPosition(1, pos + vector3(0.0, 0.0, 1.0))
-    SetFloatingHelpTextStyle(1, 1, boja, -1, 3, 0)
+    SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 0)
 end
 AddEventHandler('playerSpawned', function(spawn) isDead = false end)
 AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
-AddEventHandler('onResourceStop', function(resource) if resource == GetCurrentResourceName() then TriggerEvent('esxbalkan_mafije:odvezivanje') end end)
-function OpenGetWeaponMenu()
-	ESX.TriggerServerCallback('esxbalkan_mafije:dbGettajPuske', function(weapons)
-		local elements = {}
-		for i=1, #weapons, 1 do
-			if weapons[i].count > 0 then
-				table.insert(elements, {
-					label = 'x' .. weapons[i].count .. ' ' .. ESX.GetWeaponLabel(weapons[i].name),
-					value = weapons[i].name
-				})
-			end
-		end
-		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_get_weapon', {
-			title = 'Uzmi oružje',
-			align  = 'top-left',
-			elements = elements
-		}, function(data, menu)
-			local oruzije = data.current.value
-			if oruzije then
-				menu.close()
-				ESX.TriggerServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function()
-			        OpenGetWeaponMenu()
-				end, data.current.value)
-			end
-		end, function(data, menu)
-			menu.close()
-		end)
-	end)
-end
+---------------------------------------------------
+-- /////////////////////////////////////////////////
+--		FUNCKIJE OD POLICEJOBA ZA ARMORYA -
+-- ////////////////////////////////////////////////
+-- function OpenGetWeaponMenu()
+-- 	ESX.TriggerServerCallback('esxbalkan_mafije:dbGettajPuske', function(weapons)
+-- 		local elements = {}
+-- 		for i=1, #weapons, 1 do
+-- 			if weapons[i].count > 0 then
+-- 				table.insert(elements, {
+-- 					label = 'x' .. weapons[i].count .. ' ' .. ESX.GetWeaponLabel(weapons[i].name),
+-- 					value = weapons[i].name
+-- 				})
+-- 			end
+-- 		end
+-- 		ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_get_weapon', {
+-- 			title = 'Uzmi oružje',
+-- 			align  = 'top-left',
+-- 			elements = elements
+-- 		}, function(data, menu)
+-- 			local oruzije = data.current.value
+-- 			if oruzije then
+-- 				menu.close()
+-- 				ESX.TriggerServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function()
+-- 			        OpenGetWeaponMenu()
+-- 				end, data.current.value)
+-- 			end
+-- 		end, function(data, menu)
+-- 			menu.close()
+-- 		end)
+-- 	end)
+-- end
 
-function OpenPutWeaponMenu()
-	local elements = {}
-	local playerPed  = PlayerPedId()
-	local weaponList = ESX.GetWeaponList()
-	for i=1, #weaponList, 1 do
-		local weaponHash = GetHashKey(weaponList[i].name)
-		if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= 'WEAPON_UNARMED' then
-			table.insert(elements, {
-				label = weaponList[i].label,
-				value = weaponList[i].name
-			})
-		end
-	end
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_put_weapon', {
-		title = 'Ostavi oružje',
-		align  = 'top-left',
-		elements = elements
-	}, function(data, menu)
-		menu.close()
-		ESX.TriggerServerCallback('esxbalkan_mafije:staviUoruzarnicu', function()
-			OpenPutWeaponMenu()
-		end, data.current.value, true)
-	end, function(data, menu)
-		menu.close()
-	end)
-end
+-- function OpenPutWeaponMenu()
+-- 	local elements = {}
+-- 	local playerPed  = PlayerPedId()
+-- 	local weaponList = ESX.GetWeaponList()
+-- 	for i=1, #weaponList, 1 do
+-- 		local weaponHash = GetHashKey(weaponList[i].name)
+-- 		if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= 'WEAPON_UNARMED' then
+-- 			table.insert(elements, {
+-- 				label = weaponList[i].label,
+-- 				value = weaponList[i].name
+-- 			})
+-- 		end
+-- 	end
+-- 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_put_weapon', {
+-- 		title = 'Ostavi oružje',
+-- 		align  = 'top-left',
+-- 		elements = elements
+-- 	}, function(data, menu)
+-- 		menu.close()
+-- 		ESX.TriggerServerCallback('esxbalkan_mafije:staviUoruzarnicu', function()
+-- 			OpenPutWeaponMenu()
+-- 		end, data.current.value, true)
+-- 	end, function(data, menu)
+-- 		menu.close()
+-- 	end)
+-- end
 
-function OpenBuyWeaponsMenu()
-	local elements = {}
-	local playerPed = PlayerPedId()
-	for k,v in pairs(Config.Oruzje[PlayerData.job.grade_name]) do
-		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
-		local components, label = {}
-		local hasWeapon = HasPedGotWeapon(playerPed, GetHashKey(v.weapon), false)
-		if v.components then
-			for i=1, #v.components do
-				if v.components[i] then
-					local component = weapon.components[i]
-					local hasComponent = HasPedGotWeaponComponent(playerPed, GetHashKey(v.weapon), component.hash)
-					if hasComponent then
-						label = ('%s: <span style="color:green;">%s</span>'):format(component.label, 'Već imaš taj dodatak')
-					else
-						if v.components[i] > 0 then
-							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, '$'..ESX.Math.GroupDigits(v.components[i]))
-						else
-							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, 'Besplatno!')
-						end
-					end
+-- function OpenBuyWeaponsMenu()
+-- 	local elements = {}
+-- 	local playerPed = PlayerPedId()
+-- 	for k,v in pairs(Config.Oruzje[PlayerData.job.grade_name]) do
+-- 		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
+-- 		local components, label = {}
+-- 		local hasWeapon = HasPedGotWeapon(playerPed, GetHashKey(v.weapon), false)
+-- 		if v.components then
+-- 			for i=1, #v.components do
+-- 				if v.components[i] then
+-- 					local component = weapon.components[i]
+-- 					local hasComponent = HasPedGotWeaponComponent(playerPed, GetHashKey(v.weapon), component.hash)
+-- 					if hasComponent then
+-- 						label = ('%s: <span style="color:green;">%s</span>'):format(component.label, 'Već imaš taj dodatak')
+-- 					else
+-- 						if v.components[i] > 0 then
+-- 							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, '$'..ESX.Math.GroupDigits(v.components[i]))
+-- 						else
+-- 							label = ('%s: <span style="color:green;">%s</span>'):format(component.label, 'Besplatno!')
+-- 						end
+-- 					end
 
-					table.insert(components, {
-						label = label,
-						componentLabel = component.label,
-						hash = component.hash,
-						name = component.name,
-						price = v.components[i],
-						hasComponent = hasComponent,
-						componentNum = i
-					})
-				end
-			end
-		end
+-- 					table.insert(components, {
+-- 						label = label,
+-- 						componentLabel = component.label,
+-- 						hash = component.hash,
+-- 						name = component.name,
+-- 						price = v.components[i],
+-- 						hasComponent = hasComponent,
+-- 						componentNum = i
+-- 					})
+-- 				end
+-- 			end
+-- 		end
 
-		if hasWeapon and v.components then
-			label = ('%s: <span style="color:green;">></span>'):format(weapon.label)
-		elseif hasWeapon and not v.components then
-			label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, 'Već imaš tu pušku!')
-		else
-			if v.price > 0 then
-				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, "$"..ESX.Math.GroupDigits(v.price))
-			else
-				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, 'Besplatno!')
-			end
-		end
+-- 		if hasWeapon and v.components then
+-- 			label = ('%s: <span style="color:green;">></span>'):format(weapon.label)
+-- 		elseif hasWeapon and not v.components then
+-- 			label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, 'Već imaš tu pušku!')
+-- 		else
+-- 			if v.price > 0 then
+-- 				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, "$"..ESX.Math.GroupDigits(v.price))
+-- 			else
+-- 				label = ('%s: <span style="color:green;">%s</span>'):format(weapon.label, 'Besplatno!')
+-- 			end
+-- 		end
 		
-		table.insert(elements, {
-			label = label,
-			weaponLabel = weapon.label,
-			name = weapon.name,
-			components = components,
-			price = v.price,
-			hasWeapon = hasWeapon
-		})
-	end
+-- 		table.insert(elements, {
+-- 			label = label,
+-- 			weaponLabel = weapon.label,
+-- 			name = weapon.name,
+-- 			components = components,
+-- 			price = v.price,
+-- 			hasWeapon = hasWeapon
+-- 		})
+-- 	end
 
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons', {
-		title  = 'Oružarnica',
-		align = 'top-left',
-		elements = elements
-	}, function(data, menu)
-		if data.current.hasWeapon then
-			if #data.current.components > 0 then
-				OpenWeaponComponentShop(data.current.components, data.current.name, menu)
-			end
-		else
-			ESX.TriggerServerCallback('esxbalkan_mafije:kupiOruzje', function(bought)
-				if bought then
-					if data.current.price > 0 then
-						ESX.ShowNotification('Kupio si ' ..  data.current.weaponLabel .. ' za ~g~$' .. ESX.Math.GroupDigits(data.current.price))
-					end
-					menu.close()
-					OpenBuyWeaponsMenu()
-				else
-					ESX.ShowNotification(_U('armory_money'))
-				end
-			end, data.current.name, 1)
-		end
-	end, function(data, menu)
-		menu.close()
-	end)
-end
+-- 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons', {
+-- 		title  = 'Oružarnica',
+-- 		align = 'top-left',
+-- 		elements = elements
+-- 	}, function(data, menu)
+-- 		if data.current.hasWeapon then
+-- 			if #data.current.components > 0 then
+-- 				OpenWeaponComponentShop(data.current.components, data.current.name, menu)
+-- 			end
+-- 		else
+-- 			ESX.TriggerServerCallback('esxbalkan_mafije:kupiOruzje', function(bought)
+-- 				if bought then
+-- 					if data.current.price > 0 then
+-- 						ESX.ShowNotification('Kupio si ' ..  data.current.weaponLabel .. ' za ~g~$' .. ESX.Math.GroupDigits(data.current.price))
+-- 					end
+-- 					menu.close()
+-- 					OpenBuyWeaponsMenu()
+-- 				else
+-- 					ESX.ShowNotification(_U('armory_money'))
+-- 				end
+-- 			end, data.current.name, 1)
+-- 		end
+-- 	end, function(data, menu)
+-- 		menu.close()
+-- 	end)
+-- end
 
-function OpenWeaponComponentShop(components, weaponName, parentShop)
-	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons_components', {
-		title = _U('armory_componenttitle'),
-		align = 'top-left',
-		elements = components
-	}, function(data, menu)
-		if data.current.hasComponent then
-			ESX.ShowNotification(_U('armory_hascomponent'))
-		else
-			ESX.TriggerServerCallback('esxbalkan_mafije:kupiOruzje', function(bought)
-				if bought then
-					if data.current.price > 0 then
-						ESX.ShowNotification('Kupio si ' ..  data.current.componentLabel .. ' za ~g~$' .. ESX.Math.GroupDigits(data.current.price))
-					end
-					menu.close()
-					parentShop.close()
-					OpenBuyWeaponsMenu()
-				else
-					ESX.ShowNotification(_U('armory_money'))
-				end
-			end, weaponName, 2, data.current.componentNum)
-		end
-	end, function(data, menu)
-		menu.close()
-	end)
-end
+-- function OpenWeaponComponentShop(components, weaponName, parentShop)
+-- 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons_components', {
+-- 		title = _U('armory_componenttitle'),
+-- 		align = 'top-left',
+-- 		elements = components
+-- 	}, function(data, menu)
+-- 		if data.current.hasComponent then
+-- 			ESX.ShowNotification(_U('armory_hascomponent'))
+-- 		else
+-- 			ESX.TriggerServerCallback('esxbalkan_mafije:kupiOruzje', function(bought)
+-- 				if bought then
+-- 					if data.current.price > 0 then
+-- 						ESX.ShowNotification('Kupio si ' ..  data.current.componentLabel .. ' za ~g~$' .. ESX.Math.GroupDigits(data.current.price))
+-- 					end
+-- 					menu.close()
+-- 					parentShop.close()
+-- 					OpenBuyWeaponsMenu()
+-- 				else
+-- 					ESX.ShowNotification(_U('armory_money'))
+-- 				end
+-- 			end, weaponName, 2, data.current.componentNum)
+-- 		end
+-- 	end, function(data, menu)
+-- 		menu.close()
+-- 	end)
+-- end
 
 function OpenGetStocksMenu()
 	ESX.TriggerServerCallback('esxbalkan_mafije:getajsveiteme', function(items)
@@ -1011,7 +1122,7 @@ function OpenGetStocksMenu()
 			local item = items[i]
 			if item.count > 0 then
 				table.insert(elements, {
-					label = 'x' .. items[i].count .. ' ' .. items[i].label,
+					label = 'x' .. items[i].count .. ' ' .. items[i].name,
 					value = items[i].name
 				})
 			end
@@ -1091,3 +1202,106 @@ function OpenPutStocksMenu()
 		end)
 	end)
 end
+
+
+RegisterNUICallback("zatvori", function(data)
+    SetNuiFocus(false, false)
+    print("zatvorio")
+end)
+
+function refresh()
+	ESX.TriggerServerCallback('begijanes', function(data)
+		SendNUIMessage({type = 'open', 
+		organizacija = ESX.PlayerData.job.label, 
+		organizacijarank = ESX.PlayerData.job.grade_label,
+		pareKes = data.cash, 
+		pareFirma = data.society, 
+		pareBanka = data.bank,
+		})
+	end)
+end
+
+
+RegisterNUICallback("unaprijediClana", function(data)
+	local ident = data.identifier
+	local grade = tonumber(data.nowGrade)
+	TriggerServerEvent("esx_society:unaprijediClana", data.identifier, grade)
+end)
+
+
+RegisterNUICallback("degradirajClana", function(data)
+	local ident = data.identifier
+	local nowGrade = tonumber(data.nowGrade)
+    TriggerServerEvent("esx_society:downgradexd", ident, nowGrade)
+end)
+
+RegisterNUICallback("otkaz", function(data)
+	local ident = data.identifier
+	TriggerServerEvent("esx_society:otpustiClana", ident)
+end)
+
+
+
+
+RegisterNUICallback("stavinovac", function(data)
+	pare = tonumber(data.kolicinastavljanja)
+	if pare == nil then
+		ESX.ShowNotification("Niste unijeli kolicinu")
+	else
+		TriggerServerEvent('esx_society:depositMoney', PlayerData.job.name, pare)
+		refresh()
+	end
+end)
+
+RegisterNUICallback("izvadinovac", function(data)
+	kolicinavadjenja = tonumber(data.kolicinavadjenja)
+	if kolicinavadjenja == nil then
+		ESX.ShowNotification("Niste unijeli kolicinu")
+	else
+		TriggerServerEvent('esx_society:withdrawMoney', PlayerData.job.name, kolicinavadjenja)
+		refresh()
+	end
+end)
+
+
+RegisterNUICallback("listaclanovaopn", function(data)
+
+	ESX.TriggerServerCallback('esx_society:getEmployees', function(employees)
+
+		for i=1, #employees, 1 do
+			local gradeLabel = (employees[i].job.grade_label == '' and employees[i].job.label or employees[i].job.grade_label)
+
+			SendNUIMessage({type = 'listazaposlenih', 
+			firstname = employees[i].name,
+			lastname = employees[i].lastname,
+            grade_label = gradeLabel,
+			rod = employees[i].rod,
+			rank_label = employees[i].job.grade_label,
+			employeescount = #employees,
+			identifier = employees[i].identifier,
+			grade_number = employees[i].job.grade,
+			brojtelefona = employees[i].brojtelefona,
+			})
+		end
+	end, PlayerData.job.name)
+end)
+
+
+
+RegisterNUICallback("zaposliIgraca", function(data)
+	id = tonumber(data.id)
+	if id == nil then
+		ESX.ShowNotification("Nisi unio ID")
+	else
+		ESX.TriggerServerCallback('esx_society:setJobById', function()
+		   end, id, PlayerData.job.name, 0) --id, job, rank
+		   Core.SaveAll()
+	end
+end)
+
+AddEventHandler('onResourceStop', function(resource)
+	if resource == GetCurrentResourceName() then 
+	TriggerEvent('esxbalkan_mafije:odvezivanje')
+	SetNuiFocus(false, false)
+	end
+end)
