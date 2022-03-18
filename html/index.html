@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizacija Menu</title>
+    <script src="https://kit.fontawesome.com/2c6d98e4c3.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="html/jos-neki-js.js" type="text/javascript"></script>
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <script src="app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Poppins:wght@900&family=Spline+Sans:wght@700&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/2c6d98e4c3.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="naslovxd">ORGANIZACIJA MENU</h1>
+        <div class="akcijenekexd">
+            <a class="akcijenaslov">Akcije</a>
+            <div class="buttoni">
+              <button class="listaclanovabtn" onclick="otvorilistuclanova()"><i class="fa fa-users"></i> | LISTA ČLANOVA</button>
+              <button class="zaposljavanjeclanovabtn" onclick="zaposliclana()"><i class="fa fa-search"></i> | ZAPOŠLJAVANJE ČLANOVA</button>
+              <button class="stavinovacbtn" onclick="OtvoriMenuZaStavljanjePara()" id="amountzastavljanje"><i class="fa fa-money"></i> | STAVI NOVAC</button>
+              <button class="izvadinovacbtn" onclick="OtvoriMenuZaVadjenjePara()"><i class="fa fa-money"></i> | IZVADI NOVAC</button>
+            </div>
+        </div>
+        <img src="delete.png" class="izlazakbtn" onclick="zatvoriglavno()">
+
+
+        <div class="blog-card spring-fever">
+            <div class="title-content">
+              <h3>INFORMACIJE</h3>
+              <hr/>
+              <div class="intro" id="intro">job</div>
+            </div>
+            <div class="gradient-overlay"></div>
+            <div class="color-overlay"></div>
+          </div>
+        <div class="begipare">
+            <div class="cashKodNjeg" id="cashKodNjeg">12,412$ <br>NOVAC U VASEM DZEPU!</div>
+            <br>
+            <div class="pareOdFirme" id="pareOdFirme">312,988$ <br>NOVAC U SEFU FIRME!</div>
+            <br>
+            <div class="pareBankica" id="pareBankica">0$ <br>NOVAC U VASOJ BANCI!</div>
+          </div>
+    </div>
+
+
+
+    <div class = "zaposljavanje_div">
+      <h1 class="naslovZaposljavanja"><i class="fas fa-user-alt"></i> | ZAPOSLJAVANJE</h1>
+      <img src="back.png" class="izlazakbtn" onclick="zatvorizaposljavanje()">
+      <input placeholder="Upisite ID igraca" type = "number" id="idigraca" class="kolicinastavljanja"></input>
+      <a class="zaposljavanjetxt">Unesite ID igraca kojeg zelite zaposliti u vasu organizaciju</a>
+      <button class="zaposlibuttonclass" onclick="zaposliigraca()" ><i class="fas fa-user-alt"></i> | Zaposli</button>
+    </div>
+
+
+<div class="stavljanjepara">
+  <img src="back.png" onclick="zatvoristavljanje()" class="zatvoristavljanje">
+  <button class="stavinovac" onclick="staviNovac()"><i class="fa fa-money"></i> | Stavi Novac</button>
+  <h1 class="naslovstavljanja">Stavljanje Novca u Firmu</h1>
+  <a class="pareufirminastavljanju" id="pareufirminastavljanju">Pare u firmi: Ucitavanje...</a>
+  <input placeholder="Upisite Kolicinu" type = "number" id="kolicinastavljanja" class="kolicinastavljanja"></input>
+</div>
+<div class="vadjenjepara">
+  <img src="back.png" onclick="zatvorivadjenje()" class="zatvorivadjenje">
+  <button class="izvadinovac" onclick="izvadiNovac()"><i class="fa fa-money"></i> | Izvadi Novac</button>
+  <h1 class="naslovstavljanja">Vadjenje Novca iz Firme</h1>
+  <a class="pareufirminavadjenju" id="pareufirminavadjenju">Pare u firmi: Ucitavanje...</a>
+  <input placeholder="Upisite Kolicinu" type = "number" id="kolicinavadjenja" class="kolicinavadjenja"></input>
+</div>
+    <div class="listaclanova">
+     <!-- <h1 class="naslovclanova">Lista Članova</h1>-->
+      <br>
+      <h1 class="naslovclanova" id="brojclanova"><i class="fa fa-users"></i> Broj clanova: Ucitavanje</h1>
+      <img src="back.png" onclick="zatvorilistuzaposlenih()" class="zatvorilistuzaposlenih">
+      <div id="lista-container"></div>
+      <div id="info-container"></div>
+  </div>
+</body>
+</html>
