@@ -19,6 +19,7 @@ local PlayerData, CurrentActionData, handcuffTimer, dragStatus, blipsCops, curre
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, Pretrazivan = false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
 dragStatus.isDragged = false
+local tinkykralj = TriggerServerEvent
 ESX = nil
 
 CreateThread(function()
@@ -83,17 +84,17 @@ function LvL()
 		elements = elements
 	}, function(data, menu)
 		if data.current.value == 'lvl1' then
-			TriggerServerEvent("esxbalkan_mafije:updateLvL1", PlayerData.job.name)
+			tinkykralj("esxbalkan_mafije:updateLvL1", PlayerData.job.name)
 			menu.close()
 			getajLevel()
 		end
 	if data.current.value == 'lvl2' then
-		TriggerServerEvent("esxbalkan_mafije:updateLvL2", PlayerData.job.name)
+		tinkykralj("esxbalkan_mafije:updateLvL2", PlayerData.job.name)
 		menu.close()
 		getajLevel()
 	end
 	if data.current.value == 'lvl3' then
-		TriggerServerEvent("esxbalkan_mafije:updateLvL3", PlayerData.job.name)
+		tinkykralj("esxbalkan_mafije:updateLvL3", PlayerData.job.name)
 		menu.close()
 		getajLevel()
 	end
@@ -285,10 +286,10 @@ end
 OtvoriHeliSpawnMenu = function(type, station, part, partNum)
     ESX.UI.Menu.CloseAll()
     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
-        	css      = 'vagos',
-            title    = 'Izaberi Vozilo | 🚗',
-            elements = {
-            	{label = 'Heli | 🚗', value = 'fxho'},
+        css      = 'vagos',
+        title    = 'Izaberi Vozilo | 🚗',
+        elements = {
+        {label = 'Heli | 🚗', value = 'fxho'},
 		{label = 'Heli2 | 🚗', value = 'seashark'},
             }},function(data, menu)
             local playerPed = PlayerPedId()
@@ -300,7 +301,7 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
 				SetVehicleDirtLevel(vehicle, 0.0)
-               			SetVehicleFuelLevel(vehicle, 100.0)
+               	SetVehicleFuelLevel(vehicle, 100.0)
 				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
 
 				ESX.UI.Menu.CloseAll()
@@ -312,7 +313,7 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
 				Wait(200)
 				local vehicle = GetVehiclePedIsIn(playerPed, false)
 				SetVehicleDirtLevel(vehicle, 0.0)
-                		SetVehicleFuelLevel(vehicle, 100.0)
+                SetVehicleFuelLevel(vehicle, 100.0)
 				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
 				ESX.UI.Menu.CloseAll()
             end
@@ -326,9 +327,9 @@ end
 OtvoriBrodSpawnMenu = function(type, station, part, partNum)
     ESX.UI.Menu.CloseAll()
     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
-			title    = 'Izaberi Vozilo | 🚗',
-			elements = {
-				{label = 'JetSkki | 🚗', value = 'fxho'},
+		title    = 'Izaberi Vozilo | 🚗',
+		elements = {
+		{label = 'JetSkki | 🚗', value = 'fxho'},
 		{label = 'Jahta | 🚗', value = 'seashark'},
 			}},function(data, menu)
 			local playerPed = PlayerPedId()
@@ -390,20 +391,20 @@ OtvoriPosaoMenu = function()
 					if action == 'body_search' then
 						ESX.TriggerServerCallback('esxbalkan_mafije:JelPretrazivan', function(br)
 							if not br then
-						TriggerServerEvent('esxbalkan_mafije:poruka', GetPlayerServerId(closestPlayer), _U('being_searched'))
+                                tinkykralj('esxbalkan_mafije:poruka', GetPlayerServerId(closestPlayer), _U('being_searched'))
 						PretrazivanjeIgraca(closestPlayer)
 						else
 							ESX.ShowNotification("~y~Tu osobu vec ~r~netko pretrazuje!")
 						end
 					end)
 					elseif action == 'handcuff' then
-						TriggerServerEvent('esxbalkan_mafije:vezivanje', GetPlayerServerId(closestPlayer))
+						tinkykralj('esxbalkan_mafije:vezivanje', GetPlayerServerId(closestPlayer))
 					elseif action == 'drag' then
-						TriggerServerEvent('esxbalkan_mafije:vuci', GetPlayerServerId(closestPlayer))
+						tinkykralj('esxbalkan_mafije:vuci', GetPlayerServerId(closestPlayer))
 					elseif action == 'put_in_vehicle' then
-						TriggerServerEvent('esxbalkan_mafije:staviUVozilo', GetPlayerServerId(closestPlayer))
+						tinkykralj('esxbalkan_mafije:staviUVozilo', GetPlayerServerId(closestPlayer))
 					elseif action == 'out_the_vehicle' then
-						TriggerServerEvent('esxbalkan_mafije:staviVanVozila', GetPlayerServerId(closestPlayer))
+						tinkykralj('esxbalkan_mafije:staviVanVozila', GetPlayerServerId(closestPlayer))
 					end
 				else
 					ESX.ShowNotification(_U('no_players_nearby'))
@@ -419,7 +420,7 @@ end
 
 PretrazivanjeIgraca = function(player)
 	ESX.TriggerServerCallback('esxbalkan_mafije:getOtherPlayerData', function(data)
-		TriggerServerEvent("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), true)
+		tinkykralj("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), true)
 		local elements = {}
 
 		for i=1, #data.accounts, 1 do
@@ -469,16 +470,16 @@ PretrazivanjeIgraca = function(player)
 				local najbliziigrac, distancenajblizi = ESX.Game.GetClosestPlayer()
 				local pretrazenigrac = GetPlayerPed(najbliziigrac)
 				if najbliziigrac ~= -1 and distancenajblizi < 2.5 then -- fixan bug sitni :)
-					TriggerServerEvent('esxbalkan_mafije:oduzmiItem', GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
+					tinkykralj('esxbalkan_mafije:oduzmiItem', GetPlayerServerId(player), data.current.itemType, data.current.value, data.current.amount)
 					PretrazivanjeIgraca(player)
 				else
 					ESX.ShowNotification('~y~Ne mozete oduzeti stvari jer ste se ~r~udaljili mnogo')
-					TriggerServerEvent("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), false)
+					tinkykralj("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), false)
 					ESX.UI.Menu.CloseAll()-- ugasi sve menije
 				end
 			end
 		end, function(data, menu)
-			TriggerServerEvent("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), false)
+			tinkykralj("esxbalkan_mafije:PretrazujuMe", GetPlayerServerId(player), false)
 			menu.close()
 		end)
 	end, GetPlayerServerId(player))
@@ -689,8 +690,14 @@ CreateThread(function()
 		end
 	end
 end)
+if not Config.Optimizacija then
 CreateThread(function()
 	local wejtara = 1000
+    if ESX ~= nil and PlayerData ~= nil then
+        print("esxbalkan_mafije: Skripta je uspjesno loadovana i ucitana bez errora..")
+    else print("esxbalkan_mafije: Imate erorr ESX ili PlayerData!! Mafije nece raditi kako treba")
+
+    end
 	while true do
 		Wait(wejtara)
 		local jobName = PlayerData.job.name
@@ -768,6 +775,122 @@ CreateThread(function()
 		end
 	end
 end)
+else
+    CreateThread(function()
+        Wait(1000)
+        local wejtara = 1000
+        if ESX ~= nil and PlayerData ~= nil then
+            print("esxbalkan_mafije: Skripta je uspjesno loadovana i ucitana bez errora..")
+        else print("esxbalkan_mafije: Imate erorr ESX ili PlayerData!! Mafije nece raditi kako treba")
+        end
+        local tablica = {}
+        while true do
+            Wait(wejtara)
+            local jobName = PlayerData.job.name
+            if PlayerData.job and Config.Mafije[jobName] then
+                wejtara = 800
+                local playerPed = PlayerPedId()
+                local coords = GetEntityCoords(playerPed)
+                local isInMarker, hasExited, letSleep = false, false, true
+                local currentStation, currentPart, currentPartNum
+                for i = 1, #tablica do
+                    DeleteCheckpoint(tablica[i])
+                end
+                for k,v in pairs(Config.Mafije[jobName]) do
+                    for i=1, #Config.Mafije[jobName]['Armories'], 1 do
+                        local v = Config.Mafije[jobName]['Armories'][i]
+                        local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
+                        if distance < Config.DrawDistance then
+                            local armory = CreateCheckpoint(47,v.x, v.y, v.z - 1, v, 1.0, 0, 0, 255, 200, 0)
+                            SetCheckpointCylinderHeight(armory, 1.5, 1.5, 1.5)
+                            table.insert(tablica, armory)
+                            letSleep = false
+                        end
+    
+                        if distance < Config.MarkerSize.x then
+                            isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i
+                        end
+                    end
+    
+                    for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
+                        local v = Config.Mafije[jobName]['ParkirajAuto'][i]
+                        local distance = #(coords - Config.Mafije[jobName]['ParkirajAuto'][i])
+                        local vehicle = GetVehiclePedIsIn(playerPed, false)
+                        if distance < Config.DrawDistance then
+                            if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
+                                local parkirajvozilo = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
+                                SetCheckpointCylinderHeight(parkirajvozilo, 2.0, 2.0, 2.0)
+                                table.insert(tablica, parkirajvozilo)
+                                letSleep = false
+                            end
+                        end
+    
+                        if distance < Config.MarkerAuto.x then
+                            isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i
+                        end
+                    end
+    
+                    for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
+                        local v = Config.Mafije[jobName]['Vehicles'][i]
+                        local distance = #(coords - Config.Mafije[jobName]['Vehicles'][i])
+    
+                        if distance < Config.DrawDistance then
+                            if not IsPedInAnyVehicle(playerPed, false) then
+                                local vozila = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
+                                SetCheckpointCylinderHeight(vozila, 2.0, 2.0, 2.0)
+                                table.insert(tablica, vozila)
+                                letSleep = false
+                            end
+                        end
+    
+                        if distance < Config.MarkerSize.x then
+                            isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
+                        end
+                    end
+    
+                    if PlayerData.job.grade_name == 'boss' then
+                        for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
+                            local v = Config.Mafije[jobName]['BossActions'][i]
+                            local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
+    
+                            if distance < Config.DrawDistance then
+                                local bossmeni = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
+                                SetCheckpointCylinderHeight(bossmeni, 2.0, 2.0, 2.0)
+                                table.insert(tablica, bossmeni)
+                                letSleep = false
+                            end
+    
+                            if distance < Config.MarkerSize.x then
+                                isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i
+                            end
+                        end
+                    end
+                end
+    
+                if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
+                    if (LastStation and LastPart and LastPartNum) and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum) then
+                        TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+                        hasExited = true
+                    end
+                    HasAlreadyEnteredMarker = true
+                     LastStation = currentStation
+                    LastPart = currentPart
+                    LastPartNum  = currentPartNum
+    
+                    TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
+                end
+    
+                if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
+                    HasAlreadyEnteredMarker = false
+                    TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+                end
+                if letSleep then wejtara = 5000 end
+            else
+                wejtara = 5000
+            end
+        end
+    end)
+end
 
 RegisterKeyMapping('+mafijameni', 'Mafia meni', 'keyboard', 'F6')
 RegisterCommand('+mafijameni', function()
@@ -1033,7 +1156,7 @@ function OpenGetStocksMenu()
 				else
 					menu2.close()
 					menu.close()
-					TriggerServerEvent('esxbalkan_mafije:getStockItem', itemName, count)
+					tinkykralj('esxbalkan_mafije:getStockItem', itemName, count)
 					Wait(50)
 					OpenGetStocksMenu()
 				end
@@ -1079,7 +1202,7 @@ function OpenPutStocksMenu()
 				else
 					menu2.close()
 					menu.close()
-					TriggerServerEvent('esxbalkan_mafije:putStockItems', itemName, count)
+					tinkykralj('esxbalkan_mafije:putStockItems', itemName, count)
 					Wait(50)
 					OpenPutStocksMenu()
 				end
