@@ -1,5 +1,6 @@
 Config  = {}
 Config.DrawDistance = 20.0 -- 20 je savim dovoljno ne treb ni manje ni preko 20..
+Config.Optimizacija = true -- Ruzni markeri ali zato 0.00ms uvijek :)
 Config.MarkerSize  = { x = 1.5, y = 1.5, z = 0.5 }
 Config.MarkerHelikopter   = { x = 6.0, y = 6.0, z = 2.5 }
 Config.MarkerAuto = { x = 3.0, y = 3.0, z = 3.0 }
