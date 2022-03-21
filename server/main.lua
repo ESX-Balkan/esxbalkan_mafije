@@ -25,15 +25,19 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 CreateThread(function ()
     -- Provjeri jeli startane ove skripte:
-    while GetResourceState('mysql-async') ~= 'started' do
+    while GetResourceState('esx_datastore') ~= 'started' do
         Citizen.Wait(1000)
-	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA mysql-async nije startana na serveru!!! ili ste promjenili ime skripte?')
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_datastore nije startana na serveru!!! ili ste promjenili ime skripte?')
     end
-    while GetResourceState('esxbalkan_addoninventory') ~= 'started' do
+    while GetResourceState('esx_addonaccount') ~= 'started' do
+        Citizen.Wait(1000)
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_addonaccount nije startana na serveru!!! ili ste promjenili ime skripte?')
+    end
+    while GetResourceState('esx_addoninventory') ~= 'started' do
         Citizen.Wait(1000)
 	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_addoninventory nije startana na serveru!!! ili ste promjenili ime skripte?')
     end
-    while GetResourceState('esxbalkan_society') ~= 'started' do
+    while GetResourceState('esx_society') ~= 'started' do
         Citizen.Wait(1000)
 	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_society nije startana na serveru!!! ili ste promjenili ime skripte?')
     end
@@ -75,8 +79,7 @@ for k,v in pairs(Config.Mafije) do
 	nmafija = nmafija + 1
 end
 
-print('[^3esxbalkan_mafije^0]: Napravio tim ^5ESX-Balkan^0 | Ucitano ^5' .. nmafija .. '^0 mafia')
-
+print('[^1esxbalkan_mafije^0]: Napravio tim ^5ESX-Balkan^0 | Ucitano ^4' .. nmafija .. '^0 mafia')
 
 function sendToDiscord3 (name,message)
 local embeds = {{
@@ -126,78 +129,83 @@ end)
 
 RegisterNetEvent('esxbalkan_mafije:oduzmiItem')
 AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemName, amount)
-local _source = source
-local sourceXPlayer = ESX.GetPlayerFromId(_source)
-local targetXPlayer = ESX.GetPlayerFromId(target)
-if not targetXPlayer then return end
-if not sourceXPlayer then return end
+	local _source = source
+	local sourceXPlayer = ESX.GetPlayerFromId(_source)
+	local targetXPlayer = ESX.GetPlayerFromId(target)
+	if not targetXPlayer then return end
+	if not sourceXPlayer then return end
 
-if itemType == 'item_standard' then
-   local targetItem = targetXPlayer.getInventoryItem(itemName)
-   local sourceItem = sourceXPlayer.getInventoryItem(itemName)
-   -- provera kolicine
-   if targetItem.count > 0 and targetItem.count <= amount then
-      -- da li moze da nosi stvari
-      if targetItem.count ~= amount then
-         sourceXPlayer.kick('Dobar pokusaj da glichas retarde :)')
-      else
-         if Config.Limit then
-            if (sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit) then
-               TriggerClientEvent('esx:showNotification', _source, ('Nemate dovoljno prostora da nosite taj item'))
+    if targetXPlayer ~= _source then -- jedan fix :)
+
+	if itemType == 'item_standard' then
+		local targetItem = targetXPlayer.getInventoryItem(itemName)
+		local sourceItem = sourceXPlayer.getInventoryItem(itemName)
+		-- provera kolicine
+		if targetItem.count > 0 and targetItem.count <= amount then
+            if targetItem.count ~= amount then
+                sourceXPlayer.kick('Dobar pokusaj da glichas retarde :)') -- fix glich?
             else
-               targetXPlayer.removeInventoryItem(itemName, amount)
-               sourceXPlayer.addInventoryItem(itemName, amount)
-               TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
-               TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
-               sendToDiscord3('Oduzeti Item', sourceXPlayer.name ..' je oduzeo stvar: '.. sourceItem.label.. ' od igraca ' ..targetXPlayer.name.. ' kolicine: ' ..amount)
+			-- da li moze da nosi stvari
+			if Config.Limit then 
+                if (sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit) then
+				    TriggerClientEvent('esx:showNotification', _source, ('Nemate dovoljno prostora da nosite taj item'))
+			    else
+				    targetXPlayer.removeInventoryItem(itemName, amount)
+				    sourceXPlayer.addInventoryItem(itemName, amount)
+				    TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
+				    TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
+				    sendToDiscord3('Oduzeti Item', sourceXPlayer.name ..' je oduzeo stvar: '.. sourceItem.label.. ' od igraca ' ..targetXPlayer.name.. ' kolicine: ' ..amount)
+			    end
+		    else
+			    if not sourceXPlayer.canCarryItem(itemName, sourceItem.count) then
+                    sourceXPlayer.showNotification('Nemate dovoljno prostora da nosite taj item')
+                else
+                    targetXPlayer.removeInventoryItem(itemName, amount)
+				    sourceXPlayer.addInventoryItem(itemName, amount)
+				    TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
+				    TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
+				    sendToDiscord3('Oduzeti Item', sourceXPlayer.name ..' je oduzeo stvar: '.. sourceItem.label.. ' od igraca ' ..targetXPlayer.name.. ' kolicine: ' ..amount)
+                    end
+		        end
             end
-         else
-            if not sourceXPlayer.canCarryItem(itemName, sourceItem.count) then
-               sourceXPlayer.showNotification('Nemate dovoljno prostora da nosite taj item')
-            else
-               targetXPlayer.removeInventoryItem(itemName, amount)
-               sourceXPlayer.addInventoryItem(itemName, amount)
-               TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
-               TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
-               sendToDiscord3('Oduzeti Item', sourceXPlayer.name ..' je oduzeo stvar: '.. sourceItem.label.. ' od igraca ' ..targetXPlayer.name.. ' kolicine: ' ..amount)
-            end
-         end
-      end
-   else
-      TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
-   end
-elseif itemType == 'item_account' then
-   local targetAccount = targetXPlayer.getAccount(itemName)
-   -- Dali igrac ima dovoljno novca kod sebe?
-   if targetAccount.money >= amount then
-      targetXPlayer.removeAccountMoney(itemName, amount)
-      sourceXPlayer.addAccountMoney (itemName, amount)
-      TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_account', amount, itemName, targetXPlayer.name))
-      TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated_account', amount, itemName, sourceXPlayer.name))
-      sendToDiscord3('Oduzeti prljav novac', sourceXPlayer.name ..' je oduzeo prljav novac kolicine: $'.. amount ..' od igraca: ' ..targetXPlayer.name)
-   else
-      sourceXPlayer.kick('Dobar pokusaj da glichas retarde! Protected by ESX-Balkan :)')
-      print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da glicha!'):format(xPlayer.identifier))
-   end
-elseif itemType == 'item_weapon' then
-   if amount == nil then amount = 0 end
-   -- dali ja vec posjedujem to oruzije jos kod sebe?
-   if not sourceXPlayer.hasWeapon(itemName) then
-      -- dali igrac posjeduje to oruzije jos kod sebe?
-      if targetXPlayer.hasWeapon(itemName) then
-         targetXPlayer.removeWeapon(itemName, amount)
-         sourceXPlayer.addWeapon (itemName, amount)
-         TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_weapon', ESX.GetWeaponLabel(itemName), targetXPlayer.name, amount))
-         TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, sourceXPlayer.name))
-         sendToDiscord3('Oduzeto oruzije', sourceXPlayer.name ..' je oduzeo oruzije: '.. ESX.GetWeaponLabel(itemName) ..' od igraca: ' ..targetXPlayer.name.. ' kolicine metaka: ' ..amount)
-      else
-         sourceXPlayer.kick('Dobar pokusaj da glichas retarde! Protected by ESX-Balkan :)')
-         print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da glicha!'):format(xPlayer.identifier))
-      end
-   else
-      TriggerClientEvent('esx:showNotification', _source, ('~y~Vec posjedujete to oruzije i ~r~imate kod sebe!'))
-   end
-end
+        else
+            TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
+        end
+	elseif itemType == 'item_account' then
+		local targetAccount = targetXPlayer.getAccount(itemName)
+		-- Dali igrac ima dovoljno novca kod sebe?
+		if targetAccount.money >= amount then
+		targetXPlayer.removeAccountMoney(itemName, amount)
+		sourceXPlayer.addAccountMoney (itemName, amount)
+		TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_account', amount, itemName, targetXPlayer.name))
+		TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated_account', amount, itemName, sourceXPlayer.name))
+		sendToDiscord3('Oduzeti prljav novac', sourceXPlayer.name ..' je oduzeo prljav novac kolicine: $'.. amount ..' od igraca: ' ..targetXPlayer.name)
+	else
+		sourceXPlayer.kick('Dobar pokusaj da glichas retarde! Protected by ESX-Balkan :)')
+		print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da glicha!'):format(xPlayer.identifier))
+	end
+	elseif itemType == 'item_weapon' then
+		if amount == nil then amount = 0 end
+			-- dali ja vec posjedujem to oruzije jos kod sebe?
+			if not sourceXPlayer.hasWeapon(itemName) then
+				-- dali igrac posjeduje to oruzije jos kod sebe?
+				if targetXPlayer.hasWeapon(itemName) then
+					targetXPlayer.removeWeapon(itemName, amount)
+					sourceXPlayer.addWeapon (itemName, amount)
+					TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_weapon', ESX.GetWeaponLabel(itemName), targetXPlayer.name, amount))
+					TriggerClientEvent('esx:showNotification', target,  _U('got_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, sourceXPlayer.name))
+					sendToDiscord3('Oduzeto oruzije', sourceXPlayer.name ..' je oduzeo oruzije: '.. ESX.GetWeaponLabel(itemName) ..' od igraca: ' ..targetXPlayer.name.. ' kolicine metaka: ' ..amount)
+				else
+					sourceXPlayer.kick('Dobar pokusaj da glichas retarde! Protected by ESX-Balkan :)')
+					print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da glicha!'):format(xPlayer.identifier))
+				end
+			else
+				TriggerClientEvent('esx:showNotification', _source, ('~y~Vec posjedujete to oruzije i ~r~imate kod sebe!'))
+			end
+		end
+    else
+        TriggerClientEvent('esx:showNotification', _source, ('~y~Ne mozes sam sebe pretraziti?'))
+	end
 end
 )
 
@@ -332,7 +340,6 @@ ESX.RegisterServerCallback('esxbalkan_mafije:staviUoruzarnicu', function(source,
 
 	if removeWeapon then
 		xPlayer.removeWeapon(weaponName)
-		sendToDiscord3("Stavljanje oruzija", GetPlayerName(source).. " ".. "je ostavio".. " ".. ESX.GetWeaponLabel(weaponName).. " sa 100 metaka".. " u sef")
 	end
 
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
@@ -363,7 +370,6 @@ ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(sourc
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local org = xPlayer.job.name
 	xPlayer.addWeapon(weaponName, 100)
-	sendToDiscord3("Vadjenje oruzija", GetPlayerName(source).. " ".. "je izvadio".. " ".. ESX.GetWeaponLabel(weaponName).. " sa 250 metaka".. " iz sef")
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
 		local weapons = store.get('weapons') or {}
 
@@ -595,7 +601,7 @@ RegisterCommand('setlvl', function(source, args)
 	if source == 0 or xPlayer.getGroup() == "superadmin" then
 		if args[1] ~= nil and args[2] ~= nil then 
 			setLevel(job, level, broj)	
-			print("^5Mafija ^0" ..job.. "^5 je unapredjena na level: ^7" ..level.. "")
+			print("^5Gang ^0" ..job.. "^5 was set to level: ^7" ..level.. "")
                         sendToDiscord3('Unapredjene Baze',  xPlayer.name ..' je postavio ' .. levelTabela[job].stats.level .. ' ' .. 'level na '  .. job )
 		end
 	else
@@ -621,205 +627,6 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getLvL', function(source, cb, job)
 	cb(tabela)
 end)
 
-
-
-function getAccounts(data, xPlayer)
-	local result = {}
-	for i=1, #data do
-		if(data[i] ~= 'money') then
-			if(data[i] == 'black_money') then
-				result[i] = nil
-			else
-				result[i] = xPlayer.getAccount(data[i])['money']
-			end
-
-		else
-			result[i] = xPlayer.getMoney()
-		end
-	end
-	return result
-end
-
-function tableIncludes(table, data)
-	for _,v in pairs(table) do
-		if v == data then
-			return true
-		end
-	end
-	return false
-end
-
-local permisije = {
-	'boss'
-}
-
-ESX.RegisterServerCallback('begijanes', function(source, cb)
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	if xPlayer ~= nil then
-		local money,bank,black_money = table.unpack(getAccounts({'money', 'bank', 'black_money'}, xPlayer))
-
-		local society = nil
-		if tableIncludes(permisije, xPlayer.job.grade_name) then
-			TriggerEvent('esx_society:getSociety', xPlayer.job.name, function(data)
-				if data ~= nil then
-					TriggerEvent('esx_addonaccount:getSharedAccount', data.account, function(account)
-							society = account['money']
-					end)
-				end
-			end)
-		end
-	  cb({cash = money, bank = bank, society = society})
-	end
-end)
-
-local JobGrades = {}
-ESX.RegisterServerCallback('esx_society:setJobById', function(source, cb, id, job, grade)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	local isBoss = xPlayer.job.grade_name == 'boss'
-	local xTarget = ESX.GetPlayerFromId(id)
-	if isBoss then
-		if xTarget then
-		    if xTarget.getJob().name ~= xPlayer.getJob().name then
-		    	if xTarget.getJob().name == 'unemployed' then
-		    		xTarget.setJob(job, grade)
-					xTarget.showNotification('Dobili ste novi posao!')
-					xPlayer.showNotification('Dodali ste clana u organizaciji!')
-					local sql = string.format(
-						"UPDATE users SET job = '%s', job_grade = 0 WHERE identifier = '%s'",job, ident
-					)
-						MySQL.Sync.execute(sql, {})
-		    	else
-					xPlayer.showNotification('Taj igrac je u nekoj drugoj organizaciji')
-		    	end
-			else
-				xPlayer.showNotification('Taj igrac je vec u vasoj organizaciji')
-			end
-		else
-			xPlayer.showNotification('Unijeli ste pogresan ID igraca')
-		end
-	end
-end)
-
-RegisterNetEvent("esx_society:otpustiClana", function(ident)
-	local srcPlayer = ESX.GetPlayerFromIdentifier(ident)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	if xPlayer.getIdentifier() == ident then
-	   TriggerClientEvent('esx:showNotification', source, 'Ne mozes sebi dati otkaz')
-	else
-	if srcPlayer then
-		srcPlayer.setJob("unemployed", 0)
-		local sql = string.format(
-			"UPDATE users SET job = 'unemployed', job_grade = 0 WHERE identifier = '%s'", ident
-		)
-			MySQL.Sync.execute(sql, {})
-	else
-		local sql = string.format(
-			"UPDATE users SET job = 'unemployed', job_grade = 0 WHERE identifier = '%s'", ident
-		)
-
-			MySQL.Sync.execute(sql, {})
-			print("do si otkaz frajeru sa identifierom "..ident)
-	end
-end
-end)
-
-
-RegisterNetEvent("esx_society:downgradexd", function(ident, nowGrade)
-
-	local srcPlayer = ESX.GetPlayerFromIdentifier(ident)
-	local xPlayer = ESX.GetPlayerFromId(source)
-   if nowGrade == 0 then
-	TriggerClientEvent('esx:showNotification', source, 'Clan trenutno ima najmanji rank')
-   else
-	    if srcPlayer then
-	    	if (srcPlayer.getJob().grade - 1) >= 0 then
-	    		srcPlayer.setJob(srcPlayer.getJob().name, srcPlayer.getJob().grade - 1)
-    
-	    		local sql = string.format(
-	    			"UPDATE users SET job_grade = job_grade - 1 WHERE identifier = '%s'", ident
-	    		)
-    
-	    		MySQL.Sync.execute(sql, {})
-	    	end
-	    else
-	    		local sql = string.format(
-	    			"UPDATE users SET job_grade = job_grade - 1 WHERE identifier = '%s'", ident
-	    		)
-    
-	    		MySQL.Sync.execute(sql, {})
-	    end
-	end
-end)
-
-
-ESX.RegisterServerCallback('esx_society:downgradelal', function(source, cb, identifier, job, grade)
-    local xPlayer = ESX.GetPlayerFromId(source)
-    local isBoss = xPlayer.job.grade_name == 'boss'
-
-    if isBoss then
-        if not Jobs[job] then print("job ne postoji") return end
-        if not Jobs[job][grade] then print("job_grade ne postoji") return end
-
-        local xTarget = ESX.GetPlayerFromIdentifier(identifier)
-        if xTarget then
-            xTarget.setJob(job, grade)
-
-            if type == 'hire' then
-                xTarget.showNotification(_U('you_have_been_hired', job))
-            elseif type == 'promote' then
-                xTarget.showNotification(_U('you_have_been_promoted'))
-            elseif type == 'fire' then
-                xTarget.showNotification(_U('you_have_been_fired', xTarget.getJob().label))
-            end
-
-            cb()
-        else
-            MySQL.Async.execute('UPDATE users SET job = @job, job_grade = @job_grade WHERE identifier = @identifier', {
-                ['@job']        = job,
-                ['@job_grade']  = grade,
-                ['@identifier'] = identifier
-            }, function(rowsChanged)
-                cb()
-            end)
-        end
-    else
-        print(('esx_society: %s attempted to setJob'):format(xPlayer.identifier))
-        cb()
-    end
-end)
-
-
-
-RegisterNetEvent("esx_society:unaprijediClana", function(ident, grade)
-
-	local maxGrade = -1
-	local nowGrade = tonumber(grade)
-
-	local aPlayer = ESX.GetPlayerFromIdentifier(ident)
-	local xPlayer = ESX.GetPlayerFromId(source)
-
-	if nowGrade == 3 then
-		TriggerClientEvent('esx:showNotification', source, 'Maksimalan rank je Sef')
-	else
-	    if aPlayer then
-	    		aPlayer.setJob(aPlayer.getJob().name, nowGrade + 1)
-    
-	    		local sql = string.format(
-	    			"UPDATE users SET job_grade = job_grade + 1 WHERE identifier = '%s'", ident
-	    		)
-    
-	    			MySQL.Sync.execute(sql, {})
-	    else
-	    		local sql = string.format(
-	    			"UPDATE users SET job_grade = job_grade + 1 WHERE identifier = '%s'", ident
-	    		)
-    
-	    			MySQL.Sync.execute(sql, {})
-	    end
-	end
-end)
-
 ---------------------------------------------------------------------NE DIRAJTE!-------------------------------------------------------------------------------------
 
 if getajresourcename ~= "esxbalkan_mafije" then
@@ -842,66 +649,3 @@ if getajresourcename ~= "esxbalkan_mafije" then
 	end)
 end
 
-Citizen.CreateThread(function()
-	Wait(5000)
-	MySQL.Sync.execute([[
-		CREATE TABLE IF NOT EXISTS `datastore` (
-			`name` VARCHAR(60) NOT NULL,
-			`label` VARCHAR(100) NOT NULL,
-			`shared` INT NOT NULL,
-
-			PRIMARY KEY (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `datastore_data` (
-			`id` INT NOT NULL AUTO_INCREMENT,
-			`name` VARCHAR(60) NOT NULL,
-			`owner` VARCHAR(40),
-			`data` LONGTEXT,
-
-			PRIMARY KEY (`id`),
-			UNIQUE INDEX `index_datastore_data_name_owner` (`name`, `owner`),
-			INDEX `index_datastore_data_name` (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `addon_inventory` (
-			`name` VARCHAR(60) NOT NULL,
-			`label` VARCHAR(100) NOT NULL,
-			`shared` INT NOT NULL,
-
-			PRIMARY KEY (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `addon_inventory_items` (
-			`id` INT NOT NULL AUTO_INCREMENT,
-			`inventory_name` VARCHAR(100) NOT NULL,
-			`name` VARCHAR(100) NOT NULL,
-			`count` INT NOT NULL,
-			`owner` VARCHAR(40) DEFAULT NULL,
-
-			PRIMARY KEY (`id`),
-			INDEX `index_addon_inventory_items_inventory_name_name` (`inventory_name`, `name`),
-			INDEX `index_addon_inventory_items_inventory_name_name_owner` (`inventory_name`, `name`, `owner`),
-			INDEX `index_addon_inventory_inventory_name` (`inventory_name`)
-		);
-		CREATE TABLE IF NOT EXISTS `addon_account` (
-			`name` VARCHAR(60) NOT NULL,
-			`label` VARCHAR(100) NOT NULL,
-			`shared` INT NOT NULL,
-
-			PRIMARY KEY (`name`)
-		);
-
-		CREATE TABLE IF NOT EXISTS `addon_account_data` (
-			`id` INT NOT NULL AUTO_INCREMENT,
-			`account_name` VARCHAR(100) DEFAULT NULL,
-			`money` INT NOT NULL,
-			`owner` VARCHAR(40) DEFAULT NULL,
-
-			PRIMARY KEY (`id`),
-			UNIQUE INDEX `index_addon_account_data_account_name_owner` (`account_name`, `owner`),
-			INDEX `index_addon_account_data_account_name` (`account_name`)
-		);
-
-	]])
-end)
