@@ -109,6 +109,7 @@ function LvL()
 	end
 	end, function(data, menu)
 	menu.close()
+	CurrentAction = nil
 	end)
 end
 
@@ -192,6 +193,7 @@ function OpenArmoryMenu(station)
 	     LvL()
         end
     end, function(data, menu)
+	CurrentAction = nil
         menu.close()
         CurrentAction = 'menu_armory'
         CurrentActionMsg = _U('open_armory')
@@ -293,6 +295,7 @@ OtvoriAutoSpawnMenu = function(type, station, part, partNum)
 				StvoriVozilo(data.current.value)
 				ESX.UI.Menu.CloseAll()
         			menu.close()
+				CurrentAction = nil
 			else
 			       ESX.ShowNotification('Ne mozete vise da vadite vozila, nema ih dovoljno u garazi!')
 			end
@@ -301,6 +304,7 @@ OtvoriAutoSpawnMenu = function(type, station, part, partNum)
 		StvoriVozilo(data.current.value)
 		ESX.UI.Menu.CloseAll()
         	menu.close()
+		CurrentAction = nil
 	end
     end,
 
@@ -349,6 +353,7 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
         end,
         function(data, menu)
 			menu.close()
+			CurrentAction = nil
 		end
 	)
 end
@@ -388,6 +393,7 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
 		end,
 		function(data, menu)
 		menu.close()
+		CurrentAction = nil
 	end)
 end
 
@@ -1040,6 +1046,7 @@ function OpenPutWeaponMenu()
 			OpenPutWeaponMenu()
 		end, data.current.value, true)
 	end, function(data, menu)
+		CurrentAction = nil
 		menu.close()
 	end)
 end
@@ -1125,6 +1132,7 @@ function OpenBuyWeaponsMenu()
 		end
 	end, function(data, menu)
 		menu.close()
+		CurrentAction = nil
 	end)
 end
 
@@ -1152,6 +1160,7 @@ function OpenWeaponComponentShop(components, weaponName, parentShop)
 		end
 	end, function(data, menu)
 		menu.close()
+		CurrentAction = nil
 	end)
 end
 
@@ -1194,6 +1203,7 @@ function OpenGetStocksMenu()
 			end)
 		end, function(data, menu)
 			menu.close()
+			CurrentAction = nil
 		end)
 	end)
 end
@@ -1240,6 +1250,7 @@ function OpenPutStocksMenu()
 			end)
 		end, function(data, menu)
 			menu.close()
+			CurrentAction = nil
 		end)
 	end)
 end
