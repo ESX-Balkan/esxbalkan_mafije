@@ -20,6 +20,10 @@ EEEEEEEEEEEEEEEEEEEEEE SSSSSSSSSSSSSSS   XXXXXXX       XXXXXXX     BBBBBBBBBBBBB
 ESX, levelTabela = nil, {}
 local nmafija,Pretrazivan = 0, {}
 local getajresourcename = GetCurrentResourceName()
+Vozila = {
+	Izvucena = {}
+}
+
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
 
@@ -91,6 +95,33 @@ local embeds = {{
 },}}
 
 if message == nil or message == '' then return FALSE end PerformHttpRequest(Config.Webhuk, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds}), { ['Content-Type'] = 'application/json' }) end
+
+
+ESX.RegisterServerCallback('esxbalkan_mafije:proveriVozila', function(source, cb)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local posao = xPlayer.job.name
+	if xPlayer and posao then
+		if Vozila.Izvucena[posao] then
+			cb(Vozila.Izvucena[posao])
+		else
+			Vozila.Izvucena[posao] = {}
+			cb(Vozila.Izvucena[posao])
+		end
+	end
+end)
+
+RegisterServerEvent('esxbalkan_mafije:updateVozila')
+AddEventHandler('esxbalkan_mafije:updateVozila', function(voziloID, state)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local posao = xPlayer.job.name
+
+	if state == true then
+    	table.insert(Vozila.Izvucena[posao], voziloID)
+    else
+    	table.remove(Vozila.Izvucena[posao])
+    end
+end)
+
 
 ESX.RegisterServerCallback('esxbalkan_mafije:getOtherPlayerData', function(source, cb, target)
 		local xPlayer = ESX.GetPlayerFromId(target)
