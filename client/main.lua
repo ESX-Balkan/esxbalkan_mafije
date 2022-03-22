@@ -30,6 +30,15 @@ CreateThread(function()
 	getajLevel()
 end)
 
+---MEMORY USAGE FIX, SMANJIT CE MEMORY-U RAM USAGE, NE DIRATI KOD!!
+CreateThread(function()
+	while true do
+		Wait(60000)
+		collectgarbage("collect")
+	end
+end)
+------------------------------------------------------------------
+
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
 	PlayerData = xPlayer
