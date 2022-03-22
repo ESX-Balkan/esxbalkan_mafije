@@ -381,6 +381,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:staviUoruzarnicu', function(source,
 
 	if removeWeapon then
 		xPlayer.removeWeapon(weaponName)
+		sendToDiscord3("Stavljanje oruzija", GetPlayerName(source).. " ".. "je ostavio".. " ".. ESX.GetWeaponLabel(weaponName).. " sa 100 metaka".. " u sef")
 	end
 
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
@@ -411,6 +412,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(sourc
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local org = xPlayer.job.name
 	xPlayer.addWeapon(weaponName, 100)
+	sendToDiscord3("Vadjenje oruzija", GetPlayerName(source).. " ".. "je izvadio".. " ".. ESX.GetWeaponLabel(weaponName).. " sa 250 metaka".. " iz sef")
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
 		local weapons = store.get('weapons') or {}
 
