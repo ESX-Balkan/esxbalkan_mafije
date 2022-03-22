@@ -45,6 +45,10 @@ CreateThread(function ()
         Citizen.Wait(1000)
 	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_society nije startana na serveru!!! ili ste promjenili ime skripte?')
     end
+    if GetResourceState('esx_society') == 'started' and GetResourceState('esx_datastore') == 'started' and GetResourceState('esx_addonaccount') == 'started' and 
+    GetResourceState('esx_addoninventory') == 'started' then
+	print('[^1esxbalkan_mafije^0]: Uspjesno ucitane sve potrebne skripte!')
+    end
 end)
 
 function loadFile() 
