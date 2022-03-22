@@ -165,6 +165,12 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 	local targetXPlayer = ESX.GetPlayerFromId(target)
 	if not targetXPlayer then return end
 	if not sourceXPlayer then return end
+	local udaljenost = #(GetEntityCoords(GetPlayerPed(source)) - GetEntityCoords(GetPlayerPed(target)))
+
+  	if udaljenost > 3 then
+		TriggerClientEvent('esx:showNotification', _source, ('Nije moguce oduzeti igracu koji se udaljio od vas.'))
+    		return
+  	end
 
     if targetXPlayer ~= _source then -- jedan fix :)
 
