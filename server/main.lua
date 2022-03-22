@@ -411,27 +411,32 @@ end)
 ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(source, cb, weaponName)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local org = xPlayer.job.name
-	xPlayer.addWeapon(weaponName, 100)
-	sendToDiscord3("Vadjenje oruzija", GetPlayerName(source).. " ".. "je izvadio".. " ".. ESX.GetWeaponLabel(weaponName).. " sa 100 metaka".. " iz sef")
 	TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
 		local weapons = store.get('weapons') or {}
 
 		local foundWeapon = false
+        local weaponCount = nil
 
 		for i=1, #weapons, 1 do
-			if weapons[i].name == weaponName then
-				weapons[i].count = (weapons[i].count > 0 and weapons[i].count - 1 or 0)
-				foundWeapon = true
-				break
-			end
-		end
+            if weapons[i].name == weaponName then
+              weaponCount = weapons[i].count
+              if (weapons[i].count > 0) then
+                foundWeapon = true
+                weapons[i].count = weapons[i].count - 1
+              end
+            end
+        end
 
-		if not foundWeapon then
+		if not foundWeapon and weaponCount == nil then
 			table.insert(weapons, {
 				name = weaponName,
 				count = 0
 			})
 		end
+        if foundWeapon then
+            xPlayer.addWeapon(weaponName, 100)
+            sendToDiscord3("Vadjenje oruzija", GetPlayerName(source).. " ".. "je izvadio".. " ".. ESX.GetWeaponLabel(weaponName).. " sa 100 metaka".. " iz sef")
+        end
 		store.set('weapons', weapons)
 		cb()
 	end)
