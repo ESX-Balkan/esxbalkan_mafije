@@ -35,6 +35,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -51,6 +52,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -67,6 +69,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -83,6 +86,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -99,6 +103,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -115,6 +120,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -131,6 +137,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -147,6 +154,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -163,6 +171,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -179,6 +188,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -195,6 +205,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -211,6 +222,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -227,6 +239,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
@@ -243,6 +256,7 @@ Config.Mafije = {
 			['sanchez'] = 'Sanchez',
 			['sultan'] = 'Sultan'
 		},
+		Limit = 10, -- Limit vadenje vozila iz garaze, komentirajte ovaj dio ako ne zelite limit na vozilima!
 		Boja = 145, -- boja vozila :)
 		Zatamni = false,
 		Nabudzi = false,
