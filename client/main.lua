@@ -208,6 +208,10 @@ StvoriVozilo = function(vozilo)
 		SetVehicleFuelLevel(veh, 100.0)
 		SetVehicleOilLevel(veh, 10.0)
 		DecorSetFloat(veh, "_FUEL_LEVEL", GetVehicleFuelLevel(veh))
+		local voziloID = NetworkGetNetworkIdFromEntity(vozilo)
+		if Config.Mafije[PlayerData.job.name]['Limit'] then
+			TriggerServerEvent('esxbalkan_mafije:updateVozila', voziloID, true)
+		end
 		if Config.Mafije[PlayerData.job.name]['Boja'] then -- Boja vozila, imate u config.lua!
 			local props = {
 				color1 = Config.Mafije[PlayerData.job.name]['Boja'],
@@ -264,6 +268,9 @@ ObrisiVozilo = function()
 	Citizen.Wait(100)
 	ESX.Game.DeleteVehicle(vozilo)
 	ESX.ShowNotification("Uspiješno si parkirao ~b~vozilo~s~ u garažu.")
+	if Config.Mafije[PlayerData.job.name]['Limit'] then
+		TriggerServerEvent('esxbalkan_mafije:updateVozila', NetworkGetNetworkIdFromEntity(vozilo), false)
+	end
 end
 
 OtvoriAutoSpawnMenu = function(type, station, part, partNum)
@@ -280,8 +287,21 @@ OtvoriAutoSpawnMenu = function(type, station, part, partNum)
         align = 'left',
         elements = elements
     },function(data, menu)
-	StvoriVozilo(data.current.value)
-        menu.close()
+	if Config.Mafije[PlayerData.job.name]['Limit'] then
+		ESX.TriggerServerCallback('esxbalkan_mafije:proveriVozila', function(tabela)
+			if #tabela < Config.Mafije[PlayerData.job.name]['Limit'] then
+				StvoriVozilo(data.current.value)
+				ESX.UI.Menu.CloseAll()
+        			menu.close()
+			else
+			       ESX.ShowNotification('Ne mozete vise da vadite vozila, nema ih dovoljno u garazi!')
+			end
+		end)
+	else
+		StvoriVozilo(data.current.value)
+		ESX.UI.Menu.CloseAll()
+        	menu.close()
+	end
     end,
 
     function(data, menu)
