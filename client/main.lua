@@ -115,91 +115,96 @@ end
 
 --Sef Menu --
 function OpenArmoryMenu(station)
-	local elements = {}
-	if PlayerData.job.grade_name == 'boss' and Config.Levelanje then table.insert(elements, {label = 'Levelanje Baze | 💼', value = 'level'}) end 
-	if Config.Levelanje then
-		if levelTabela.stats.level  == 1 then
-			table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-			table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-		elseif levelTabela.stats.level == 2 then 
-			table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-			table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-			table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-		elseif levelTabela.stats.level == 3 then
-			table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-			table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-			table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-			table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-			table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-			table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
-		end
+  if Config.OxInventory then
+		exports.ox_inventory:openInventory('stash', {id= 'society_' .. PlayerData.job.name})
+		return ESX.UI.Menu.CloseAll()
 	else
-		table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-		table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-		table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-		table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-		table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
-	end
+    local elements = {}
+    if PlayerData.job.grade_name == 'boss' and Config.Levelanje then table.insert(elements, {label = 'Levelanje Baze | 💼', value = 'level'}) end 
+    if Config.Levelanje then
+      if levelTabela.stats.level  == 1 then
+        --table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+        --table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+        table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+        table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+      elseif levelTabela.stats.level == 2 then 
+        --table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+        --table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+        table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+        table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+        table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+            elseif levelTabela.stats.level == 3 then
+              --	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+              --		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+                  table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+                  table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+                  --table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+                  table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+            end
+      else
+          --	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+          --	table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+            table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
+            table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+            --table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+            table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+    end
 
-    ESX.UI.Menu.CloseAll()
-    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
-        title = _U('armory'),
-        align = 'top-left',
-        elements = elements
-    }, function(data, menu)
-	local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
-        if data.current.value == 'get_weapon' then
-	    if closestPlayer ~= -1 and closestDistance > 3.5 then
-                OpenGetWeaponMenu()
-            elseif GetNumberOfPlayers() == 1 then
-                OpenGetWeaponMenu()
-            else
-                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-            end
-        elseif data.current.value == 'put_weapon' then
-            if closestPlayer ~= -1 and closestDistance > 3.5 then
-                OpenPutWeaponMenu()
-            elseif GetNumberOfPlayers() == 1 then
-                OpenPutWeaponMenu()
-            else
-                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-            end
-		elseif data.current.value == 'put_stock' then
-            if closestPlayer ~= -1 and closestDistance > 3.0 then
-                OpenPutStocksMenu()
-            elseif GetNumberOfPlayers() == 1 then
-                OpenPutStocksMenu()
-            else
-                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-            end
-		elseif data.current.value == 'get_stock' then
-            if closestPlayer ~= -1 and closestDistance > 3.0 then
-                OpenGetStocksMenu()
-            elseif GetNumberOfPlayers() == 1 then
-                OpenGetStocksMenu()
-            else
-                ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
-            end
-        elseif data.current.value == 'buy_weapons' then
-            OpenBuyWeaponsMenu()
-        elseif data.current.value == 'pancir' then
-            SetPedArmour(PlayerPedId(), 100)
-	elseif data.current.value == 'level' then
-	     LvL()
-        end
-    end, function(data, menu)
-	CurrentAction = nil
-        menu.close()
-        CurrentAction = 'menu_armory'
-        CurrentActionMsg = _U('open_armory')
-        CurrentActionData = {station = station}
-    end)
+      ESX.UI.Menu.CloseAll()
+      ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory', {
+          title = _U('armory'),
+          align = 'top-left',
+          elements = elements
+      }, function(data, menu)
+    local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+          if data.current.value == 'get_weapon' then
+        if closestPlayer ~= -1 and closestDistance > 3.5 then
+                  OpenGetWeaponMenu()
+              elseif GetNumberOfPlayers() == 1 then
+                  OpenGetWeaponMenu()
+              else
+                  ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
+              end
+          elseif data.current.value == 'put_weapon' then
+              if closestPlayer ~= -1 and closestDistance > 3.5 then
+                  OpenPutWeaponMenu()
+              elseif GetNumberOfPlayers() == 1 then
+                  OpenPutWeaponMenu()
+              else
+                  ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
+              end
+      elseif data.current.value == 'put_stock' then
+              if closestPlayer ~= -1 and closestDistance > 3.0 then
+                  OpenPutStocksMenu()
+              elseif GetNumberOfPlayers() == 1 then
+                  OpenPutStocksMenu()
+              else
+                  ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
+              end
+      elseif data.current.value == 'get_stock' then
+              if closestPlayer ~= -1 and closestDistance > 3.0 then
+                  OpenGetStocksMenu()
+              elseif GetNumberOfPlayers() == 1 then
+                  OpenGetStocksMenu()
+              else
+                  ESX.ShowNotification('~y~Ne mozete pristupiti sefu, ~r~recite ljudima da se odmaknu malo od sefa!')
+              end
+          elseif data.current.value == 'buy_weapons' then
+              OpenBuyWeaponsMenu()
+          elseif data.current.value == 'pancir' then
+              SetPedArmour(PlayerPedId(), 100)
+    elseif data.current.value == 'level' then
+        LvL()
+          end
+      end, function(data, menu)
+          menu.close()
+          CurrentAction = 'menu_armory'
+          CurrentActionMsg = _U('open_armory')
+          CurrentActionData = {station = station}
+      end)
+    end
 end
+
 StvoriVozilo = function(vozilo)
 	local ped = PlayerPedId()
 	ESX.Game.SpawnVehicle(vozilo, Config.Mafije[PlayerData.job.name]["Vehicles"][1], GetEntityHeading(ped), function(veh)
