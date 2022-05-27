@@ -675,6 +675,12 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getLvL', function(source, cb, job)
 	cb(tabela)
 end)
 
+if Config.OxInventory then
+	for k,v in pairs(Config.Mafije) do
+		exports.ox_inventory:RegisterStash('society_' .. k, 'society_' .. k, 50, 200000)
+	end
+end
+
 ---------------------------------------------------------------------NE DIRAJTE!-------------------------------------------------------------------------------------
 
 if getajresourcename ~= "esxbalkan_mafije" then
