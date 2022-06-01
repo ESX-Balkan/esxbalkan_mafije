@@ -82,9 +82,16 @@ RegisterCommand('tpdobaze', function(source)
 	end
 end)
 
-for k,v in pairs(Config.Mafije) do
-	TriggerEvent('esx_society:registerSociety', k, k, 'society_' .. k, 'society_'..k, 'society_'..k, {type = 'public'})
-	nmafija = nmafija + 1
+if Config.OxInventory then
+	for k,v in pairs(Config.Mafije) do
+		exports.ox_inventory:RegisterStash('society_' .. k, 'society_' .. k, 50, 200000)
+		nmafija = nmafija + 1
+	end
+else
+	for k,v in pairs(Config.Mafije) do
+		TriggerEvent('esx_society:registerSociety', k, k, 'society_' .. k, 'society_'..k, 'society_'..k, {type = 'public'})
+		nmafija = nmafija + 1
+	end
 end
 
 print('[^1esxbalkan_mafije^0]: Napravio tim ^5ESX-Balkan^0 | Ucitano ^4' .. nmafija .. '^0 mafia')
@@ -674,12 +681,6 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getLvL', function(source, cb, job)
 	}
 	cb(tabela)
 end)
-
-if Config.OxInventory then
-	for k,v in pairs(Config.Mafije) do
-		exports.ox_inventory:RegisterStash('society_' .. k, 'society_' .. k, 50, 200000)
-	end
-end
 
 ---------------------------------------------------------------------NE DIRAJTE!-------------------------------------------------------------------------------------
 
