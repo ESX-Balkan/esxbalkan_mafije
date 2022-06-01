@@ -432,7 +432,11 @@ OtvoriPosaoMenu = function()
 						ESX.TriggerServerCallback('esxbalkan_mafije:JelPretrazivan', function(br)
 							if not br then
                                 tinkykralj('esxbalkan_mafije:poruka', GetPlayerServerId(closestPlayer), _U('being_searched'))
-						PretrazivanjeIgraca(closestPlayer)
+						if Config.OxInventory then
+							exports.ox_inventory:openInventory('player', GetPlayerServerId(closestPlayer))
+						else
+							PretrazivanjeIgraca(closestPlayer)
+						end
 						else
 							ESX.ShowNotification("~y~Tu osobu vec ~r~netko pretrazuje!")
 						end
