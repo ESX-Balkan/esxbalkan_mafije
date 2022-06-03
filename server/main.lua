@@ -163,12 +163,6 @@ ESX.RegisterServerCallback('esxbalkan_mafije:JelPretrazivan', function(source, c
 	end
 end)
 
-ESX.RegisterServerCallback('esxbalkan_mafije:getPlayerInventory', function(source, cb)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	local items = xPlayer.inventory
-	cb({items = items})
-end)
-
 RegisterNetEvent('esxbalkan_mafije:oduzmiItem')
 AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemName, amount)
 	local _source = source
