@@ -79,11 +79,11 @@ function LvL()
 	local elements = {}
 	if Config.Levelanje then 
 		if levelTabela.stats.level == 0 then 
-			table.insert(elements, { label = 'Level 1 (25 000$)', value = 'lvl1' })		
+			table.insert(elements, { label = 'Level 1 ('..Config.lvl1..'$)', value = 'lvl1' })		
 		elseif levelTabela.stats.level == 1 then 
-			table.insert(elements, { label = 'Level 2 (50 000$)', value = 'lvl2' })		
+			table.insert(elements, { label = 'Level 2 ('..Config.lvl2..'$)', value = 'lvl2' })		
 			elseif levelTabela.stats.level == 2 then
-			table.insert(elements, { label = 'Level 3 (75 000$)', value = 'lvl3' })
+			table.insert(elements, { label = 'Level 3 ('..Config.lvl3..'$)', value = 'lvl3' })
 		end
 	end
 
