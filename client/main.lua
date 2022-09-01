@@ -784,6 +784,39 @@ CreateThread(function()
 					end
 					if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i end
 				end
+				for i=1, #Config.Mafije[jobName]['Helikopter'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Helikopter'][i])
+					if distance < Config.DrawDistance then
+						if not IsPedInAnyVehicle(playerPed, false) then
+							wejtara = 5
+							letSleep = false
+							DrawMarker(Config.MarkerTypes.Helikopteri, Config.Mafije[jobName]['Helikopter'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
+					end
+					if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Helikopter', i end
+				end
+				for i=1, #Config.Mafije[jobName]['Helikopter'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Helikopter'][i])
+					if distance < Config.DrawDistance then
+						if not IsPedInAnyVehicle(playerPed, false) then
+							wejtara = 5
+							letSleep = false
+							DrawMarker(Config.MarkerTypes.Helikopteri, Config.Mafije[jobName]['Helikopter'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
+					end
+					if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Helikopter', i end
+				end
+				for i=1, #Config.Mafije[jobName]['Brodovi'], 1 do
+					local distance = #(coords - Config.Mafije[jobName]['Brodovi'][i])
+					if distance < Config.DrawDistance then
+						if not IsPedInAnyVehicle(playerPed, false) then
+							wejtara = 5
+							letSleep = false
+							DrawMarker(Config.MarkerTypes.Brodovi, Config.Mafije[jobName]['Brodovi'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						end
+					end
+					if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Brodovi', i end
+				end
 				if PlayerData.job.grade_name == 'boss' then
 					for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
 						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
@@ -889,6 +922,42 @@ else
     
                         if distance < Config.MarkerSize.x then
                             isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i
+                        end
+                    end
+
+					for i=1, #Config.Mafije[jobName]['Helikopter'], 1 do
+                        local v = Config.Mafije[jobName]['Helikopter'][i]
+                        local distance = #(coords - Config.Mafije[jobName]['Helikopter'][i])
+    
+                        if distance < Config.DrawDistance then
+                            if not IsPedInAnyVehicle(playerPed, false) then
+                                local vozila = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
+                                SetCheckpointCylinderHeight(vozila, 2.0, 2.0, 2.0)
+                                table.insert(tablica, vozila)
+                                letSleep = false
+                            end
+                        end
+    
+                        if distance < Config.MarkerSize.x then
+                            isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Helikopter', i
+                        end
+                    end
+
+					for i=1, #Config.Mafije[jobName]['Brodovi'], 1 do
+                        local v = Config.Mafije[jobName]['Brodovi'][i]
+                        local distance = #(coords - Config.Mafije[jobName]['Brodovi'][i])
+    
+                        if distance < Config.DrawDistance then
+                            if not IsPedInAnyVehicle(playerPed, false) then
+                                local vozila = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
+                                SetCheckpointCylinderHeight(vozila, 2.0, 2.0, 2.0)
+                                table.insert(tablica, vozila)
+                                letSleep = false
+                            end
+                        end
+    
+                        if distance < Config.MarkerSize.x then
+                            isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Brodovi', i
                         end
                     end
     
