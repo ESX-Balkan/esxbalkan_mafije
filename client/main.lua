@@ -744,69 +744,69 @@ CreateThread(function()
     end
 	while true do
 		Wait(wejtara)
-		local jobName = PlayerData.job.name
-		if PlayerData.job and Config.Mafije[jobName] then
+		
+		if PlayerData.job and Config.Mafije[PlayerData.job.name] then
 			wejtara = 800
 			local playerPed = PlayerPedId()
 			local coords = GetEntityCoords(playerPed)
 			local isInMarker, hasExited, letSleep = false, false, true
 			local currentStation, currentPart, currentPartNum
-			for k,v in pairs(Config.Mafije[jobName]) do
-				for i=1, #Config.Mafije[jobName]['Armories'], 1 do
-					local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
+			for k,v in pairs(Config.Mafije[PlayerData.job.name]) do
+				for i=1, #Config.Mafije[PlayerData.job.name]['Armories'], 1 do
+					local distance = #(coords - Config.Mafije[PlayerData.job.name]['Armories'][i])
 					if distance < Config.DrawDistance then
-						DrawMarker(Config.MarkerTypes.Oruzarnica, Config.Mafije[jobName]['Armories'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+						DrawMarker(Config.MarkerTypes.Oruzarnica, Config.Mafije[PlayerData.job.name]['Armories'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 						wejtara = 5
 						letSleep = false
 					end
 					if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Armory', i end
 				end
-				for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
-					local distance = #(coords - Config.Mafije[jobName]['ParkirajAuto'][i])
+				for i=1, #Config.Mafije[PlayerData.job.name]['ParkirajAuto'], 1 do
+					local distance = #(coords - Config.Mafije[PlayerData.job.name]['ParkirajAuto'][i])
 					local vehicle = GetVehiclePedIsIn(playerPed, false)
 					if distance < Config.DrawDistance then
 						if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
 							wejtara = 5
 							letSleep = false
-							DrawMarker(Config.MarkerTypes.VracanjeAuta, Config.Mafije[jobName]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
+							DrawMarker(Config.MarkerTypes.VracanjeAuta, Config.Mafije[PlayerData.job.name]['ParkirajAuto'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 255, 0, 0, 20, false, true, 2, true, false, false, false)
 						end
 					end
 					if distance < Config.MarkerAuto.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'ParkirajAuto', i end
 				end
-				for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
-					local distance = #(coords - Config.Mafije[jobName]['Vehicles'][i])
+				for i=1, #Config.Mafije[PlayerData.job.name]['Vehicles'], 1 do
+					local distance = #(coords - Config.Mafije[PlayerData.job.name]['Vehicles'][i])
 					if distance < Config.DrawDistance then
 						if not IsPedInAnyVehicle(playerPed, false) then
 							wejtara = 5
 							letSleep = false
-							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[jobName]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+							DrawMarker(Config.MarkerTypes.SpawnAuta, Config.Mafije[PlayerData.job.name]['Vehicles'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 						end
 					end
 					if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Vehicles', i end
 				end
 				
-				if Config.Mafije[jobName]['Helikopter'] then
-					for i=1, #Config.Mafije[jobName]['Helikopter'], 1 do
-						local distance = #(coords - Config.Mafije[jobName]['Helikopter'][i])
+				if Config.Mafije[PlayerData.job.name]['Helikopter'] then
+					for i=1, #Config.Mafije[PlayerData.job.name]['Helikopter'], 1 do
+						local distance = #(coords - Config.Mafije[PlayerData.job.name]['Helikopter'][i])
 						if distance < Config.DrawDistance then
 							if not IsPedInAnyVehicle(playerPed, false) then
 								wejtara = 5
 								letSleep = false
-								DrawMarker(Config.MarkerTypes.Helikopteri, Config.Mafije[jobName]['Helikopter'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+								DrawMarker(Config.MarkerTypes.Helikopteri, Config.Mafije[PlayerData.job.name]['Helikopter'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 							end
 						end
 						if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Helikopter', i end
 					end
 				end
 
-				if Config.Mafije[jobName]['Brodovi'] then
-					for i=1, #Config.Mafije[jobName]['Brodovi'], 1 do
-						local distance = #(coords - Config.Mafije[jobName]['Brodovi'][i])
+				if Config.Mafije[PlayerData.job.name]['Brodovi'] then
+					for i=1, #Config.Mafije[PlayerData.job.name]['Brodovi'], 1 do
+						local distance = #(coords - Config.Mafije[PlayerData.job.name]['Brodovi'][i])
 						if distance < Config.DrawDistance then
 							if not IsPedInAnyVehicle(playerPed, false) then
 								wejtara = 5
 								letSleep = false
-								DrawMarker(Config.MarkerTypes.Brodovi, Config.Mafije[jobName]['Brodovi'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+								DrawMarker(Config.MarkerTypes.Brodovi, Config.Mafije[PlayerData.job.name]['Brodovi'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 							end
 						end
 						if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'Brodovi', i end
@@ -814,12 +814,12 @@ CreateThread(function()
 				end
 
 				if PlayerData.job.grade_name == 'boss' then
-					for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
-						local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
+					for i=1, #Config.Mafije[PlayerData.job.name]['BossActions'], 1 do
+						local distance = #(coords - Config.Mafije[PlayerData.job.name]['BossActions'][i])
 
 						if distance < Config.DrawDistance then
 							wejtara = 5
-							DrawMarker(Config.MarkerTypes.BossMeni, Config.Mafije[jobName]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
+							DrawMarker(Config.MarkerTypes.BossMeni, Config.Mafije[PlayerData.job.name]['BossActions'][i], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, Config.MarkerColor.r, Config.MarkerColor.g, Config.MarkerColor.b, 100, false, true, 2, true, false, false, false)
 							letSleep = false
 						end
 						if distance < Config.MarkerSize.x then isInMarker, currentStation, currentPart, currentPartNum = true, k, 'BossActions', i end
@@ -859,8 +859,7 @@ else
         local tablica = {}
         while true do
             Wait(wejtara)
-            local jobName = PlayerData.job.name
-            if PlayerData.job and Config.Mafije[jobName] then
+            if PlayerData.job and Config.Mafije[PlayerData.job.name] then
                 wejtara = 800
                 local playerPed = PlayerPedId()
                 local coords = GetEntityCoords(playerPed)
@@ -869,10 +868,10 @@ else
                 for i = 1, #tablica do
                     DeleteCheckpoint(tablica[i])
                 end
-                for k,v in pairs(Config.Mafije[jobName]) do
-                    for i=1, #Config.Mafije[jobName]['Armories'], 1 do
-                        local v = Config.Mafije[jobName]['Armories'][i]
-                        local distance = #(coords - Config.Mafije[jobName]['Armories'][i])
+                for k,v in pairs(Config.Mafije[PlayerData.job.name]) do
+                    for i=1, #Config.Mafije[PlayerData.job.name]['Armories'], 1 do
+                        local v = Config.Mafije[PlayerData.job.name]['Armories'][i]
+                        local distance = #(coords - Config.Mafije[PlayerData.job.name]['Armories'][i])
                         if distance < Config.DrawDistance then
                             local armory = CreateCheckpoint(47,v.x, v.y, v.z - 1, v, 1.0, 0, 0, 255, 200, 0)
                             SetCheckpointCylinderHeight(armory, 1.5, 1.5, 1.5)
@@ -885,9 +884,9 @@ else
                         end
                     end
     
-                    for i=1, #Config.Mafije[jobName]['ParkirajAuto'], 1 do
-                        local v = Config.Mafije[jobName]['ParkirajAuto'][i]
-                        local distance = #(coords - Config.Mafije[jobName]['ParkirajAuto'][i])
+                    for i=1, #Config.Mafije[PlayerData.job.name]['ParkirajAuto'], 1 do
+                        local v = Config.Mafije[PlayerData.job.name]['ParkirajAuto'][i]
+                        local distance = #(coords - Config.Mafije[PlayerData.job.name]['ParkirajAuto'][i])
                         local vehicle = GetVehiclePedIsIn(playerPed, false)
                         if distance < Config.DrawDistance then
                             if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
@@ -903,9 +902,9 @@ else
                         end
                     end
     
-                    for i=1, #Config.Mafije[jobName]['Vehicles'], 1 do
-                        local v = Config.Mafije[jobName]['Vehicles'][i]
-                        local distance = #(coords - Config.Mafije[jobName]['Vehicles'][i])
+                    for i=1, #Config.Mafije[PlayerData.job.name]['Vehicles'], 1 do
+                        local v = Config.Mafije[PlayerData.job.name]['Vehicles'][i]
+                        local distance = #(coords - Config.Mafije[PlayerData.job.name]['Vehicles'][i])
     
                         if distance < Config.DrawDistance then
                             if not IsPedInAnyVehicle(playerPed, false) then
@@ -921,10 +920,10 @@ else
                         end
                     end
 
-					if Config.Mafije[jobName]['Helikopter'] then
-						for i=1, #Config.Mafije[jobName]['Helikopter'], 1 do
-							local v = Config.Mafije[jobName]['Helikopter'][i]
-							local distance = #(coords - Config.Mafije[jobName]['Helikopter'][i])
+					if Config.Mafije[PlayerData.job.name]['Helikopter'] then
+						for i=1, #Config.Mafije[PlayerData.job.name]['Helikopter'], 1 do
+							local v = Config.Mafije[PlayerData.job.name]['Helikopter'][i]
+							local distance = #(coords - Config.Mafije[PlayerData.job.name]['Helikopter'][i])
 		
 							if distance < Config.DrawDistance then
 								if not IsPedInAnyVehicle(playerPed, false) then
@@ -941,10 +940,10 @@ else
 						end
 					end
 
-					if Config.Mafije[jobName]['Brodovi'] then
-						for i=1, #Config.Mafije[jobName]['Brodovi'], 1 do
-							local v = Config.Mafije[jobName]['Brodovi'][i]
-							local distance = #(coords - Config.Mafije[jobName]['Brodovi'][i])
+					if Config.Mafije[PlayerData.job.name]['Brodovi'] then
+						for i=1, #Config.Mafije[PlayerData.job.name]['Brodovi'], 1 do
+							local v = Config.Mafije[PlayerData.job.name]['Brodovi'][i]
+							local distance = #(coords - Config.Mafije[PlayerData.job.name]['Brodovi'][i])
 		
 							if distance < Config.DrawDistance then
 								if not IsPedInAnyVehicle(playerPed, false) then
@@ -962,9 +961,9 @@ else
 					end
 
                     if PlayerData.job.grade_name == 'boss' then
-                        for i=1, #Config.Mafije[jobName]['BossActions'], 1 do
-                            local v = Config.Mafije[jobName]['BossActions'][i]
-                            local distance = #(coords - Config.Mafije[jobName]['BossActions'][i])
+                        for i=1, #Config.Mafije[PlayerData.job.name]['BossActions'], 1 do
+                            local v = Config.Mafije[PlayerData.job.name]['BossActions'][i]
+                            local distance = #(coords - Config.Mafije[PlayerData.job.name]['BossActions'][i])
     
                             if distance < Config.DrawDistance then
                                 local bossmeni = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
