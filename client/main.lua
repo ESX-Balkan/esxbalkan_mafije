@@ -622,7 +622,7 @@ end)
 CreateThread(function()
 	local playerPed
 	local targetPed
-	while true do
+	while isHandcuffed do
 		Wait(10)
 		if isHandcuffed then
 			playerPed = PlayerPedId()
@@ -641,8 +641,6 @@ CreateThread(function()
 			else
 				DetachEntity(playerPed, true, false)
 			end
-		else
-			Wait(2000)
 		end
 	end
 end)
@@ -684,7 +682,7 @@ AddEventHandler('esxbalkan_mafije:staviVanVozila', function()
 end)
 
 CreateThread(function()
-	while true do
+	while isHandcuffed do
 		Wait(0)
 		local playerPed = PlayerPedId()
 		if isHandcuffed then
@@ -729,8 +727,6 @@ CreateThread(function()
 					TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0.0, false, false, false)
 				end)
 			end
-		else
-			Wait(2000)
 		end
 	end
 end)
