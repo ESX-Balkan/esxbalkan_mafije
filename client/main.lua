@@ -620,30 +620,32 @@ AddEventHandler('esxbalkan_mafije:vuci', function(copId)
 end)
 
 CreateThread(function()
-	local playerPed
-	local targetPed
+	local wasDragged
+
 	while true do
-		Wait(10)
-		if isHandcuffed then
-			playerPed = PlayerPedId()
-			if dragStatus.isDragged then
-				targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.CopId))
-				if not IsPedSittingInAnyVehicle(targetPed) then
-					AttachEntityToEntity(playerPed, targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+		local Sleep = 1500
+
+		if isHandcuffed and dragStatus.isDragged then
+			Sleep = 50
+			local targetPed = GetPlayerPed(GetPlayerFromServerId(dragStatus.CopId))
+
+			if DoesEntityExist(targetPed) and IsPedOnFoot(targetPed) and not IsPedDeadOrDying(targetPed, true) then
+				if not wasDragged then
+					AttachEntityToEntity(PlayerPedId(), targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+					wasDragged = true
 				else
-					dragStatus.isDragged = false
-					DetachEntity(playerPed, true, false)
-				end
-				if IsPedDeadOrDying(targetPed, true) then
-					dragStatus.isDragged = false
-					DetachEntity(playerPed, true, false)
+					Wait(1000)
 				end
 			else
-				DetachEntity(playerPed, true, false)
+				wasDragged = false
+				dragStatus.isDragged = false
+				DetachEntity(PlayerPedId(), true, false)
 			end
-		else
-			Wait(2000)
+		elseif wasDragged then
+			wasDragged = false
+			DetachEntity(PlayerPedId(), true, false)
 		end
+	Wait(Sleep)
 	end
 end)
 
@@ -674,6 +676,9 @@ end)
 RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
 AddEventHandler('esxbalkan_mafije:staviVanVozila', function()
 	local playerPed = PlayerPedId()
+	local GetVehiclePedIsIn = GetVehiclePedIsIn
+	local IsPedSittingInAnyVehicle = IsPedSittingInAnyVehicle
+	local TaskLeaveVehicle = TaskLeaveVehicle
 	if IsPedSittingInAnyVehicle(playerPed) then
 		local vehicle = GetVehiclePedIsIn(playerPed, false)
 		TaskLeaveVehicle(playerPed, vehicle, 16)
@@ -684,10 +689,13 @@ AddEventHandler('esxbalkan_mafije:staviVanVozila', function()
 end)
 
 CreateThread(function()
+	local DisableControlAction = DisableControlAction
+	local IsEntityPlayingAnim = IsEntityPlayingAnim
 	while true do
-		Wait(0)
+		local Sleep = 1000
 		local playerPed = PlayerPedId()
 		if isHandcuffed then
+			Sleep = 0
 			DisableControlAction(0, 1, true) -- Disable pan
 			DisableControlAction(0, 2, true) -- Disable tilt
 			DisableControlAction(0, 24, true) -- Attack
@@ -729,9 +737,8 @@ CreateThread(function()
 					TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0.0, false, false, false)
 				end)
 			end
-		else
-			Wait(2000)
 		end
+		Wait(Sleep)
 	end
 end)
 if not Config.Optimizacija then
