@@ -837,6 +837,9 @@ CreateThread(function()
 				if (LastStation and LastPart and LastPartNum) and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum) then
 					TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
 					hasExited = true
+					Wait(200)
+					ESX.UI.Menu.CloseAll()		
+					
 				end
 				HasAlreadyEnteredMarker = true
  				LastStation = currentStation
@@ -848,6 +851,8 @@ CreateThread(function()
 			if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
 				HasAlreadyEnteredMarker = false
 				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+				Wait(200)
+				ESX.UI.Menu.CloseAll()
 			end
 			if letSleep then wejtara = 800 end
 		else
