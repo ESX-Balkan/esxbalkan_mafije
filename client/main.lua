@@ -32,7 +32,7 @@ end)
 
 ---MEMORY USAGE FIX, SMANJIT CE MEMORY-U RAM USAGE, NE DIRATI KOD!!
 CreateThread(function()
-	while true do
+	while 1 do
 		Wait(60000)
 		collectgarbage("collect")
 	end
@@ -622,7 +622,7 @@ end)
 CreateThread(function()
 	local wasDragged
 
-	while true do
+	while 1 do
 		local Sleep = 1500
 
 		if isHandcuffed and dragStatus.isDragged then
@@ -691,7 +691,7 @@ end)
 CreateThread(function()
 	local DisableControlAction = DisableControlAction
 	local IsEntityPlayingAnim = IsEntityPlayingAnim
-	while true do
+	while 1 do
 		local Sleep = 1000
 		local playerPed = PlayerPedId()
 		if isHandcuffed then
@@ -749,7 +749,7 @@ CreateThread(function()
     else print("esxbalkan_mafije: Imate erorr ESX ili PlayerData!! Mafije nece raditi kako treba")
 
     end
-	while true do
+	while 1 do
 		Wait(wejtara)
 		
 		if PlayerData.job and Config.Mafije[PlayerData.job.name] then
@@ -869,7 +869,7 @@ else
         else print("esxbalkan_mafije: Imate erorr ESX ili PlayerData!! Mafije nece raditi kako treba")
         end
         local tablica = {}
-        while true do
+        while 1 do
             Wait(wejtara)
             if PlayerData.job and Config.Mafije[PlayerData.job.name] then
                 wejtara = 800
@@ -1031,7 +1031,7 @@ end, false)
 
 -- Trenutna akcija za markere i key kontrole--
 CreateThread(function()
-	while true do
+	while 1 do
 		Wait(15)
 		if CurrentAction and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
 			pokazi3dtinky(GetEntityCoords(PlayerPedId()), CurrentActionMsg, 250)
