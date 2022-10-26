@@ -26,8 +26,7 @@ Vozila = {
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-
-CreateThread(function ()
+CreateThread(function()
     -- Provjeri jeli startane ove skripte:
     while GetResourceState('esx_datastore') ~= 'started' do
         Citizen.Wait(1000)
@@ -495,29 +494,34 @@ AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 	local org = xPlayer.job.name
-	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_' .. org, function(inventory)
-		local inventoryItem = inventory.getItem(itemName)
-		if Config.Limit then
-			if (sourceItem.limit ~= -1 and (sourceItem.count + count) > sourceItem.limit) then
-				TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
-				return
-            end
-		else
-			if not xPlayer.canCarryItem(sourceItem.name, sourceItem.count) then
-				xPlayer.showNotification(_U('no_space'))
-				return
+	if Config.Mafije[org] then
+		TriggerEvent('esx_addoninventory:getSharedInventory', 'society_' .. org, function(inventory)
+			local inventoryItem = inventory.getItem(itemName)
+			if Config.Limit then
+				if (sourceItem.limit ~= -1 and (sourceItem.count + count) > sourceItem.limit) then
+					TriggerClientEvent('esx:showNotification', _source, _U('no_space'))
+					return
+				end
+			else
+				if not xPlayer.canCarryItem(sourceItem.name, sourceItem.count) then
+					xPlayer.showNotification(_U('no_space'))
+					return
+				end
 			end
-		end
 
-		if count > 0 and inventoryItem.count >= count then
-			inventory.removeItem(itemName, count)
-			xPlayer.addInventoryItem(itemName, count)
-			TriggerClientEvent('esx:showNotification', _source, _U('have_withdrawn', count, inventoryItem.label))
-			sendToDiscord3('Uzimanje Itema', xPlayer.name .. ' Je izvadio ' .. inventoryItem.label .. ' ' .. count)
-		else
-			TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
-		end
-	end)
+			if count > 0 and inventoryItem.count >= count then
+				inventory.removeItem(itemName, count)
+				xPlayer.addInventoryItem(itemName, count)
+				TriggerClientEvent('esx:showNotification', _source, _U('have_withdrawn', count, inventoryItem.label))
+				sendToDiscord3('Uzimanje Itema', xPlayer.name .. ' Je izvadio ' .. inventoryItem.label .. ' ' .. count)
+			else
+				TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
+			end
+		end)
+	else
+		print(('esxbalkan_mafije: %s je da izvadi item iz org a nije u organizaciji!.'):format(xPlayer.identifier))
+		DropPlayer(_source, 'Nemoj da cheatujes, Pozz od ESX-Balkana (:')
+	end
 end)
 
 RegisterNetEvent('esxbalkan_mafije:putStockItems')
@@ -525,18 +529,25 @@ AddEventHandler('esxbalkan_mafije:putStockItems', function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 	local org = xPlayer.job.name
-	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_' .. org, function(inventory)
-		local inventoryItem = inventory.getItem(itemName)
-		-- dali igrac ima dovoljno kod sebe?
-		if sourceItem.count >= count and count > 0 then
-			xPlayer.removeInventoryItem(itemName, count)
-			inventory.addItem(itemName, count)
-			TriggerClientEvent('esx:showNotification', xPlayer.source, _U('have_deposited', count, inventoryItem.label))
-			sendToDiscord3('Stavljanje Itema', xPlayer.name .. ' Je Stavio ' .. inventoryItem.label .. ' ' .. count)
+	if xPlayer then
+		if Config.Mafije[org] then
+			TriggerEvent('esx_addoninventory:getSharedInventory', 'society_' .. org, function(inventory)
+				local inventoryItem = inventory.getItem(itemName)
+				-- dali igrac ima dovoljno kod sebe?
+				if sourceItem.count >= count and count > 0 then
+					xPlayer.removeInventoryItem(itemName, count)
+					inventory.addItem(itemName, count)
+					TriggerClientEvent('esx:showNotification', xPlayer.source, _U('have_deposited', count, inventoryItem.label))
+					sendToDiscord3('Stavljanje Itema', xPlayer.name .. ' Je Stavio ' .. inventoryItem.label .. ' ' .. count)
+				else
+					TriggerClientEvent('esx:showNotification', xPlayer.source, _U('quantity_invalid'))
+				end
+			end)
 		else
-			TriggerClientEvent('esx:showNotification', xPlayer.source, _U('quantity_invalid'))
+			print(('esxbalkan_mafije: %s je da stavi item u org a nije u organizaciji!.'):format(xPlayer.identifier))
+			DropPlayer(source, 'Nemoj da cheatujes, Pozz od ESX-Balkana (:')
 		end
-	end)
+	end
 end)
 
 ESX.RegisterServerCallback('esxbalkan_mafije:getajsveiteme', function(source, cb)
@@ -552,7 +563,6 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getajigracevinventory', function(so
 	local items = xPlayer.inventory
 	cb({items = items})
 end)
-
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------- L E V E L I -------------------------------------------------------------------
@@ -581,7 +591,7 @@ AddEventHandler('esxbalkan_mafije:updateLvL1', function(job)
             TriggerClientEvent('esx:showNotification', src, ('Nemas dovoljno novca!'))
         end
     else
-        DropPlayer(src, '(:')
+        DropPlayer(src, 'Nemoj da cheatujes, Pozz od ESX-Balkana (:')
     end
 end)
 
@@ -609,7 +619,7 @@ AddEventHandler('esxbalkan_mafije:updateLvL2', function(job)
             TriggerClientEvent('esx:showNotification', src, ('Nemas dovoljno novca!'))
         end
     else
-        DropPlayer(src, '(:')
+        DropPlayer(src, 'Nemoj da cheatujes, Pozz od ESX-Balkana (:')
     end
 end)
 
@@ -637,7 +647,7 @@ AddEventHandler('esxbalkan_mafije:updateLvL3', function(job)
             TriggerClientEvent('esx:showNotification', src, ('Nemas dovoljno novca!'))
         end
     else
-        DropPlayer(src, '(:')
+		DropPlayer(src, 'Nemoj da cheatujes, Pozz od ESX-Balkana (:')
     end
 end)
 
@@ -649,7 +659,7 @@ RegisterCommand('setlvl', function(source, args)
 		if args[1] ~= nil and args[2] ~= nil then 
 			setLevel(job, level, broj)	
 			print("^5Gang ^0" ..job.. "^5 was set to level: ^7" ..level.. "")
-                        sendToDiscord3('Unapredjene Baze',  xPlayer.name ..' je postavio ' .. levelTabela[job].stats.level .. ' ' .. 'level na '  .. job )
+			sendToDiscord3('Unapredjene Baze',  xPlayer.name ..' je postavio ' .. levelTabela[job].stats.level .. ' ' .. 'level na '  .. job )
 		end
 	else
 		TriggerClientEvent('esx:showNotification', source, ('Ne mozes koristiti ovu komandu, nisi admin!'))
