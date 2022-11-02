@@ -269,6 +269,7 @@ ObrisiVozilo = function()
 	local vehicleSpeed = math.floor((GetEntitySpeed(GetVehiclePedIsIn(playerPed, false))*3.6))
 	if (vehicleSpeed > 45) then FreezeEntityPosition(vozilo, true) end
 	TaskLeaveVehicle(playerPed, vozilo, 0)
+	TaskEveryoneLeaveVehicle(vozilo)
 	while IsPedInVehicle(playerPed, vozilo, true) do Wait(0) end
 	Citizen.Wait(500)
 	NetworkFadeOutEntity(vozilo, true, true)
