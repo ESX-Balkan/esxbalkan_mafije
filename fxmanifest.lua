@@ -19,6 +19,7 @@ server_scripts {
 client_script 'client/*'
 
 dependencies {
+	'/server:5800', -- Server treba da ima updejtovane artifactove bar na 5800 verziju..           
 	'/onesync',
 	'es_extended',
 	'esx_addonaccount',
