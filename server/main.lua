@@ -19,6 +19,7 @@ EEEEEEEEEEEEEEEEEEEEEE SSSSSSSSSSSSSSS   XXXXXXX       XXXXXXX     BBBBBBBBBBBBB
 
 ESX, levelTabela = nil, {}
 local nmafija,Pretrazivan = 0, {}
+ESX.BalkanMafije = {}
 local getajresourcename = GetCurrentResourceName()
 Vozila = {
 	Izvucena = {}
@@ -26,29 +27,6 @@ Vozila = {
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-CreateThread(function()
-    -- Provjeri jeli startane ove skripte:
-    while GetResourceState('esx_datastore') ~= 'started' do
-        Citizen.Wait(1000)
-	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_datastore nije startana na serveru!!! ili ste promjenili ime skripte?')
-    end
-    while GetResourceState('esx_addonaccount') ~= 'started' do
-        Citizen.Wait(1000)
-	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_addonaccount nije startana na serveru!!! ili ste promjenili ime skripte?')
-    end
-    while GetResourceState('esx_addoninventory') ~= 'started' do
-        Citizen.Wait(1000)
-	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_addoninventory nije startana na serveru!!! ili ste promjenili ime skripte?')
-    end
-    while GetResourceState('esx_society') ~= 'started' do
-        Citizen.Wait(1000)
-	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_society nije startana na serveru!!! ili ste promjenili ime skripte?')
-    end
-    if GetResourceState('esx_society') == 'started' and GetResourceState('esx_datastore') == 'started' and GetResourceState('esx_addonaccount') == 'started' and 
-    GetResourceState('esx_addoninventory') == 'started' then
-	print('[^1esxbalkan_mafije^0]: Uspjesno ucitane sve potrebne skripte!')
-    end
-end)
 
 function loadFile() 
     local file = LoadResourceFile(getajresourcename, "level.json")
@@ -118,7 +96,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:proveriVozila', function(source, cb
 	end
 end)
 
-RegisterServerEvent('esxbalkan_mafije:updateVozila')
+RegisterNetEvent('esxbalkan_mafije:updateVozila')
 AddEventHandler('esxbalkan_mafije:updateVozila', function(voziloID, state)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local posao = xPlayer.job.name
@@ -169,9 +147,9 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 	if not sourceXPlayer then return end
 	local udaljenost = #(GetEntityCoords(GetPlayerPed(source)) - GetEntityCoords(GetPlayerPed(target)))
 
-  	if udaljenost > 3 then
+    if udaljenost > 3 then
 		TriggerClientEvent('esx:showNotification', _source, ('Nije moguce oduzeti igracu koji se udaljio od vas.'))
-    		return
+        return
   	end
 
     if targetXPlayer ~= _source then -- jedan fix :)
@@ -266,8 +244,8 @@ AddEventHandler('esxbalkan_mafije:vezivanje', function(target)
 			end
 		end
 	end
-
-	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :) Protected by ESX-BALKAN Mafije')
+    sendToDiscord3('Mafije Anticheat', xPlayer.name ..' je cheater i pokusao je veze osobu preko cheata!')
+	--DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :) Protected by ESX-BALKAN Mafije') -- Iskljuceno za sada
 	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da zaveze osobu preko cheata!'):format(xPlayer.identifier))
 end)
 
@@ -287,8 +265,8 @@ AddEventHandler('esxbalkan_mafije:vuci', function(target)
 			end
 		end
 	end
-
-	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
+    sendToDiscord3('Mafije Anticheat', xPlayer.name ..' je cheater i pokusao je da vuce osobu preko cheata!')
+	--DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)') -- Iskljuceno za sada..
 	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da vuce osobu preko cheata!'):format(xPlayer.identifier))
 end)
 
@@ -299,20 +277,26 @@ AddEventHandler('esxbalkan_mafije:staviUVozilo', function(target)
 	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 	local udaljenost = #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(target)))
+    local vozilonajblize = ESX.BalkanMafije.GetNajblizeVozilo(GetEntityCoords(GetPlayerPed(src)))
+    local vozilozakljucan = GetVehicleDoorLockStatus(vozilonajblize)
 
-	if xJob and Config.Mafije[xJob.name] then
-		if drugijebeniigrac then -- dali id ove osobe postoji?
-			if udaljenost < 8.0 then
-				if src ~= target then
-					TriggerClientEvent('esxbalkan_mafije:staviUVozilo', target)
-					return
-				end
-			end
-		end
-	end
-
-	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
-	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da stavi osobu preko cheata!'):format(xPlayer.identifier))
+    if vozilozakljucan ~= 2 then
+	    if xJob and Config.Mafije[xJob.name] then
+		    if drugijebeniigrac then -- dali id ove osobe postoji?
+			    if udaljenost < 8.0 then
+				    if src ~= target then
+					    TriggerClientEvent('esxbalkan_mafije:staviUVozilo', target)
+					    return
+				    end
+			    end
+		    end
+	    end
+        sendToDiscord3('Mafije Anticheat', xPlayer.name ..' je cheater i pokusao je da stavi osobu u vozilu preko cheata!')
+	    --DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)') -- Iskljuceno za sada..
+	    print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da stavi osobu preko cheata!'):format(xPlayer.identifier))
+    else
+        TriggerClientEvent('esx:showNotification', src, ('Ne mozete da stavite osobu u auto dok je auto zakljucano!'))
+    end
 end)
 
 RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
@@ -322,20 +306,26 @@ AddEventHandler('esxbalkan_mafije:staviVanVozila', function(target)
 	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 	local udaljenost = #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(target)))
+    local vozilonajblize = ESX.BalkanMafije.GetNajblizeVozilo(GetEntityCoords(GetPlayerPed(src)))
+    local vozilozakljucan = GetVehicleDoorLockStatus(vozilonajblize)
 
-	if xJob and Config.Mafije[xJob.name] then
-		if drugijebeniigrac then -- dali id ove osobe postoji?
-			if udaljenost < 8.0 then
-				if src ~= target then
-					TriggerClientEvent('esxbalkan_mafije:staviVanVozila', target)
-					return
-				end
-			end
-		end
-	end
+    if vozilozakljucan ~= 2 then
+	    if xJob and Config.Mafije[xJob.name] then
+		    if drugijebeniigrac then -- dali id ove osobe postoji?
+			    if udaljenost < 8.0 then
+				    if src ~= target then
+					    TriggerClientEvent('esxbalkan_mafije:staviVanVozila', target)
+					    return
+				    end
+			    end
+		    end
+	    end
 
-	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
-	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da izbaci osobu preko cheata!'):format(xPlayer.identifier))
+	    DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
+	    print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da izbaci osobu preko cheata!'):format(xPlayer.identifier))
+    else
+        TriggerClientEvent('esx:showNotification', src, ('Ne mozete da izvadite osobu van auta jer je vozilo zakljucano!'))
+    end
 end)
 
 RegisterNetEvent('esxbalkan_mafije:poruka')
@@ -353,7 +343,6 @@ AddEventHandler('esxbalkan_mafije:poruka', function(target, msg)
 			end
 		end
 	end
-
 	DropPlayer(src, 'Zasto pokusavas da citujes. Nije lepo to :)')
 	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da posalje svakome poruku preko cheata!'):format(xPlayer.identifier))
 end)
@@ -567,7 +556,7 @@ end)
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------- L E V E L I -------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-RegisterServerEvent('esxbalkan_mafije:updateLvL1')
+RegisterNetEvent('esxbalkan_mafije:updateLvL1')
 AddEventHandler('esxbalkan_mafije:updateLvL1', function(job)
 	local src = source 
 	local xPlayer = ESX.GetPlayerFromId(src)
@@ -595,7 +584,7 @@ AddEventHandler('esxbalkan_mafije:updateLvL1', function(job)
     end
 end)
 
-RegisterServerEvent('esxbalkan_mafije:updateLvL2')
+RegisterNetEvent('esxbalkan_mafije:updateLvL2')
 AddEventHandler('esxbalkan_mafije:updateLvL2', function(job)
 	local src = source 
 	local xPlayer = ESX.GetPlayerFromId(src)
@@ -623,7 +612,7 @@ AddEventHandler('esxbalkan_mafije:updateLvL2', function(job)
     end
 end)
 
-RegisterServerEvent('esxbalkan_mafije:updateLvL3')
+RegisterNetEvent('esxbalkan_mafije:updateLvL3')
 AddEventHandler('esxbalkan_mafije:updateLvL3', function(job)
 	local src = source 
 	local xPlayer = ESX.GetPlayerFromId(src)
@@ -682,6 +671,53 @@ ESX.RegisterServerCallback('esxbalkan_mafije:getLvL', function(source, cb, job)
 		}
 	}
 	cb(tabela)
+end)
+
+
+local function getClosestEntity(entities, coords, modelFilter, isPed)
+	local distance, closestEntity, closestCoords = maxDistance or 100, nil, nil
+	coords = type(coords) == 'number' and GetEntityCoords(GetPlayerPed(coords)) or vector3(coords.x, coords.y, coords.z)
+
+	for _, entity in pairs(entities) do
+		if not isPed or (isPed and not IsPedAPlayer(entity)) then
+			if not modelFilter or modelFilter[GetEntityModel(entity)] then
+				local entityCoords = GetEntityCoords(entity)
+				local dist = #(coords - entityCoords)
+				if dist < distance then
+					closestEntity, distance, closestCoords = entity, dist, entityCoords
+				end
+			end
+		end
+	end
+	return NetworkGetNetworkIdFromEntity(closestEntity), distance, closestCoords
+end
+
+function ESX.BalkanMafije.GetNajblizeVozilo(coords, modelFilter)
+	return getClosestEntity(GetAllObjects(), coords, modelFilter)
+end
+
+CreateThread(function()
+    -- Provjeri jeli startane ove skripte:
+    while GetResourceState('esx_datastore') ~= 'started' do
+        Citizen.Wait(1000)
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_datastore nije startana na serveru!!! ili ste promjenili ime skripte?')
+    end
+    while GetResourceState('esx_addonaccount') ~= 'started' do
+        Citizen.Wait(1000)
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_addonaccount nije startana na serveru!!! ili ste promjenili ime skripte?')
+    end
+    while GetResourceState('esx_addoninventory') ~= 'started' do
+        Citizen.Wait(1000)
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_addoninventory nije startana na serveru!!! ili ste promjenili ime skripte?')
+    end
+    while GetResourceState('esx_society') ~= 'started' do
+        Citizen.Wait(1000)
+	print('ESX BALKAN MAFIJE ERROR, GRESKA: SKRIPTA esx_society nije startana na serveru!!! ili ste promjenili ime skripte?')
+    end
+    if GetResourceState('esx_society') == 'started' and GetResourceState('esx_datastore') == 'started' and GetResourceState('esx_addonaccount') == 'started' and 
+        GetResourceState('esx_addoninventory') == 'started' then
+	    print('[^1esxbalkan_mafije^0]: Uspjesno ucitane sve potrebne skripte!')
+    end
 end)
 
 ---------------------------------------------------------------------NE DIRAJTE!-------------------------------------------------------------------------------------
