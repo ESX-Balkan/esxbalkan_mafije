@@ -18,7 +18,7 @@ EEEEEEEEEEEEEEEEEEEEEE SSSSSSSSSSSSSSS   XXXXXXX       XXXXXXX     BBBBBBBBBBBBB
 
 
 ESX, levelTabela = nil, {}
-local nmafija,Pretrazivan = 0, {}
+local Pretrazivan = {}
 ESX.BalkanMafije = {}
 local getajresourcename = GetCurrentResourceName()
 Vozila = {
@@ -26,7 +26,6 @@ Vozila = {
 }
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
 
 function loadFile() 
     local file = LoadResourceFile(getajresourcename, "level.json")
@@ -42,7 +41,7 @@ end
 teleportujSeDoBaze = function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if not Config.Mafije[xPlayer.job.name] then TriggerClientEvent('esx:showNotification', source, ('Nemate setanu mafiju!')) return end
-	for mafijoze=1, #Config.Mafije[xPlayer.job.name]['Vehicles'], 1 do
+	for mafijoze = 1, #Config.Mafije[xPlayer.job.name]['Vehicles'], 1 do
 		local lokacija = Config.Mafije[xPlayer.job.name]['Vehicles'][mafijoze]
 		SetEntityCoords(GetPlayerPed(source), lokacija)
 		TriggerClientEvent('esx:showNotification', source, ('Teleportani ste do baze od - ' .. xPlayer.job.label))
@@ -52,7 +51,8 @@ end
 RegisterCommand('tpdobaze', function(source)
 	local kod = source
 	local xPlayer = ESX.GetPlayerFromId(kod)
-	if xPlayer.getGroup() == 'admin' or xPlayer.getGroup() == 'superadmin' then
+	local grupa = xPlayer.getGroup()
+	if Config.Permisije[grupa] then
 		teleportujSeDoBaze(kod)
 	else
 		TriggerClientEvent('esx:showNotification', kod, ('Ne mozes koristiti ovu komandu, nisi admin!'))
@@ -64,23 +64,29 @@ if Config.OxInventory then
 		exports.ox_inventory:RegisterStash('society_' .. k, 'society_' .. k, 50, 200000)
 	end
 end
-for k,v in pairs(Config.Mafije) do
+
+for k, v in pairs(Config.Mafije) do
 	TriggerEvent('esx_society:registerSociety', k, k, 'society_' .. k, 'society_'..k, 'society_'..k, {type = 'public'})
-	nmafija = nmafija + 1
 end
 
-print('[^1esxbalkan_mafije^0]: Napravio tim ^5ESX-Balkan^0 | Ucitano ^4' .. nmafija .. '^0 mafia')
+print('[^1esxbalkan_mafije^0]: Napravio tim ^5ESX-Balkan^0 | Ucitano ^4' .. #Config.Mafije .. '^0 mafia')
 
-function sendToDiscord3 (name,message)
-local embeds = {{
-	["title"]=message,
-	["type"]="rich",
-	["color"] =2061822,
-	["footer"]=  {
-	["text"]= "ESX Balkan Mafije",
-},}}
-
-if message == nil or message == '' then return FALSE end PerformHttpRequest(Config.Webhuk, function(err, text, headers) end, 'POST', json.encode({ username = name,embeds = embeds}), { ['Content-Type'] = 'application/json' }) end
+function sendToDiscord3(name, message)
+	local embeds = {
+		{
+			["title"] = message,
+			["type"] = "rich",
+			["color"] = 2061822,
+			["footer"] = {
+				["text"] = "ESX Balkan Mafije",
+			}
+		}
+	}
+	if message == nil or message == '' then
+		return false
+	end 
+	PerformHttpRequest(Config.Webhuk, function(err, text, headers) end, 'POST', json.encode({username = name, embeds = embeds}), { ['Content-Type'] = 'application/json' })
+end
 
 
 ESX.RegisterServerCallback('esxbalkan_mafije:proveriVozila', function(source, cb)
@@ -96,8 +102,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:proveriVozila', function(source, cb
 	end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:updateVozila')
-AddEventHandler('esxbalkan_mafije:updateVozila', function(voziloID, state)
+RegisterNetEvent('esxbalkan_mafije:updateVozila', function(voziloID, state)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local posao = xPlayer.job.name
 
@@ -110,19 +115,18 @@ end)
 
 
 ESX.RegisterServerCallback('esxbalkan_mafije:getOtherPlayerData', function(source, cb, target)
-		local xPlayer = ESX.GetPlayerFromId(target)
-		local data = {
-			name = GetPlayerName(target),
-			job  = xPlayer.job,
-			inventory = xPlayer.inventory,
-			accounts = xPlayer.accounts,
-			weapons = xPlayer.loadout
-		}
-		cb(data)
+	local xPlayer = ESX.GetPlayerFromId(target)
+	local data = {
+		name = GetPlayerName(target),
+		job  = xPlayer.job,
+		inventory = xPlayer.inventory,
+		accounts = xPlayer.accounts,
+		weapons = xPlayer.loadout
+	}
+	cb(data)
 end)
 
-RegisterNetEvent('esxbalkan_mafije:PretrazujuMe')
-AddEventHandler('esxbalkan_mafije:PretrazujuMe', function(id, br)
+RegisterNetEvent('esxbalkan_mafije:PretrazujuMe', function(id, br)
 	Pretrazivan[id] = br
 end)
 
@@ -138,8 +142,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:JelPretrazivan', function(source, c
 	end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:oduzmiItem')
-AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemName, amount)
+RegisterNetEvent('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemName, amount)
 	local _source = source
 	local sourceXPlayer = ESX.GetPlayerFromId(_source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
@@ -148,8 +151,7 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 	local udaljenost = #(GetEntityCoords(GetPlayerPed(source)) - GetEntityCoords(GetPlayerPed(target)))
 
     if udaljenost > 3 then
-		TriggerClientEvent('esx:showNotification', _source, ('Nije moguce oduzeti igracu koji se udaljio od vas.'))
-        return
+		return TriggerClientEvent('esx:showNotification', _source, ('Nije moguce oduzeti igracu koji se udaljio od vas.'))
   	end
 
     if targetXPlayer ~= _source then -- jedan fix :)
@@ -226,8 +228,7 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
 end
 )
 
-RegisterNetEvent('esxbalkan_mafije:vezivanje')
-AddEventHandler('esxbalkan_mafije:vezivanje', function(target)
+RegisterNetEvent('esxbalkan_mafije:vezivanje', function(target)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local xJob = xPlayer.job
@@ -249,8 +250,7 @@ AddEventHandler('esxbalkan_mafije:vezivanje', function(target)
 	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da zaveze osobu preko cheata!'):format(xPlayer.identifier))
 end)
 
-RegisterNetEvent('esxbalkan_mafije:vuci')
-AddEventHandler('esxbalkan_mafije:vuci', function(target)
+RegisterNetEvent('esxbalkan_mafije:vuci', function(target)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local xJob = xPlayer.job
@@ -270,8 +270,7 @@ AddEventHandler('esxbalkan_mafije:vuci', function(target)
 	print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da vuce osobu preko cheata!'):format(xPlayer.identifier))
 end)
 
-RegisterNetEvent('esxbalkan_mafije:staviUVozilo')
-AddEventHandler('esxbalkan_mafije:staviUVozilo', function(target)
+RegisterNetEvent('esxbalkan_mafije:staviUVozilo', function(target)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local xJob = xPlayer.job
@@ -299,8 +298,7 @@ AddEventHandler('esxbalkan_mafije:staviUVozilo', function(target)
     end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
-AddEventHandler('esxbalkan_mafije:staviVanVozila', function(target)
+RegisterNetEvent('esxbalkan_mafije:staviVanVozila', function(target)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local xJob = xPlayer.job
@@ -328,8 +326,7 @@ AddEventHandler('esxbalkan_mafije:staviVanVozila', function(target)
     end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:poruka')
-AddEventHandler('esxbalkan_mafije:poruka', function(target, msg)
+RegisterNetEvent('esxbalkan_mafije:poruka', function(target, msg)
 	local src = source
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local xJob = xPlayer.job
@@ -477,8 +474,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:kupiOruzje', function(source, cb, w
 	end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:getStockItem')
-AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
+RegisterNetEvent('esxbalkan_mafije:getStockItem', function(itemName, count)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
@@ -513,8 +509,7 @@ AddEventHandler('esxbalkan_mafije:getStockItem', function(itemName, count)
 	end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:putStockItems')
-AddEventHandler('esxbalkan_mafije:putStockItems', function(itemName, count)
+RegisterNetEvent('esxbalkan_mafije:putStockItems', function(itemName, count)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local sourceItem = xPlayer.getInventoryItem(itemName)
 	local org = xPlayer.job.name
@@ -556,8 +551,7 @@ end)
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------- L E V E L I -------------------------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-RegisterNetEvent('esxbalkan_mafije:updateLvL1')
-AddEventHandler('esxbalkan_mafije:updateLvL1', function(job)
+RegisterNetEvent('esxbalkan_mafije:updateLvL1', function(job)
 	local src = source 
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local imaNovac = xPlayer.getMoney()
@@ -584,8 +578,7 @@ AddEventHandler('esxbalkan_mafije:updateLvL1', function(job)
     end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:updateLvL2')
-AddEventHandler('esxbalkan_mafije:updateLvL2', function(job)
+RegisterNetEvent('esxbalkan_mafije:updateLvL2', function(job)
 	local src = source 
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local imaNovac = xPlayer.getMoney()
@@ -612,8 +605,7 @@ AddEventHandler('esxbalkan_mafije:updateLvL2', function(job)
     end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:updateLvL3')
-AddEventHandler('esxbalkan_mafije:updateLvL3', function(job)
+RegisterNetEvent('esxbalkan_mafije:updateLvL3', function(job)
 	local src = source 
 	local xPlayer = ESX.GetPlayerFromId(src)
 	local imaNovac = xPlayer.getMoney()
@@ -741,4 +733,3 @@ if getajresourcename ~= "esxbalkan_mafije" then
 	    end
 	end)
 end
-

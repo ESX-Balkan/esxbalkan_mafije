@@ -1,4 +1,4 @@
-Config  = {}
+Config = {}
 Config.DrawDistance = 20.0 -- 20 je savim dovoljno ne treb ni manje ni preko 20..
 Config.Optimizacija = true -- Ruzni markeri ali zato 0.00ms uvijek :)
 Config.MarkerSize  = { x = 1.5, y = 1.5, z = 0.5 }
@@ -6,7 +6,6 @@ Config.MarkerHelikopter   = { x = 6.0, y = 6.0, z = 2.5 }
 Config.MarkerAuto = { x = 3.0, y = 3.0, z = 3.0 }
 Config.MarkerColor  = { r = 50, g = 50, b = 204 }
 Config.OxInventory = false -- ako koristite ox_inventory oruzarnica ce se otvoriti kao stash (u inventaru)
-Config.EnableESXIdentity  = true -- ako koristite esx_identity
 Config.Limit = true -- Dali koristite limit? ako je true onda ce biti limit u sefovima i u pretrazivanju igraca, ako je false onda je tezina itema!
 Config.Webhuk = "" -- Ovdje dodajete svoj wehuk za mafije da imate logove itd :)
 Config.UkljuciPranje = true -- Ovdje mozete iskljuciti pranje novca kao sef...
@@ -23,6 +22,10 @@ Config.MarkerTypes = {
 	Helikopteri = 34,
 	VracanjeAuta = 1,
 	Oruzarnica = 21
+}
+Config.Permisije = {
+	["superadmin"] = true,
+	["admin"] = true,
 }
 
 -- OVDJE DODAJETE NOVE POSLOVE SVE
