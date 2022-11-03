@@ -1168,7 +1168,7 @@ function OpenBuyWeaponsMenu()
 	local elements = {}
 	local playerPed = cahovanipodaci["igrac"]
 	for i=1, #Config.Oruzje[PlayerData.job.grade_name] do
-            local v = Config.Oruzje[PlayerData.job.grade_name]
+            local v = Config.Oruzje[PlayerData.job.grade_name][i]
             if v then
 		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
 		local components, label = {}
