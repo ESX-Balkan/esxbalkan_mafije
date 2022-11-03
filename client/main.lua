@@ -75,15 +75,19 @@ getajLevel = function ()
 	end
 end
 
+insertuj = function(tabla, podatak)
+	tabla[#tabla + 1] = podatak
+end
+
 function LvL()
 	local elements = {}
 	if Config.Levelanje then 
 		if levelTabela.stats.level == 0 then 
-			table.insert(elements, { label = 'Level 1 ('..Config.lvl1..'$)', value = 'lvl1' })		
+			insertuj(elements, { label = 'Level 1 ('..Config.lvl1..'$)', value = 'lvl1' })		
 		elseif levelTabela.stats.level == 1 then 
-			table.insert(elements, { label = 'Level 2 ('..Config.lvl2..'$)', value = 'lvl2' })		
+			insertuj(elements, { label = 'Level 2 ('..Config.lvl2..'$)', value = 'lvl2' })		
 			elseif levelTabela.stats.level == 2 then
-			table.insert(elements, { label = 'Level 3 ('..Config.lvl3..'$)', value = 'lvl3' })
+			insertuj(elements, { label = 'Level 3 ('..Config.lvl3..'$)', value = 'lvl3' })
 		end
 	end
 
@@ -120,34 +124,34 @@ function OpenArmoryMenu(station)
 		return ESX.UI.Menu.CloseAll()
 	else
     local elements = {}
-    if PlayerData.job.grade_name == 'boss' and Config.Levelanje then table.insert(elements, {label = 'Levelanje Baze | 💼', value = 'level'}) end 
+    if PlayerData.job.grade_name == 'boss' and Config.Levelanje then insertuj(elements, {label = 'Levelanje Baze | 💼', value = 'level'}) end 
     if Config.Levelanje then
       if levelTabela.stats.level  == 1 then
-        --table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-        --table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-        table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-        table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
+        --insertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+        --insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+        insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
+        insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
       elseif levelTabela.stats.level == 2 then 
-        --table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-        --table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-        table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-        table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-        table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+        --insertujinsertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+        --insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+        insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
+        insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
+        insertuj(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
             elseif levelTabela.stats.level == 3 then
-              --	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-              --		table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-                  table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-                  table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-                  --table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-                  table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+              --	insertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+              --		insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+                  insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
+                  insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
+                  --insertuj(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+                  insertuj(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
             end
       else
-          --	table.insert(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-          --	table.insert(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-            table.insert(elements, {label = _U('remove_object'),value = 'get_stock'})
-            table.insert(elements, {label = _U('deposit_object'),value = 'put_stock'})
-            --table.insert(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-            table.insert(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+          --	insertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'})
+          --	insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+            insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
+            insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
+            --insertuj(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+            insertuj(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
     end
 
       ESX.UI.Menu.CloseAll()
@@ -285,7 +289,7 @@ OtvoriAutoSpawnMenu = function(type, station, part, partNum)
     local elements = {}
 
     for model, label in pairs(Config.Mafije[PlayerData.job.name]["MeniVozila"]) do
-    	table.insert(elements, {label = '🚗 | ' .. label, value = model})
+    	insertuj(elements, {label = '🚗 | ' .. label, value = model})
     end
 
     ESX.UI.Menu.CloseAll()
@@ -470,7 +474,7 @@ PretrazivanjeIgraca = function(player)
 
 		for i=1, #data.accounts, 1 do
 			if data.accounts[i].name == 'black_money' and data.accounts[i].money > 0 then
-				table.insert(elements, {
+				insertuj(elements, {
 					label = _U('confiscate_dirty', ESX.Math.Round(data.accounts[i].money)),
 					value  = 'black_money',
 					itemType = 'item_account',
@@ -481,10 +485,10 @@ PretrazivanjeIgraca = function(player)
 			end
 		end
 
-		table.insert(elements, {label = _U('guns_label')})
+		insertuj(elements, {label = _U('guns_label')})
 
 		for i=1, #data.weapons, 1 do
-			table.insert(elements, {
+			insertuj(elements, {
 				label = _U('confiscate_weapon', ESX.GetWeaponLabel(data.weapons[i].name), data.weapons[i].ammo),
 				value = data.weapons[i].name,
 				itemType = 'item_weapon',
@@ -492,11 +496,11 @@ PretrazivanjeIgraca = function(player)
 			})
 		end
 
-		table.insert(elements, {label = _U('inventory_label')})
+		insertuj(elements, {label = _U('inventory_label')})
 
 		for i=1, #data.inventory, 1 do
 			if data.inventory[i].count > 0 then
-				table.insert(elements, {
+				insertuj(elements, {
 					label = _U('confiscate_inv', data.inventory[i].count, data.inventory[i].label),
 					value = data.inventory[i].name,
 					itemType = 'item_standard',
@@ -888,7 +892,7 @@ else
                         if distance < Config.DrawDistance then
                             local armory = CreateCheckpoint(47,v.x, v.y, v.z - 1, v, 1.0, 0, 0, 255, 200, 0)
                             SetCheckpointCylinderHeight(armory, 1.5, 1.5, 1.5)
-                            table.insert(tablica, armory)
+                            insertuj(tablica, armory)
                             letSleep = false
                         end
     
@@ -905,7 +909,7 @@ else
                             if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
                                 local parkirajvozilo = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
                                 SetCheckpointCylinderHeight(parkirajvozilo, 2.0, 2.0, 2.0)
-                                table.insert(tablica, parkirajvozilo)
+                                insertuj(tablica, parkirajvozilo)
                                 letSleep = false
                             end
                         end
@@ -923,7 +927,7 @@ else
                             if not IsPedInAnyVehicle(playerPed, false) then
                                 local vozila = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
                                 SetCheckpointCylinderHeight(vozila, 2.0, 2.0, 2.0)
-                                table.insert(tablica, vozila)
+                                insertuj(tablica, vozila)
                                 letSleep = false
                             end
                         end
@@ -942,7 +946,7 @@ else
 								if not IsPedInAnyVehicle(playerPed, false) then
 									local vozila = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
 									SetCheckpointCylinderHeight(vozila, 2.0, 2.0, 2.0)
-									table.insert(tablica, vozila)
+									insertuj(tablica, vozila)
 									letSleep = false
 								end
 							end
@@ -962,7 +966,7 @@ else
 								if not IsPedInAnyVehicle(playerPed, false) then
 									local vozila = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
 									SetCheckpointCylinderHeight(vozila, 2.0, 2.0, 2.0)
-									table.insert(tablica, vozila)
+									insertuj(tablica, vozila)
 									letSleep = false
 								end
 							end
@@ -981,7 +985,7 @@ else
                             if distance < Config.DrawDistance then
                                 local bossmeni = CreateCheckpoint(47, v.x, v.y, v.z - 1, v, 2.0, 0, 0, 255, 200, 0)
                                 SetCheckpointCylinderHeight(bossmeni, 2.0, 2.0, 2.0)
-                                table.insert(tablica, bossmeni)
+                                insertuj(tablica, bossmeni)
                                 letSleep = false
                             end
     
@@ -1089,7 +1093,7 @@ function OpenGetWeaponMenu()
 		local elements = {}
 		for i=1, #weapons, 1 do
 			if weapons[i].count > 0 then
-				table.insert(elements, {
+				insertuj(elements, {
 					label = 'x' .. weapons[i].count .. ' ' .. ESX.GetWeaponLabel(weapons[i].name),
 					value = weapons[i].name
 				})
@@ -1120,7 +1124,7 @@ function OpenPutWeaponMenu()
 	for i=1, #weaponList, 1 do
 		local weaponHash = GetHashKey(weaponList[i].name)
 		if HasPedGotWeapon(playerPed, weaponHash, false) and weaponList[i].name ~= 'WEAPON_UNARMED' then
-			table.insert(elements, {
+			insertuj(elements, {
 				label = weaponList[i].label,
 				value = weaponList[i].name
 			})
@@ -1163,7 +1167,7 @@ function OpenBuyWeaponsMenu()
 						end
 					end
 
-					table.insert(components, {
+					insertuj(components, {
 						label = label,
 						componentLabel = component.label,
 						hash = component.hash,
@@ -1188,7 +1192,7 @@ function OpenBuyWeaponsMenu()
 			end
 		end
 		
-		table.insert(elements, {
+		insertuj(elements, {
 			label = label,
 			weaponLabel = weapon.label,
 			name = weapon.name,
@@ -1261,7 +1265,7 @@ function OpenGetStocksMenu()
 		for i=1, #items, 1 do
 			local item = items[i]
 			if item.count > 0 then
-				table.insert(elements, {
+				insertuj(elements, {
 					label = 'x' .. items[i].count .. ' ' .. items[i].label,
 					value = items[i].name
 				})
@@ -1306,7 +1310,7 @@ function OpenPutStocksMenu()
 			local item = inventory.items[i]
 
 			if item.count > 0 then
-				table.insert(elements, {
+				insertuj(elements, {
 					label = item.label .. ' x' .. item.count,
 					type = 'item_standard',
 					value = item.name
