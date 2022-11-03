@@ -19,7 +19,6 @@ EEEEEEEEEEEEEEEEEEEEEE SSSSSSSSSSSSSSS   XXXXXXX       XXXXXXX     BBBBBBBBBBBBB
 
 ESX, levelTabela = nil, {}
 local nmafija,Pretrazivan = 0, {}
-ESX.BalkanMafije = {}
 local getajresourcename = GetCurrentResourceName()
 Vozila = {
 	Izvucena = {}
@@ -277,7 +276,7 @@ AddEventHandler('esxbalkan_mafije:staviUVozilo', function(target)
 	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 	local udaljenost = #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(target)))
-    local vozilonajblize = ESX.BalkanMafije.GetNajblizeVozilo(GetEntityCoords(GetPlayerPed(src)))
+    local vozilonajblize = GetNajblizeVozilo(GetEntityCoords(GetPlayerPed(src)))
     local vozilozakljucan = GetVehicleDoorLockStatus(vozilonajblize)
 
     if vozilozakljucan ~= 2 then
@@ -306,7 +305,7 @@ AddEventHandler('esxbalkan_mafije:staviVanVozila', function(target)
 	local xJob = xPlayer.job
 	local drugijebeniigrac = ESX.GetPlayerFromId(target)
 	local udaljenost = #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(target)))
-    local vozilonajblize = ESX.BalkanMafije.GetNajblizeVozilo(GetEntityCoords(GetPlayerPed(src)))
+    local vozilonajblize = GetNajblizeVozilo(GetEntityCoords(GetPlayerPed(src)))
     local vozilozakljucan = GetVehicleDoorLockStatus(vozilonajblize)
 
     if vozilozakljucan ~= 2 then
@@ -692,7 +691,7 @@ local function getClosestEntity(entities, coords, modelFilter, isPed)
 	return NetworkGetNetworkIdFromEntity(closestEntity), distance, closestCoords
 end
 
-function ESX.BalkanMafije.GetNajblizeVozilo(coords, modelFilter)
+function GetNajblizeVozilo(coords, modelFilter)
 	return getClosestEntity(GetAllObjects(), coords, modelFilter)
 end
 
