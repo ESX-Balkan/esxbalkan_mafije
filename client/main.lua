@@ -1021,18 +1021,14 @@ else
     end)
 end
 
-RegisterKeyMapping('+mafijameni', 'Mafia meni', 'keyboard', 'F6')
-RegisterCommand('+mafijameni', function()
+ESX.RegisterInput("mafijameni", "Mafija Meni", "keyboard", "F6", function()
 	if not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
 		if PlayerData.job and Config.Mafije[PlayerData.job.name] then
 			OtvoriPosaoMenu()
 		end
 	end
-end, false)
+end)
 
-RegisterCommand('-mafijameni', function()
-	-- ovo nemojte dirati!
-end, false)
 
 -- Trenutna akcija za markere i key kontrole--
 CreateThread(function()
