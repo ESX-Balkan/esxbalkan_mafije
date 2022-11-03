@@ -647,7 +647,7 @@ RegisterCommand('setlvl', function(source, args)
 	if source == 0 or xPlayer.getGroup() == "superadmin" then
 		if args[1] ~= nil and args[2] ~= nil then 
 			setLevel(job, level, broj)	
-			print("^5Gang ^0" ..job.. "^5 was set to level: ^7" ..level.. "")
+			print("^5Mafija ^0" ..job.. "^5 je postavljena na level: ^7" ..level.. "")
 			sendToDiscord3('Unapredjene Baze',  xPlayer.name ..' je postavio ' .. levelTabela[job].stats.level .. ' ' .. 'level na '  .. job )
 		end
 	else
@@ -659,7 +659,7 @@ end)
 setLevel = function(job, broj)
 	levelTabela[job].stats.level = level
 	saveFile(levelTabela)
-	TriggerClientEvent('esxbalkan_mafije:updateHouse', -1, 'Gang: ~r~'..job..'~s~\nWas set to level: '..levelTabela[job].stats.level)
+	TriggerClientEvent('esxbalkan_mafije:updateHouse', -1, 'Mafija: ~r~'..job..'~s~je postavljena na level: '..levelTabela[job].stats.level)
 end
 
 ESX.RegisterServerCallback('esxbalkan_mafije:getLvL', function(source, cb, job)
