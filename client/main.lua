@@ -18,12 +18,14 @@ EEEEEEEEEEEEEEEEEEEEEE SSSSSSSSSSSSSSS   XXXXXXX       XXXXXXX     BBBBBBBBBBBBB
 local PlayerData, CurrentActionData, handcuffTimer, dragStatus, blipsCops, currentTask, spawnedVehicles, levelTabela = {}, {}, {}, {}, {}, {}, {}, nil
 local HasAlreadyEnteredMarker, isDead, isHandcuffed, Pretrazivan = false, false, false, false
 local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActionMsg
-dragStatus.isDragged = false
+cahovanipodaci = {}
 local tinkykralj = TriggerServerEvent
+local tinkykralj2 = TriggerEvent
+dragStatus.isDragged = false
 ESX = nil
 
 CreateThread(function()
-	while ESX == nil do TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end) Wait(250) end
+	while ESX == nil do tinkykralj2('esx:getSharedObject', function(obj) ESX = obj end) Wait(250) end
 	while ESX.GetPlayerData().job == nil do Wait(250) end
 	PlayerData = ESX.GetPlayerData()
 	Wait(1000)
@@ -37,6 +39,19 @@ CreateThread(function()
 		collectgarbage("collect")
 	end
 end)
+
+---OPTIMIZACIJA PlayerPedId BEZ KORISTENJA OD ESX-LEGACYA...
+CreateThread(function()
+	while true do
+		Wait(3000)
+		local igrac = cahovanipodaci["igrac"]
+		if cahovanipodaci["igrac"] ~= igrac then
+			cahovanipodaci["igrac"] = igrac
+            break
+		end
+	end
+end)
+
 ------------------------------------------------------------------
 
 RegisterNetEvent('esx:playerLoaded')
@@ -196,7 +211,7 @@ function OpenArmoryMenu(station)
           elseif data.current.value == 'buy_weapons' then
               OpenBuyWeaponsMenu()
           elseif data.current.value == 'pancir' then
-              SetPedArmour(PlayerPedId(), 100)
+              SetPedArmour(cahovanipodaci["igrac"], 100)
     elseif data.current.value == 'level' then
         LvL()
           end
@@ -210,7 +225,7 @@ function OpenArmoryMenu(station)
 end
 
 StvoriVozilo = function(vozilo)
-	local ped = PlayerPedId()
+	local ped = cahovanipodaci["igrac"]
 	ESX.Game.SpawnVehicle(vozilo, Config.Mafije[PlayerData.job.name]["Vehicles"][1], GetEntityHeading(ped), function(veh)
 		NetworkFadeInEntity(veh, true, true)
 		SetVehicleEngineOn(veh, true, true, false)
@@ -267,7 +282,7 @@ end
 
 
 ObrisiVozilo = function()
-	local playerPed = PlayerPedId()
+	local playerPed = cahovanipodaci["igrac"]
 	local vozilo =GetVehiclePedIsIn(playerPed,false)
 	local vehicleProps = ESX.Game.GetVehicleProperties(CurrentActionData.vehicle)
 	local vehicleSpeed = math.floor((GetEntitySpeed(GetVehiclePedIsIn(playerPed, false))*3.6))
@@ -335,7 +350,7 @@ OtvoriHeliSpawnMenu = function(type, station, part, partNum)
         {label = 'Heli | 🚗', value = 'fxho'},
 		{label = 'Heli2 | 🚗', value = 'seashark'},
             }},function(data, menu)
-            local playerPed = PlayerPedId()
+            local playerPed = cahovanipodaci["igrac"]
             if data.current.value == 'fxho' then
 				ESX.Game.SpawnVehicle("supervolito2", vector3(-2320.86, -658.25, 13.48), 266.92, function(vehicle) -- 
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
@@ -376,7 +391,7 @@ OtvoriBrodSpawnMenu = function(type, station, part, partNum)
 		{label = 'JetSkki | 🚗', value = 'fxho'},
 		{label = 'Jahta | 🚗', value = 'seashark'},
 			}},function(data, menu)
-			local playerPed = PlayerPedId()
+			local playerPed = cahovanipodaci["igrac"]
 			if data.current.value == 'fxho' then
 				ESX.Game.SpawnVehicle("fxho", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
 					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
@@ -563,7 +578,7 @@ AddEventHandler('esxbalkan_mafije:hasEnteredMarker', function(station, part, par
 		CurrentActionMsg  = _U('open_bossmenu')
 		CurrentActionData = {}
 	elseif part == 'ParkirajAuto' then
-		local playerPed = PlayerPedId()
+		local playerPed = cahovanipodaci["igrac"]
 		local vehicle = GetVehiclePedIsIn(playerPed, false)
 
 		if IsPedInAnyVehicle(playerPed, false) and GetPedInVehicleSeat(vehicle, -1) == playerPed then
@@ -582,7 +597,7 @@ end)
 RegisterNetEvent('esxbalkan_mafije:vezivanje')
 AddEventHandler('esxbalkan_mafije:vezivanje', function()
 	isHandcuffed = not isHandcuffed
-	local playerPed = PlayerPedId()
+	local playerPed = cahovanipodaci["igrac"]
 		if isHandcuffed then
 		RequestAnimDict('mp_arresting')
 		while not HasAnimDictLoaded('mp_arresting') do Wait(0) end
@@ -606,7 +621,7 @@ end)
 RegisterNetEvent('esxbalkan_mafije:odvezivanje')
 AddEventHandler('esxbalkan_mafije:odvezivanje', function()
 	if isHandcuffed then
-		local playerPed = PlayerPedId()
+		local playerPed = cahovanipodaci["igrac"]
 		isHandcuffed = false
 		ClearPedSecondaryTask(playerPed)
 		SetEnableHandcuffs(playerPed, false)
@@ -636,7 +651,7 @@ CreateThread(function()
 
 			if DoesEntityExist(targetPed) and IsPedOnFoot(targetPed) and not IsPedDeadOrDying(targetPed, true) then
 				if not wasDragged then
-					AttachEntityToEntity(PlayerPedId(), targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
+					AttachEntityToEntity(cahovanipodaci["igrac"], targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
 					wasDragged = true
 				else
 					Wait(1000)
@@ -644,11 +659,11 @@ CreateThread(function()
 			else
 				wasDragged = false
 				dragStatus.isDragged = false
-				DetachEntity(PlayerPedId(), true, false)
+				DetachEntity(cahovanipodaci["igrac"], true, false)
 			end
 		elseif wasDragged then
 			wasDragged = false
-			DetachEntity(PlayerPedId(), true, false)
+			DetachEntity(cahovanipodaci["igrac"], true, false)
 		end
 	Wait(Sleep)
 	end
@@ -657,7 +672,7 @@ end)
 RegisterNetEvent('esxbalkan_mafije:staviUVozilo')
 AddEventHandler('esxbalkan_mafije:staviUVozilo', function()
 	if isHandcuffed then
-		local igrac = PlayerPedId()
+		local igrac = cahovanipodaci["igrac"]
 		local vozilo, udaljenost = ESX.Game.GetClosestVehicle()
 
 		if vozilo and udaljenost < 5 then
@@ -680,14 +695,14 @@ end)
 
 RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
 AddEventHandler('esxbalkan_mafije:staviVanVozila', function()
-	local playerPed = PlayerPedId()
+	local playerPed = cahovanipodaci["igrac"]
 	local GetVehiclePedIsIn = GetVehiclePedIsIn
 	local IsPedSittingInAnyVehicle = IsPedSittingInAnyVehicle
 	local TaskLeaveVehicle = TaskLeaveVehicle
 	if IsPedSittingInAnyVehicle(playerPed) then
 		local vehicle = GetVehiclePedIsIn(playerPed, false)
 		TaskLeaveVehicle(playerPed, vehicle, 16)
-		TriggerEvent('esxbalkan_mafije:odvezivanje')
+		tinkykralj2('esxbalkan_mafije:odvezivanje')
 	else
 		ESX.ShowNotification('Osoba nije u vozilu i ne mozete je izvaditi van vozila!')
 	end
@@ -698,7 +713,8 @@ CreateThread(function()
 	local IsEntityPlayingAnim = IsEntityPlayingAnim
 	while 1 do
 		local Sleep = 1000
-		local playerPed = PlayerPedId()
+        while cahovanipodaci["igrac"] == nil do Wait(500) print("Ucitavanje PlayerPedId()...") end
+		local playerPed = cahovanipodaci["igrac"]
 		if isHandcuffed then
 			Sleep = 0
 			DisableControlAction(0, 1, true) -- Disable pan
@@ -748,18 +764,19 @@ CreateThread(function()
 end)
 if not Config.Optimizacija then
 CreateThread(function()
-	local wejtara = 1000
+	local wejtara = 1500
     if ESX ~= nil and PlayerData ~= nil then
         print("esxbalkan_mafije: Skripta je uspjesno loadovana i ucitana bez errora..")
     else print("esxbalkan_mafije: Imate erorr ESX ili PlayerData!! Mafije nece raditi kako treba")
 
     end
+    while cahovanipodaci["igrac"] == nil do Wait(500) print("Ucitavanje PlayerPedId()...") end
 	while 1 do
 		Wait(wejtara)
 		
 		if PlayerData.job and Config.Mafije[PlayerData.job.name] then
 			wejtara = 800
-			local playerPed = PlayerPedId()
+			local playerPed = cahovanipodaci["igrac"]
 			local coords = GetEntityCoords(playerPed)
 			local isInMarker, hasExited, letSleep = false, false, true
 			local currentStation, currentPart, currentPartNum
@@ -840,7 +857,7 @@ CreateThread(function()
 			end
 			if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
 				if (LastStation and LastPart and LastPartNum) and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum) then
-					TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+					tinkykralj2('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
 					hasExited = true
 					Wait(200)
 					ESX.UI.Menu.CloseAll()		
@@ -850,12 +867,12 @@ CreateThread(function()
  				LastStation = currentStation
 				LastPart = currentPart
 				LastPartNum  = currentPartNum
-				TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
+				tinkykralj2('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
 			end
 
 			if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
 				HasAlreadyEnteredMarker = false
-				TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+				tinkykralj2('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
 				Wait(200)
 				ESX.UI.Menu.CloseAll()
 			end
@@ -868,17 +885,18 @@ end)
 else
     CreateThread(function()
         Wait(1000)
-        local wejtara = 1000
+        local wejtara = 1500
         if ESX ~= nil and PlayerData ~= nil then
             print("esxbalkan_mafije: Skripta je uspjesno loadovana i ucitana bez errora..")
         else print("esxbalkan_mafije: Imate erorr ESX ili PlayerData!! Mafije nece raditi kako treba")
         end
         local tablica = {}
+        while cahovanipodaci["igrac"] == nil do Wait(500) print("Ucitavanje PlayerPedId()...") end
         while 1 do
             Wait(wejtara)
             if PlayerData.job and Config.Mafije[PlayerData.job.name] then
                 wejtara = 800
-                local playerPed = PlayerPedId()
+                local playerPed = cahovanipodaci["igrac"]
                 local coords = GetEntityCoords(playerPed)
                 local isInMarker, hasExited, letSleep = false, false, true
                 local currentStation, currentPart, currentPartNum
@@ -998,7 +1016,7 @@ else
     
                 if isInMarker and not HasAlreadyEnteredMarker or (isInMarker and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum)) then
                     if (LastStation and LastPart and LastPartNum) and (LastStation ~= currentStation or LastPart ~= currentPart or LastPartNum ~= currentPartNum) then
-                        TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+                        tinkykralj2('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
                         hasExited = true
                     end
                     HasAlreadyEnteredMarker = true
@@ -1006,12 +1024,12 @@ else
                     LastPart = currentPart
                     LastPartNum  = currentPartNum
     
-                    TriggerEvent('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
+                    tinkykralj2('esxbalkan_mafije:hasEnteredMarker', currentStation, currentPart, currentPartNum)
                 end
     
                 if not hasExited and not isInMarker and HasAlreadyEnteredMarker then
                     HasAlreadyEnteredMarker = false
-                    TriggerEvent('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
+                    tinkykralj2('esxbalkan_mafije:hasExitedMarker', LastStation, LastPart, LastPartNum)
                 end
                 if letSleep then wejtara = 5000 end
             else
@@ -1038,8 +1056,9 @@ end, false)
 CreateThread(function()
 	while 1 do
 		Wait(15)
+        while cahovanipodaci["igrac"] == nil do Wait(500) print("Ucitavanje PlayerPedId()...") end
 		if CurrentAction and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
-			pokazi3dtinky(GetEntityCoords(PlayerPedId()), CurrentActionMsg, 250)
+			pokazi3dtinky(GetEntityCoords(cahovanipodaci["igrac"]), CurrentActionMsg, 250)
 			if IsControlPressed(0,38) then
 				if CurrentAction == 'menu_cloakroom' then
 					OpenCloakroomMenu()
@@ -1055,7 +1074,7 @@ CreateThread(function()
 					OtvoriBrodSpawnMenu('car', CurrentActionData.station, CurrentActionData.part, CurrentActionData.partNum)
 				elseif CurrentAction == 'menu_boss_actions' then
 					ESX.UI.Menu.CloseAll()
-					TriggerEvent('esx_society:openBossMenu', PlayerData.job.name, function(data, menu)
+					tinkykralj2('esx_society:openBossMenu', PlayerData.job.name, function(data, menu)
 					menu.close()
 					CurrentAction  = 'menu_boss_actions'
 					CurrentActionMsg  = _U('open_bossmenu')
@@ -1087,7 +1106,7 @@ pokazi3dtinky = function(pos, text, boja)
 end
 AddEventHandler('playerSpawned', function(spawn) isDead = false end)
 AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
-AddEventHandler('onResourceStop', function(resource) if resource == GetCurrentResourceName() then TriggerEvent('esxbalkan_mafije:odvezivanje') end end)
+AddEventHandler('onResourceStop', function(resource) if resource == GetCurrentResourceName() then tinkykralj2('esxbalkan_mafije:odvezivanje') end end)
 function OpenGetWeaponMenu()
 	ESX.TriggerServerCallback('esxbalkan_mafije:dbGettajPuske', function(weapons)
 		local elements = {}
@@ -1119,7 +1138,7 @@ end
 
 function OpenPutWeaponMenu()
 	local elements = {}
-	local playerPed  = PlayerPedId()
+	local playerPed  = cahovanipodaci["igrac"]
 	local weaponList = ESX.GetWeaponList()
 	for i=1, #weaponList, 1 do
 		local weaponHash = GetHashKey(weaponList[i].name)
@@ -1147,7 +1166,7 @@ end
 
 function OpenBuyWeaponsMenu()
 	local elements = {}
-	local playerPed = PlayerPedId()
+	local playerPed = cahovanipodaci["igrac"]
 	for k,v in pairs(Config.Oruzje[PlayerData.job.grade_name]) do
 		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
 		local components, label = {}
