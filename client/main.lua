@@ -1167,7 +1167,9 @@ end
 function OpenBuyWeaponsMenu()
 	local elements = {}
 	local playerPed = cahovanipodaci["igrac"]
-	for k,v in pairs(Config.Oruzje[PlayerData.job.grade_name]) do
+	for i=1, #Config.Oruzje[PlayerData.job.grade_name] do
+            local v = Config.Oruzje[PlayerData.job.grade_name]
+            if v then
 		local weaponNum, weapon = ESX.GetWeapon(v.weapon)
 		local components, label = {}
 		local hasWeapon = HasPedGotWeapon(playerPed, GetHashKey(v.weapon), false)
@@ -1219,6 +1221,7 @@ function OpenBuyWeaponsMenu()
 			price = v.price,
 			hasWeapon = hasWeapon
 		})
+            end
 	end
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'armory_buy_weapons', {
