@@ -263,13 +263,11 @@ Config.Mafije = {
 		--Tablice = nil, -- ovdje stavljate ovako: Tablice = 'TEST'
 		Helikopter = {vector3(-2048.67, -517.63, 9.16)}, 
 		MeniHelikoptera = {
-			Heli1 = 'supervolito',
-			Heli2 = 'seasparrow',
+			['polmav'] = 'Polmav',
 		},
 		Brodovi = {vector3(-2293.19, -658.06, 3.96)},
 		BrodoviMenu = {
-			Brod1 = 'fxho',
-			Brod2 = 'seashark',
+			['seashark'] = 'Skuter',
 		},
 		--Ako treba nekom helihopter/brod evo vam
 		BossActions = {vector3(95.38, -1293.58, 29.27)},
