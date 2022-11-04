@@ -329,84 +329,85 @@ OtvoriAutoSpawnMenu = function(type, station, part, partNum)
 end
 
 OtvoriHeliSpawnMenu = function(type, station, part, partNum)
-    ESX.UI.Menu.CloseAll()
-    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
-        css      = 'vagos',
-        title    = 'Izaberi Vozilo | 🚗',
-        elements = {
-        {label = 'Heli | 🚗', value = 'fxho'},
-		{label = 'Heli2 | 🚗', value = 'seashark'},
-            }},function(data, menu)
-            local playerPed = PlayerPedId()
-            if data.current.value == 'fxho' then
-				ESX.Game.SpawnVehicle("supervolito2", vector3(-2320.86, -658.25, 13.48), 266.92, function(vehicle) -- 
-					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
-					SetVehicleEngineOn(vehicle, true, true, false)
-				end)
-				Wait(200)
-				local vehicle = GetVehiclePedIsIn(playerPed, false)
-				SetVehicleDirtLevel(vehicle, 0.0)
-               	SetVehicleFuelLevel(vehicle, 100.0)
-				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
+    local elements = {}
 
+    for model, label in pairs(Config.Mafije[PlayerData.job.name]["MeniHelikoptera"]) do
+    	insertuj(elements, {label = '🚁 | ' .. label, value = model})
+    end
+
+    ESX.UI.Menu.CloseAll()
+
+    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
+        title = 'Izaberi Helikopter | 🚁',
+        align = 'left',
+        elements = elements
+    },function(data, menu)
+	if Config.Mafije[PlayerData.job.name]['Limit'] then
+		ESX.TriggerServerCallback('esxbalkan_mafije:proveriVozila', function(tabela)
+			if #tabela < Config.Mafije[PlayerData.job.name]['Limit'] then
+				StvoriVozilo(data.current.value)
 				ESX.UI.Menu.CloseAll()
-            elseif data.current.value == 'seashark' then
-				ESX.Game.SpawnVehicle("seasparrow", vector3(-2320.86, -658.25, 13.48), 266.92, function(vehicle) -- 
-					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
-					SetVehicleEngineOn(vehicle, true, true, false)
-				end)
-				Wait(200)
-				local vehicle = GetVehiclePedIsIn(playerPed, false)
-				SetVehicleDirtLevel(vehicle, 0.0)
-                SetVehicleFuelLevel(vehicle, 100.0)
-				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
-				ESX.UI.Menu.CloseAll()
-            end
-        end,
-        function(data, menu)
-			menu.close()
-			CurrentAction = nil
-		end
-	)
+        			menu.close()
+				CurrentAction = nil
+			else
+			       ESX.ShowNotification('Ne mozete vise da vadite vozila, nema ih dovoljno u garazi!')
+			end
+		end)
+	else
+		StvoriVozilo(data.current.value)
+		ESX.UI.Menu.CloseAll()
+        	menu.close()
+		CurrentAction = nil
+	end
+    end,
+
+    function(data, menu)
+        menu.close()
+	CurrentAction = 'menu_vehicle_spawner' --commit
+	CurrentActionMsg = _U('garage_prompt')
+	CurrentActionData = {}
+    end)
 end
 
 OtvoriBrodSpawnMenu = function(type, station, part, partNum)
+    local elements = {}
+
+    for model, label in pairs(Config.Mafije[PlayerData.job.name]["BrodoviMenu"]) do
+    	insertuj(elements, {label = '🛥️ | ' .. label, value = model})
+    end
+
     ESX.UI.Menu.CloseAll()
+
     ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'vozila_meni',{
-		title    = 'Izaberi Vozilo | 🚗',
-		elements = {
-		{label = 'JetSkki | 🚗', value = 'fxho'},
-		{label = 'Jahta | 🚗', value = 'seashark'},
-			}},function(data, menu)
-			local playerPed = PlayerPedId()
-			if data.current.value == 'fxho' then
-				ESX.Game.SpawnVehicle("fxho", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
-					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
-					SetVehicleEngineOn(vehicle, true, true, false)
-				end)
-				Wait(200)
-				local vehicle = GetVehiclePedIsIn(playerPed, false)
-				SetVehicleDirtLevel(vehicle, 0.0)
-				SetVehicleFuelLevel(vehicle, 100.0)
-				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
+        title = 'Izaberi Brod | 🛥️',
+        align = 'left',
+        elements = elements
+    },function(data, menu)
+	if Config.Mafije[PlayerData.job.name]['Limit'] then
+		ESX.TriggerServerCallback('esxbalkan_mafije:proveriVozila', function(tabela)
+			if #tabela < Config.Mafije[PlayerData.job.name]['Limit'] then
+				StvoriVozilo(data.current.value)
 				ESX.UI.Menu.CloseAll()
-			elseif data.current.value == 'seashark' then
-				ESX.Game.SpawnVehicle("yacht2", vector3(-2273.91, -662.05, 0.5),  159.25, function(vehicle)
-					TaskWarpPedIntoVehicle(playerPed,  vehicle,  -1)
-					SetVehicleEngineOn(vehicle, true, true, false)
-				end)
-				Wait(200)
-				local vehicle = GetVehiclePedIsIn(playerPed, false)
-				SetVehicleDirtLevel(vehicle, 0.0)
-				SetVehicleFuelLevel(vehicle, 100.0)
-				DecorSetFloat(vehicle, "_FUEL_LEVEL", GetVehicleFuelLevel(vehicle))
-				ESX.UI.Menu.CloseAll()
+        			menu.close()
+				CurrentAction = nil
+			else
+			       ESX.ShowNotification('Ne mozete vise da vadite vozila, nema ih dovoljno u garazi!')
 			end
-		end,
-		function(data, menu)
-		menu.close()
+		end)
+	else
+		StvoriVozilo(data.current.value)
+		ESX.UI.Menu.CloseAll()
+        	menu.close()
 		CurrentAction = nil
-	end)
+	end
+    end,
+
+    function(data, menu)
+        menu.close()
+	CurrentAction = 'menu_vehicle_spawner' --commit
+	CurrentActionMsg = _U('garage_prompt')
+	CurrentActionData = {}
+    end)
 end
 
 OtvoriPosaoMenu = function()
