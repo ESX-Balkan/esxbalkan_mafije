@@ -741,3 +741,15 @@ if getajresourcename ~= "esxbalkan_mafije" then
 	end)
 end
 
+
+CreateThread(function()
+	local verzija = GetResourceMetadata(getajresourcename, 'version') -- proverava trenutnu verziju u fxmanifest
+	PerformHttpRequest('https://raw.githubusercontent.com/ESX-Balkan/esxbalkan_mafije/main/verzija.json', function(code, res, headers)
+		if code == 200 then
+			local povuceno = json.decode(res)
+			if povuceno.verzija ~= verzija then -- ako verzija povucena na githubu nije ista kao trenutna onda da baca ovo sranje da ga update
+				print('ESX BALKAN MAFIJE >>> Novi Update Dostupan: '.. povuceno.verzija)
+			end
+		end
+	end, 'GET')
+end)
