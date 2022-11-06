@@ -743,6 +743,7 @@ end
 
 
 CreateThread(function()
+if Config.ProveraVerzija then
 	local verzija = GetResourceMetadata(GetCurrentResourceName(), 'version') -- proverava trenutnu verziju u fxmanifest
 	PerformHttpRequest('https://api.github.com/repos/ESX-Balkan/esxbalkan_mafije/releases/latest', function(code, res, headers)
 		if code == 200 then
@@ -756,4 +757,5 @@ CreateThread(function()
 			end
 		end
 	end, 'GET')
+    end
 end)
