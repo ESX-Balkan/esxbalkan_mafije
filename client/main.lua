@@ -28,8 +28,10 @@ CreateThread(function()
 	while ESX == nil do tinkykralj2('esx:getSharedObject', function(obj) ESX = obj end) Wait(250) end
 	while ESX.GetPlayerData().job == nil do Wait(250) end
 	PlayerData = ESX.GetPlayerData()
-	Wait(1000)
-	getajLevel()
+	if Config.Levelanje then
+              Wait(1000)
+              getajLevel()
+	end
 end)
 
 ---MEMORY USAGE FIX, SMANJIT CE MEMORY-U RAM USAGE, NE DIRATI KOD!!
