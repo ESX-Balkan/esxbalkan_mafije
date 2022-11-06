@@ -144,7 +144,7 @@ function OpenArmoryMenu(station)
               --		insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})
                   insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
                   insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
-                  --insertuj(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
+                  insertuj(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
                   insertuj(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
             end
       else
@@ -153,7 +153,7 @@ function OpenArmoryMenu(station)
             insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
             insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
             --insertuj(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-            insertuj(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+            --insertuj(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
     end
 
       ESX.UI.Menu.CloseAll()
