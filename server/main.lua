@@ -741,21 +741,20 @@ if getajresourcename ~= "esxbalkan_mafije" then
 	end)
 end
 
-
-CreateThread(function()
 if Config.ProveraVerzija then
-	local verzija = GetResourceMetadata(GetCurrentResourceName(), 'version') -- proverava trenutnu verziju u fxmanifest
-	PerformHttpRequest('https://api.github.com/repos/ESX-Balkan/esxbalkan_mafije/releases/latest', function(code, res, headers)
-		if code == 200 then
-			local povuceno = json.decode(res)
-            local s = 'https://github.com/ESX-Balkan/esxbalkan_mafije/releases/latest'
-			if povuceno.tag_name ~= verzija then -- ako verzija povucena na githubu nije ista kao trenutna onda da baca ovo sranje da ga update
-                print("^0[^1Obavestenje^0] " .. GetCurrentResourceName() .. " koristi stariju verziju!")
-                print("^0[^1Obavestenje^0] Tvoja verzija: ^2" .. verzija .. "^0")
-                print("^0[^1Obavestenje^0] Nova verzija: ^2" .. povuceno.tag_name .. "^0")
-                print("^0[^1Obavestenje^0] Preuzmite novu verziju: ^2" .. s .. "^0")
-			end
-		end
-	end, 'GET')
-    end
-end)
+    CreateThread(function()
+        local verzija = GetResourceMetadata(GetCurrentResourceName(), 'version') -- proverava trenutnu verziju u fxmanifest
+        PerformHttpRequest('https://api.github.com/repos/ESX-Balkan/esxbalkan_mafije/releases/latest', function(code, res, headers)
+            if code == 200 then
+                local povuceno = json.decode(res)
+                local s = 'https://github.com/ESX-Balkan/esxbalkan_mafije/releases/latest'
+                if povuceno.tag_name ~= verzija then -- ako verzija povucena na githubu nije ista kao trenutna onda da baca ovo sranje da ga update
+                    print("^0[^1Obavestenje^0] " .. GetCurrentResourceName() .. " koristi stariju verziju!")
+                    print("^0[^1Obavestenje^0] Tvoja verzija: ^2" .. verzija .. "^0")
+                    print("^0[^1Obavestenje^0] Nova verzija: ^2" .. povuceno.tag_name .. "^0")
+                    print("^0[^1Obavestenje^0] Preuzmite novu verziju: ^2" .. s .. "^0")
+                end
+            end
+        end, 'GET')
+    end)
+end
