@@ -732,6 +732,8 @@ if Config.ProveraVerzija then
                     print("^0[^1Obavestenje^0] Tvoja verzija: ^2" .. verzija .. "^0")
                     print("^0[^1Obavestenje^0] Nova verzija: ^2" .. povuceno.tag_name .. "^0")
                     print("^0[^1Obavestenje^0] Preuzmite novu verziju: ^2" .. s .. "^0")
+		else
+		    print("^3[esxbalkan_mafije] ^2Skripta koristi najnoviju verziju. Verzija: " .. (verzija) .. ".^7" )
                 end
             end
         end, 'GET')
