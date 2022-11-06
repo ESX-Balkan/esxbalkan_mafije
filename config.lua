@@ -10,6 +10,7 @@ Config.Limit = true -- Dali koristite limit? ako je true onda ce biti limit u se
 Config.Webhuk = "" -- Ovdje dodajete svoj wehuk za mafije da imate logove itd :)
 Config.UkljuciPranje = true -- Ovdje mozete iskljuciti pranje novca kao sef...
 Config.Locale  = 'hr'
+Config.ProveraVerzija = true
 Config.Levelanje = false -- Ovo stavite na true ako želite da mafije idu po levelima
 Config.lvl1 = 25000 -- ovo je cijena za upgrade na lvl 1, otkljucava sef
 Config.lvl2 = 50000 -- ovo je cijena za upgrade na lvl 2, shop za oruzija
