@@ -1,6 +1,6 @@
 Config  = {}
 Config.DrawDistance = 20.0 -- 20 je savim dovoljno ne treb ni manje ni preko 20..
-Config.Optimizacija = true -- Ruzni markeri ali zato 0.00ms uvijek :)
+Config.Optimizacija = false -- Ruzni markeri ali zato 0.00ms uvijek :)
 Config.MarkerSize  = { x = 1.5, y = 1.5, z = 0.5 }
 Config.MarkerHelikopter   = { x = 6.0, y = 6.0, z = 2.5 }
 Config.MarkerAuto = { x = 3.0, y = 3.0, z = 3.0 }
@@ -8,9 +8,9 @@ Config.MarkerColor  = { r = 50, g = 50, b = 204 }
 Config.OxInventory = false -- ako koristite ox_inventory oruzarnica ce se otvoriti kao stash (u inventaru)
 Config.Limit = true -- Dali koristite limit? ako je true onda ce biti limit u sefovima i u pretrazivanju igraca, ako je false onda je tezina itema!
 Config.Webhuk = "" -- Ovdje dodajete svoj wehuk za mafije da imate logove itd :)
-Config.UkljuciPranje = true -- Ovdje mozete iskljuciti pranje novca kao sef...
+Config.UkljuciPranje = false -- Ovdje mozete ukljuciti/iskljuciti pranje novca kao sef...
 Config.Locale  = 'hr'
-Config.ProveraVerzija = true
+Config.ProveraVerzija = true -- Da provjerava novu verziju ako bude mafija..
 Config.Levelanje = false -- Ovo stavite na true ako želite da mafije idu po levelima
 Config.lvl1 = 25000 -- ovo je cijena za upgrade na lvl 1, otkljucava sef
 Config.lvl2 = 50000 -- ovo je cijena za upgrade na lvl 2, shop za oruzija
