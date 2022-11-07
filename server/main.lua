@@ -50,7 +50,8 @@ end
 
 RegisterCommand('tpdobaze', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
-    if xPlayer.getGroup() == 'admin' or xPlayer.getGroup() == 'superadmin' then
+    local grupa = xPlayer.getGroup()
+	  if Config.Permisije[grupa] then
         teleportujSeDoBaze(source)
     else
         TriggerClientEvent('esx:showNotification', source, ('Ne mozete koristiti ovu komandu, niste admin!'))
@@ -635,7 +636,8 @@ RegisterCommand('setlvl', function(source, args)
     job = args[1]
     level = tonumber(args[2])
     local xPlayer = ESX.GetPlayerFromId(source)
-    if source == 0 or xPlayer.getGroup() == "superadmin" then
+    local grupa = xPlayer.getGroup()
+    if source == 0 or Config.Permisije[grupa] then
         if args[1] ~= nil and args[2] ~= nil then
             setLevel(job, level, broj)
             print("^5Mafija ^0" .. job .. "^5 je postavljena na level: ^7" .. level .. "")
