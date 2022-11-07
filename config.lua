@@ -25,6 +25,12 @@ Config.MarkerTypes      = {
     Oruzarnica = 21
 }
 
+
+Config.Permisije = {
+	["superadmin"] = true,
+	["admin"] = true,
+}
+
 -- OVDJE DODAJETE NOVE POSLOVE SVE
 Config.Mafije = {
     zemunski = {
