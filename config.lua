@@ -296,3 +296,24 @@ Config.Oruzje = {
 		{weapon = 'WEAPON_PUMPSHOTGUN', components = {6500, 6000, nil}, price = 75000}
 	}
 }
+
+Config.BlipJobs = {
+	'zemunski',
+	'yakuza',
+	'vagos',
+	'peaky',
+	'ludisrbi',
+	'lcn',
+	'lazarevacki',
+	'juzniv',
+	'gsf',
+	'favela',
+	'camorra',
+	'ballas',
+	'camorra',
+	'stikla',
+}
+
+
+
+
