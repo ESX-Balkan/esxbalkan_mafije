@@ -21,16 +21,20 @@ local LastStation, LastPart, LastPartNum, LastEntity, CurrentAction, CurrentActi
 cahovanipodaci = {}
 local tinkykralj = TriggerServerEvent
 local tinkykralj2 = TriggerEvent
+local GetPlayerServerId = GetPlayerServerId
+local RNE = RegisterNetEvent
+local ADV = AddEventHandler
 dragStatus.isDragged = false
 ESX = nil
 
 CreateThread(function()
+	while not NetworkIsPlayerActive(PlayerId()) do Wait(250) end
 	while ESX == nil do tinkykralj2('esx:getSharedObject', function(obj) ESX = obj end) Wait(250) end
 	while ESX.GetPlayerData().job == nil do Wait(250) end
 	PlayerData = ESX.GetPlayerData()
 	if Config.Levelanje then
-              Wait(1000)
-              getajLevel()
+        Wait(1000)
+        getajLevel()
 	end
 end)
 
@@ -43,16 +47,18 @@ CreateThread(function()
 end)
 ------------------------------------------------------------------
 
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function(xPlayer)
+RNE('esx:playerLoaded')
+ADV('esx:playerLoaded', function(xPlayer)
 	PlayerData = xPlayer
 end)
 
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
+RNE('esx:setJob')
+ADV('esx:setJob', function(job)
 	levelTabela = nil
 	PlayerData.job = job
-	getajLevel()
+    if Config.Levelanje then
+	    getajLevel()
+    end
 end)
 
 ocistiIgraca = function(playerPed)
@@ -63,10 +69,12 @@ ocistiIgraca = function(playerPed)
 	ResetPedMovementClipset(playerPed, 0)
 end
 
-RegisterNetEvent('esxbalkan_mafije:updateHouse')
-AddEventHandler('esxbalkan_mafije:updateHouse', function(text)
-	getajLevel()
-	ESX.ShowNotification(text)
+RNE('esxbalkan_mafije:updateHouse')
+ADV('esxbalkan_mafije:updateHouse', function(text)
+    if Config.Levelanje then
+	    getajLevel()
+	    ESX.ShowNotification(text)
+    end
 end)
 
 getajLevel = function ()
@@ -128,34 +136,34 @@ function OpenArmoryMenu(station)
 		return ESX.UI.Menu.CloseAll()
 	else
     local elements = {}
-    if PlayerData.job.grade_name == 'boss' and Config.Levelanje then insertuj(elements, {label = 'Levelanje Baze | 💼', value = 'level'}) end 
+    if PlayerData.job.grade_name == 'boss' and Config.Levelanje then insertuj(elements, {label = 'Levelanje Baze | 💼', value = 'level'}) end
     if Config.Levelanje then
-      if levelTabela.stats.level  == 1 then
-        --insertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-        --insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+      if levelTabela.stats.level == 1 then
+        --insertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'})-- Uncomment ako hocete ovo
+        --insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})-- Uncomment ako hocete ovo
         insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
         insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
       elseif levelTabela.stats.level == 2 then 
-        --insertujinsertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-        --insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+        --insertujinsertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'})-- Uncomment ako hocete ovo
+        --insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})-- Uncomment ako hocete ovo
         insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
         insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
         insertuj(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
             elseif levelTabela.stats.level == 3 then
-              --	insertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-              --		insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})
+              --	insertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'}) -- Uncomment ako hocete ovo
+              --		insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'}) -- Uncomment ako hocete ovo
                   insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
                   insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
                   insertuj(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
                   insertuj(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
             end
       else
-          --	insertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'})
-          --	insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'})
-            insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
-            insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
-            --insertuj(elements, {label = _U('buy_weapons'),value = 'buy_weapons'})
-            --insertuj(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'})
+          --	insertuj(elements, {label = _U('get_weapon'), value = 'get_weapon'}) -- Uncomment ako hocete ovo
+          --	insertuj(elements, {label = _U('put_weapon'), value = 'put_weapon'}) -- Uncomment ako hocete ovo
+         insertuj(elements, {label = _U('remove_object'),value = 'get_stock'})
+        insertuj(elements, {label = _U('deposit_object'),value = 'put_stock'})
+         --insertuj(elements, {label = _U('buy_weapons'),value = 'buy_weapons'}) -- Uncomment ako hocete ovo
+        --insertuj(elements, {label = 'Uzimanje Pancira | 💣',value = 'pancir'}) -- Uncomment ako hocete ovo
     end
 
       ESX.UI.Menu.CloseAll()
@@ -442,11 +450,11 @@ OtvoriPosaoMenu = function()
 						ESX.TriggerServerCallback('esxbalkan_mafije:JelPretrazivan', function(br)
 							if not br then
                                 tinkykralj('esxbalkan_mafije:poruka', GetPlayerServerId(closestPlayer), _U('being_searched'))
-						if Config.OxInventory then
-							exports.ox_inventory:openInventory('player', GetPlayerServerId(closestPlayer))
-						else
-							PretrazivanjeIgraca(closestPlayer)
-						end
+						    if Config.OxInventory then
+							    exports.ox_inventory:openInventory('player', GetPlayerServerId(closestPlayer))
+						    else
+							    PretrazivanjeIgraca(closestPlayer)
+						    end
 						else
 							ESX.ShowNotification("~y~Tu osobu vec ~r~netko pretrazuje!")
 						end
@@ -542,7 +550,7 @@ end
 -----------------------------
 ---------EVENTOVI------------
 -----------------------------
-AddEventHandler('esxbalkan_mafije:hasEnteredMarker', function(station, part, partNum)
+ADV('esxbalkan_mafije:hasEnteredMarker', function(station, part, partNum)
 	if part == 'Cloakroom' then
 		CurrentAction = 'menu_cloakroom'
 		CurrentActionMsg  = _U('open_cloackroom')
@@ -579,13 +587,13 @@ AddEventHandler('esxbalkan_mafije:hasEnteredMarker', function(station, part, par
 	end
 end)
 
-AddEventHandler('esxbalkan_mafije:hasExitedMarker', function(station, part, partNum)
+ADV('esxbalkan_mafije:hasExitedMarker', function(station, part, partNum)
     ESX.UI.Menu.CloseAll()
 	CurrentAction = nil
 end)
 
-RegisterNetEvent('esxbalkan_mafije:vezivanje')
-AddEventHandler('esxbalkan_mafije:vezivanje', function()
+RNE('esxbalkan_mafije:vezivanje')
+ADV('esxbalkan_mafije:vezivanje', function()
 	isHandcuffed = not isHandcuffed
 	local playerPed = PlayerPedId()
 		if isHandcuffed then
@@ -608,8 +616,8 @@ AddEventHandler('esxbalkan_mafije:vezivanje', function()
 	end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:odvezivanje')
-AddEventHandler('esxbalkan_mafije:odvezivanje', function()
+RNE('esxbalkan_mafije:odvezivanje')
+ADV('esxbalkan_mafije:odvezivanje', function()
 	if isHandcuffed then
 		local playerPed = PlayerPedId()
 		isHandcuffed = false
@@ -622,8 +630,8 @@ AddEventHandler('esxbalkan_mafije:odvezivanje', function()
 	end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:vuci')
-AddEventHandler('esxbalkan_mafije:vuci', function(copId)
+RNE('esxbalkan_mafije:vuci')
+ADV('esxbalkan_mafije:vuci', function(copId)
 	if not isHandcuffed then return end
 	dragStatus.isDragged = not dragStatus.isDragged
 	dragStatus.CopId = copId
@@ -644,7 +652,7 @@ CreateThread(function()
 					AttachEntityToEntity(PlayerPedId(), targetPed, 11816, 0.54, 0.54, 0.0, 0.0, 0.0, 0.0, false, false, false, false, 2, true)
 					wasDragged = true
 				else
-					Wait(1000)
+					Sleep = 1000
 				end
 			else
 				wasDragged = false
@@ -659,8 +667,8 @@ CreateThread(function()
 	end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:staviUVozilo')
-AddEventHandler('esxbalkan_mafije:staviUVozilo', function()
+RNE('esxbalkan_mafije:staviUVozilo')
+ADV('esxbalkan_mafije:staviUVozilo', function()
 	if isHandcuffed then
 		local igrac = PlayerPedId()
 		local vozilo, udaljenost = ESX.Game.GetClosestVehicle()
@@ -683,8 +691,8 @@ AddEventHandler('esxbalkan_mafije:staviUVozilo', function()
 	end
 end)
 
-RegisterNetEvent('esxbalkan_mafije:staviVanVozila')
-AddEventHandler('esxbalkan_mafije:staviVanVozila', function()
+RNE('esxbalkan_mafije:staviVanVozila')
+ADV('esxbalkan_mafije:staviVanVozila', function()
 	local playerPed = PlayerPedId()
 	local GetVehiclePedIsIn = GetVehiclePedIsIn
 	local IsPedSittingInAnyVehicle = IsPedSittingInAnyVehicle
@@ -747,6 +755,8 @@ CreateThread(function()
 					TaskPlayAnim(playerPed, 'mp_arresting', 'idle', 8.0, -8, -1, 49, 0.0, false, false, false)
 				end)
 			end
+        else
+            Sleep = 1000
 		end
 		Wait(Sleep)
 	end
@@ -761,7 +771,7 @@ CreateThread(function()
 		Wait(wejtara)
 		
 		if PlayerData.job and Config.Mafije[PlayerData.job.name] then
-			wejtara = 800
+			wejtara = 1000
 			local playerPed = PlayerPedId()
 			local coords = GetEntityCoords(playerPed)
 			local isInMarker, hasExited, letSleep = false, false, true
@@ -862,9 +872,9 @@ CreateThread(function()
 				Wait(200)
 				ESX.UI.Menu.CloseAll()
 			end
-			if letSleep then wejtara = 800 end
+			if letSleep then wejtara = 1000 end
 		else
-			wejtara = 800
+			wejtara = 1500
 		end
 	end
 end)
@@ -1005,7 +1015,7 @@ else
                         hasExited = true
                     end
                     HasAlreadyEnteredMarker = true
-                     LastStation = currentStation
+                    LastStation = currentStation
                     LastPart = currentPart
                     LastPartNum  = currentPartNum
     
@@ -1026,22 +1036,20 @@ end
 
 RegisterKeyMapping('+mafijameni', 'Mafia meni', 'keyboard', 'F6')
 RegisterCommand('+mafijameni', function()
-	if not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
+    if not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
 		if PlayerData.job and Config.Mafije[PlayerData.job.name] then
 			OtvoriPosaoMenu()
 		end
 	end
 end, false)
 
-RegisterCommand('-mafijameni', function()
-	-- ovo nemojte dirati!
-end, false)
-
+RegisterCommand('-mafijameni', function() end, false)
 -- Trenutna akcija za markere i key kontrole--
 CreateThread(function()
 	while 1 do
-		Wait(15)
+		local Sleep = 1000
 		if CurrentAction and not isDead and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'mafia_actions') then
+            Sleep = 15
 			pokazi3dtinky(GetEntityCoords(PlayerPedId()), CurrentActionMsg, 250)
 			if IsControlPressed(0,38) then
 				if CurrentAction == 'menu_cloakroom' then
@@ -1068,8 +1076,9 @@ CreateThread(function()
 				CurrentAction = nil
 			end
 		else
-			Wait(800)
+			Sleep = 1000
 		end
+        Wait(Sleep)
 	end
 end)
 
@@ -1088,9 +1097,12 @@ pokazi3dtinky = function(pos, text, boja)
     SetFloatingHelpTextWorldPosition(1, pos + vector3(0.0, 0.0, 1.0))
     SetFloatingHelpTextStyle(1, 1, boja, -1, 3, 0)
 end
-AddEventHandler('playerSpawned', function(spawn) isDead = false end)
-AddEventHandler('esx:onPlayerDeath', function(data) isDead = true end)
-AddEventHandler('onResourceStop', function(resource) if resource == GetCurrentResourceName() then tinkykralj2('esxbalkan_mafije:odvezivanje') end end)
+ADV('playerSpawned', function(spawn) isDead = false end)
+ADV('esx:onPlayerDeath', function(data)
+    isDead = true
+    tinkykralj2('esxbalkan_mafije:odvezivanje')
+end)
+ADV('onResourceStop', function(resource) if resource == GetCurrentResourceName() then tinkykralj2('esxbalkan_mafije:odvezivanje') end end)
 function OpenGetWeaponMenu()
 	ESX.TriggerServerCallback('esxbalkan_mafije:dbGettajPuske', function(weapons)
 		local elements = {}
