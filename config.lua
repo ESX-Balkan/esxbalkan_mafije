@@ -316,3 +316,8 @@ Config.Oruzje = {
         { weapon = 'WEAPON_PUMPSHOTGUN', components = { 6500, 6000, nil }, price = 75000 }
     }
 }
+
+------------- ne dirati --------------
+insertuj = function(tabla, podatak)
+	tabla[#tabla + 1] = podatak
+end
