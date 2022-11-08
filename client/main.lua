@@ -579,6 +579,11 @@ ADV('esxbalkan_mafije:hasExitedMarker', function(station, part, partNum)
     CurrentAction = nil
 end)
 
+RNE('esxbalkan_mafije:ugasiga')
+ADV('esxbalkan_mafije:ugasiga', function()
+    ESX.UI.Menu.CloseAll()
+end)
+
 RNE('esxbalkan_mafije:vezivanje')
 ADV('esxbalkan_mafije:vezivanje', function()
     isHandcuffed = not isHandcuffed
