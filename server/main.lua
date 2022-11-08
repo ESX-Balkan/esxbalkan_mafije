@@ -38,6 +38,10 @@ function saveFile(data)
     SaveResourceFile(getajresourcename, "level.json", json.encode(data, { indent = true }), -1)
 end
 
+insertuj = function(tabla, podatak)
+	tabla[#tabla + 1] = podatak
+end
+
 teleportujSeDoBaze = function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
     if not Config.Mafije[xPlayer.job.name] then return TriggerClientEvent('esx:showNotification', source, ('Nemate setanu mafiju!')) end
