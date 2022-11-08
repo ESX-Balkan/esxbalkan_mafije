@@ -147,7 +147,9 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
     local udaljenost = #(GetEntityCoords(GetPlayerPed(source)) - GetEntityCoords(GetPlayerPed(target)))
 
     if udaljenost > 3 then
-        return TriggerClientEvent('esx:showNotification', _source, ('Nije moguce oduzeti stvar igracu koji nije blizu od vas.'))
+        TriggerClientEvent('esxbalkan_mafije:ugasiga', _source) -- ugasi sve menije..
+        TriggerClientEvent('esx:showNotification', _source)
+        return
     end
 
     if targetXPlayer ~= _source then -- jedan fix :)
