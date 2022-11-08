@@ -106,7 +106,7 @@ AddEventHandler('esxbalkan_mafije:updateVozila', function(voziloID, state)
     local xPlayer = ESX.GetPlayerFromId(source)
     local posao = xPlayer.job.name
     if state then
-        table.insert(Vozila.Izvucena[posao], voziloID)
+        insertuj(Vozila.Izvucena[posao], voziloID)
     else
         table.remove(Vozila.Izvucena[posao])
     end
@@ -380,7 +380,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:staviUoruzarnicu', function(source,
         end
 
         if not foundWeapon then
-            table.insert(weapons, {
+            insertuj(weapons, {
                 name  = weaponName,
                 count = 1
             })
@@ -411,7 +411,7 @@ ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(sourc
         end
 
         if not foundWeapon and weaponCount == nil then
-            table.insert(weapons, {
+            insertuj(weapons, {
                 name = weaponName,
                 count = 0
             })
