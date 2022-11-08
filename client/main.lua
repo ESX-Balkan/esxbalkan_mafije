@@ -87,10 +87,6 @@ getajLevel = function()
     end
 end
 
-insertuj = function(tabla, podatak)
-    tabla[#tabla + 1] = podatak
-end
-
 function LvL()
     local elements = {}
     if Config.Levelanje then
