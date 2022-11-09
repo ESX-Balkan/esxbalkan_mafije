@@ -735,10 +735,9 @@ if Config.ProveraVerzije then
 
     -- Provjerite verziju novu dok server radi..
     CreateThread(function()
-        provjeraverzije()
         while 1 do
-            Wait(3600000)
             provjeraverzije()
+			Wait(3600000)
         end
     end)
 end
