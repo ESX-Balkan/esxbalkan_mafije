@@ -683,21 +683,6 @@ ADV('esxbalkan_mafije:staviUVozilo', function()
     end
 end)
 
-RNE('esxbalkan_mafije:staviVanVozila')
-ADV('esxbalkan_mafije:staviVanVozila', function()
-    local playerPed = PlayerPedId()
-    local GetVehiclePedIsIn = GetVehiclePedIsIn
-    local IsPedSittingInAnyVehicle = IsPedSittingInAnyVehicle
-    local TaskLeaveVehicle = TaskLeaveVehicle
-    if IsPedSittingInAnyVehicle(playerPed) then
-        local vehicle = GetVehiclePedIsIn(playerPed, false)
-        TaskLeaveVehicle(playerPed, vehicle, 16)
-        tinkykralj2('esxbalkan_mafije:odvezivanje')
-    else
-        ESX.ShowNotification('Osoba nije u vozilu i ne mozete je izvaditi van vozila!')
-    end
-end)
-
 CreateThread(function()
     local DisableControlAction = DisableControlAction
     local IsEntityPlayingAnim = IsEntityPlayingAnim
