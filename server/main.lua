@@ -305,22 +305,27 @@ AddEventHandler('esxbalkan_mafije:staviVanVozila', function(target)
     local udaljenost = #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(target)))
     local vozilonajblize = GetNajblizeVozilo(GetEntityCoords(GetPlayerPed(src)))
     local vozilozakljucan = GetVehicleDoorLockStatus(vozilonajblize)
-
-    if vozilozakljucan ~= 2 then
-        if xJob and Config.Mafije[xJob.name] then
-            if drugijebeniigrac then -- dali id ove osobe postoji?
-                if udaljenost < 8.0 then
-                    if src ~= target then
-                        return TriggerClientEvent('esxbalkan_mafije:staviVanVozila', target)
+    local vozilo = GetVehiclePedIsIn(GetPlayerPed(target), false)
+    if vozilo then
+        if vozilozakljucan ~= 2 then
+            if xJob and Config.Mafije[xJob.name] then
+                if drugijebeniigrac then -- dali id ove osobe postoji?
+                    if udaljenost < 8.0 then
+                        if src ~= target then
+                            TaskLeaveVehicle(GetPlayerPed(target), vozilo, 64)
+                            return
+                        end
                     end
                 end
             end
-        end
 
         DropPlayer(src, 'ESX-Balkan Protection | Anti-Glitch')
         print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da izbaci osobu preko cheata!'):format(xPlayer.identifier..' | '..GetPlayerName(xPlayer.source)))
     else
         TriggerClientEvent('esx:showNotification', src, ('Ne mozete da izvadite osobu van auta jer je vozilo zakljucano!'))
+    end
+    else
+        TriggerClientEvent('esx:showNotification', src, ('Osoba se ne nalazi u ni jednom vozilu!'))
     end
 end)
 
@@ -737,7 +742,7 @@ if Config.ProveraVerzije then
     CreateThread(function()
         while 1 do
             provjeraverzije()
-			Wait(3600000)
+	    Wait(3600000)
         end
     end)
 end
