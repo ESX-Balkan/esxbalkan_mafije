@@ -1346,3 +1346,17 @@ function OpenPutStocksMenu()
         end)
     end)
 end
+
+RegisterNetEvent("esxbalkan_mafije:PokaziClanove")
+AddEventHandler("esxbalkan_mafije:PokaziClanove", function(elem)
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'lista_clanova', {
+		title    = "Online clanovi",
+		align    = 'top-left',
+		elements = elem
+	}, function(data, menu)
+		menu.close()	
+	end, function(data, menu)
+		menu.close()
+	end)
+end)
+
