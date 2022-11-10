@@ -58,6 +58,32 @@ RegisterCommand('tpdobaze', function(source)
     end
 end)
 
+
+RegisterCommand("clanovi", function(source, args, rawCommandString)
+    local sourceXPlayer = ESX.GetPlayerFromId(source)
+    local elements = {}
+    local xPlayers = ESX.GetPlayers()
+    for i=1, #xPlayers, 1 do
+    local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+    if xPlayer then
+        if Config.Mafije[xPlayer.job.name] ~= nil and Config.Mafije[sourceXPlayer.job.name] ~= nil then
+          if Config.Mafije[xPlayer.job.name] == Config.Mafije[sourceXPlayer.job.name] then
+            local gradeLabel = (xPlayer.job.grade_label == '' and xPlayer.job.label or xPlayer.job.grade_label)
+            local ime = "ESX-BALKAN"
+            local str
+            if xPlayer.getName() == nil then
+                str = str.." ["..gradeLabel.."]"
+            else
+                str = xPlayer.getName().." ["..gradeLabel.."]"
+            end
+            table.insert(elements, { label = str, value = gradeLabel })
+            end
+        end
+      end
+    end
+    TriggerClientEvent("esxbalkan_mafije:PokaziClanove", source, elements)
+end, false)
+
 if Config.OxInventory then
     for k, v in pairs(Config.Mafije) do
         exports.ox_inventory:RegisterStash('society_' .. k, 'society_' .. k, 50, 200000)
