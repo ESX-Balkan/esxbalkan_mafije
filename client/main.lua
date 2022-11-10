@@ -1360,3 +1360,17 @@ AddEventHandler("esxbalkan_mafije:PokaziClanove", function(elem)
 	end)
 end)
 
+
+RegisterNetEvent("esxbalkan_mafije:PokaziLidere")
+AddEventHandler('esxbalkan_mafije:PokaziLidere', function(elem)
+	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'lista_lidera', {
+		title    = "Online lideri",
+		align    = 'top-left',
+		elements = elem
+	}, function(data, menu)
+		menu.close()	
+	end, function(data, menu)
+		menu.close()
+	end)
+end)
+
