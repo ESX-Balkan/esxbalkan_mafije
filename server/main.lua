@@ -84,6 +84,25 @@ RegisterCommand("clanovi", function(source, args, rawCommandString)
     TriggerClientEvent("esxbalkan_mafije:PokaziClanove", source, elements)
 end, false)
 
+RegisterCommand("lideri", function(source, args, rawCommandString)
+	local sourceXPlayer = ESX.GetPlayerFromId(source)
+	local elements = {}
+	local xPlayers = ESX.GetPlayers()
+	for i=1, #xPlayers, 1 do
+		  local xPlayer = ESX.GetPlayerFromId(xPlayers[i])
+		  if xPlayer.job.name ~= nil then
+			  local gradeLabel = xPlayer.job.grade_name
+			  local job = xPlayer.job.name
+			  if gradeLabel == "boss" then
+				local str = xPlayer.getName().." ["..job.."]"
+				table.insert(elements, { label = str, value = gradeLabel })
+			end
+		end
+	end
+	TriggerClientEvent("esxbalkan_mafije:PokaziLidere", source, elements)
+end, false)
+
+
 if Config.OxInventory then
     for k, v in pairs(Config.Mafije) do
         exports.ox_inventory:RegisterStash('society_' .. k, 'society_' .. k, 50, 200000)
