@@ -9,4 +9,4 @@ Ove mafije su protectovane od glichovanja i od exploitanja preko cheata!
   * [esx_society](https://github.com/PateDEV/esx_society)
 
 
-Nas discord server za pomoc bilo kakvu: https://discord.gg/Zqt5W7M9Cj
+Nas discord server za pomoc bilo kakvu: ESX Balkan:(https://discord.gg/dezUs76AuK)
