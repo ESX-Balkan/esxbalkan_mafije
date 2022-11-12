@@ -190,7 +190,7 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
         local _source = source
         local sourceXPlayer = ESX.GetPlayerFromId(_source)
         local targetXPlayer = ESX.GetPlayerFromId(target)
-        local xJob = xPlayer.job
+        local xJob = sourceXPlayer.job
         if not targetXPlayer then return end
         if not sourceXPlayer then return end
         local udaljenost = #(GetEntityCoords(GetPlayerPed(source)) - GetEntityCoords(GetPlayerPed(target)))
@@ -428,6 +428,10 @@ end)
 ESX.RegisterServerCallback('esxbalkan_mafije:dbGettajPuske', function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     local org = xPlayer.job.name
+    if not Config.Mafije[org] then
+        xPlayer.kick('ESX-Balkan Protection | Anti-Cheat') -- ili log/ban kod
+        return
+    end
     TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
         local weapons = store.get('weapons')
         if weapons == nil then weapons = {} end
@@ -441,6 +445,11 @@ ESX.RegisterServerCallback('esxbalkan_mafije:staviUoruzarnicu', function(source,
 
     if not xPlayer.hasWeapon(weaponName) then
         return xPlayer.kick('ESX-Balkan Protection | Anti-Glitch') -- ili log/ban kod
+    end
+
+    if not Config.Mafije[org] then
+        xPlayer.kick('ESX-Balkan Protection | Anti-Cheat') -- ili log/ban kod
+        return
     end
 
     if removeWeapon then
@@ -475,6 +484,12 @@ end)
 ESX.RegisterServerCallback('esxbalkan_mafije:izvadiIzOruzarnice', function(source, cb, weaponName)
     local xPlayer = ESX.GetPlayerFromId(source)
     local org = xPlayer.job.name
+
+    if not Config.Mafije[org] then
+        xPlayer.kick('ESX-Balkan Protection | Anti-Cheat') -- ili log/ban kod
+        return
+    end
+
     TriggerEvent('esx_datastore:getSharedDataStore', 'society_' .. org, function(store)
         local weapons = store.get('weapons') or {}
 
@@ -510,7 +525,13 @@ end)
 
 ESX.RegisterServerCallback('esxbalkan_mafije:kupiOruzje', function(source, cb, weaponName, type, componentNum)
     local xPlayer = ESX.GetPlayerFromId(source)
+    local org = xPlayer.job.name
     local authorizedWeapons, selectedWeapon = Config.Oruzje[xPlayer.job.grade_name]
+
+    if not Config.Mafije[org] then
+        xPlayer.kick('ESX-Balkan Protection | Anti-Cheat') -- ili log/ban kod
+        return
+    end
 
     for k, v in ipairs(authorizedWeapons) do
         if v.weapon == weaponName then
