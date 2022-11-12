@@ -182,90 +182,123 @@ ESX.RegisterServerCallback('esxbalkan_mafije:JelPretrazivan', function(source, c
     end
 end)
 
+local ZVrijeme = {}
+
 RegisterNetEvent('esxbalkan_mafije:oduzmiItem')
 AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemName, amount)
-    local _source = source
-    local sourceXPlayer = ESX.GetPlayerFromId(_source)
-    local targetXPlayer = ESX.GetPlayerFromId(target)
-    if not targetXPlayer then return end
-    if not sourceXPlayer then return end
-    local udaljenost = #(GetEntityCoords(GetPlayerPed(source)) - GetEntityCoords(GetPlayerPed(target)))
+    if GetGameTimer()-ZVrijeme[target] > 200 then -- fix spam eventa? glitch connection?
+        local _source = source
+        local sourceXPlayer = ESX.GetPlayerFromId(_source)
+        local targetXPlayer = ESX.GetPlayerFromId(target)
+        local xJob = xPlayer.job
+        if not targetXPlayer then return end
+        if not sourceXPlayer then return end
+        local udaljenost = #(GetEntityCoords(GetPlayerPed(source)) - GetEntityCoords(GetPlayerPed(target)))
 
-    if udaljenost > 3 then
-        TriggerClientEvent('esxbalkan_mafije:ugasiga', _source) -- ugasi sve menije..
-        TriggerClientEvent('esx:showNotification', _source)
-        return
-    end
+        if not GetPlayerName(target) and not targetXPlayer then
+            TriggerClientEvent('esxbalkan_mafije:ugasiga', _source) -- ugasi sve menije..
+            TriggerClientEvent('esx:showNotification', _source, 'Osoba vise nije u gradu, i ne mozete oduzeti stvari!')
+            return
+        end
 
-    if targetXPlayer ~= _source then -- jedan fix :)
-        if itemType == 'item_standard' then
-            local targetItem = targetXPlayer.getInventoryItem(itemName)
-            local sourceItem = sourceXPlayer.getInventoryItem(itemName)
-            -- provera kolicine
-            if targetItem.count > 0 and targetItem.count <= amount then
-                if targetItem.count ~= amount then
-                    sourceXPlayer.kick('ESX-Balkan Protection | Anti-Glitch') -- fix glich?
-                else
-                    -- da li moze da nosi stvari
-                    if Config.Limit then
-                        if (sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit) then
-                            TriggerClientEvent('esx:showNotification', _source, ('Nemate dovoljno prostora da nosite taj item'))
-                        else
-                            targetXPlayer.removeInventoryItem(itemName, amount)
-                            sourceXPlayer.addInventoryItem(itemName, amount)
-                            TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
-                            TriggerClientEvent('esx:showNotification', target, _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
-                            sendToDiscord3('Oduzeti Item', sourceXPlayer.name .. ' je oduzeo stvar: ' .. sourceItem.label .. ' od igraca ' .. targetXPlayer.name .. ' kolicine: ' .. amount)
-                        end
+        if udaljenost > 3 then
+            TriggerClientEvent('esxbalkan_mafije:ugasiga', _source) -- ugasi sve menije..
+            TriggerClientEvent('esx:showNotification', _source)
+            return
+        end
+
+        if not xJob and not Config.Mafije[xJob.name] then -- ovo je sigurno cheat...
+            print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da cheatuje pretrazivanje igraca!'):format(sourceXPlayer.identifier..' | ' .. GetPlayerName(source)))
+            DropPlayer(source, 'ESX-Balkan Protection | Anti-Cheat Protection')
+            return
+        end
+
+        if not amount or amount == 0 then
+            print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da cheatuje pretrazivanje igraca!'):format(sourceXPlayer.identifier..' | ' .. GetPlayerName(source)))
+            return
+        end
+
+        if not itemType then
+            print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da cheatuje pretrazivanje igraca!'):format(sourceXPlayer.identifier..' | ' .. GetPlayerName(source)))
+            return
+        end
+
+        if not itemName then
+            print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da cheatuje pretrazivanje igraca!'):format(sourceXPlayer.identifier..' | ' .. GetPlayerName(source)))
+            return
+        end
+
+        if targetXPlayer ~= _source then -- jedan fix :)
+            if itemType == 'item_standard' then
+                local targetItem = targetXPlayer.getInventoryItem(itemName)
+                local sourceItem = sourceXPlayer.getInventoryItem(itemName)
+                -- provera kolicine
+                if targetItem.count > 0 and targetItem.count <= amount then
+                    if targetItem.count ~= amount then
+                        sourceXPlayer.kick('ESX-Balkan Protection | Anti-Glitch') -- fix glich?
                     else
-                        if not sourceXPlayer.canCarryItem(itemName, sourceItem.count) then
-                            sourceXPlayer.showNotification('Nemate dovoljno prostora da nosite taj item')
+                        -- da li moze da nosi stvari
+                        if Config.Limit then
+                            if (sourceItem.limit ~= -1 and (sourceItem.count + amount) > sourceItem.limit) then
+                                TriggerClientEvent('esx:showNotification', _source, ('Nemate dovoljno prostora da nosite taj item'))
+                            else
+                                targetXPlayer.removeInventoryItem(itemName, amount)
+                                sourceXPlayer.addInventoryItem(itemName, amount)
+                                TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
+                                TriggerClientEvent('esx:showNotification', target, _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
+                                sendToDiscord3('Oduzeti Item', sourceXPlayer.name .. ' je oduzeo stvar: ' .. sourceItem.label .. ' od igraca ' .. targetXPlayer.name .. ' kolicine: ' .. amount)
+                            end
                         else
-                            targetXPlayer.removeInventoryItem(itemName, amount)
-                            sourceXPlayer.addInventoryItem(itemName, amount)
-                            TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
-                            TriggerClientEvent('esx:showNotification', target, _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
-                            sendToDiscord3('Oduzeti Item', sourceXPlayer.name .. ' je oduzeo stvar: ' .. sourceItem.label .. ' od igraca ' .. targetXPlayer.name .. ' kolicine: ' .. amount)
+                            if not sourceXPlayer.canCarryItem(itemName, sourceItem.count) then
+                                sourceXPlayer.showNotification('Nemate dovoljno prostora da nosite taj item')
+                            else
+                                targetXPlayer.removeInventoryItem(itemName, amount)
+                                sourceXPlayer.addInventoryItem(itemName, amount)
+                                TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated', amount, sourceItem.label, targetXPlayer.name))
+                                TriggerClientEvent('esx:showNotification', target, _U('got_confiscated', amount, sourceItem.label, sourceXPlayer.name))
+                                sendToDiscord3('Oduzeti Item', sourceXPlayer.name .. ' je oduzeo stvar: ' .. sourceItem.label .. ' od igraca ' .. targetXPlayer.name .. ' kolicine: ' .. amount)
+                            end
                         end
                     end
+                else
+                    TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
                 end
-            else
-                TriggerClientEvent('esx:showNotification', _source, _U('quantity_invalid'))
-            end
-        elseif itemType == 'item_account' then
-            local targetAccount = targetXPlayer.getAccount(itemName)
-            -- Dali igrac ima dovoljno novca kod sebe?
-            if targetAccount.money >= amount then
-                targetXPlayer.removeAccountMoney(itemName, amount)
-                sourceXPlayer.addAccountMoney(itemName, amount)
-                TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_account', amount, itemName, targetXPlayer.name))
-                TriggerClientEvent('esx:showNotification', target, _U('got_confiscated_account', amount, itemName, sourceXPlayer.name))
-                sendToDiscord3('Oduzeti prljav novac', sourceXPlayer.name .. ' je oduzeo prljav novac kolicine: $' .. amount .. ' od igraca: ' .. targetXPlayer.name)
-            else
-                sourceXPlayer.kick('ESX-Balkan Protection | Anti-Glitch')
-                print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da glicha!'):format(xPlayer.identifier..' | '..GetPlayerName(xPlayer.source)))
-            end
-        elseif itemType == 'item_weapon' then
-            if amount == nil then amount = 0 end
-            -- dali ja vec posjedujem to oruzje jos kod sebe?
-            if not sourceXPlayer.hasWeapon(itemName) then
-                -- dali igrac posjeduje to oruzje jos kod sebe?
-                if targetXPlayer.hasWeapon(itemName) then
-                    targetXPlayer.removeWeapon(itemName, amount)
-                    sourceXPlayer.addWeapon(itemName, amount)
-                    TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_weapon', ESX.GetWeaponLabel(itemName), targetXPlayer.name, amount))
-                    TriggerClientEvent('esx:showNotification', target, _U('got_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, sourceXPlayer.name))
-                    sendToDiscord3('Oduzeto oruzje', sourceXPlayer.name .. ' je oduzeo oruzje: ' .. ESX.GetWeaponLabel(itemName) .. ' od igraca: ' .. targetXPlayer.name .. ' kolicine metaka: ' .. amount)
+            elseif itemType == 'item_account' then
+                local targetAccount = targetXPlayer.getAccount(itemName)
+                -- Dali igrac ima dovoljno novca kod sebe?
+                if targetAccount.money >= amount then
+                    targetXPlayer.removeAccountMoney(itemName, amount)
+                    sourceXPlayer.addAccountMoney(itemName, amount)
+                    TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_account', amount, itemName, targetXPlayer.name))
+                    TriggerClientEvent('esx:showNotification', target, _U('got_confiscated_account', amount, itemName, sourceXPlayer.name))
+                    sendToDiscord3('Oduzeti prljav novac', sourceXPlayer.name .. ' je oduzeo prljav novac kolicine: $' .. amount .. ' od igraca: ' .. targetXPlayer.name)
                 else
                     sourceXPlayer.kick('ESX-Balkan Protection | Anti-Glitch')
-                    print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da glicha!'):format(xPlayer.identifier..' | '..GetPlayerName(xPlayer.source)))
+                    print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da glicha!'):format(sourceXPlayer.identifier..' | ' .. GetPlayerName(source)))
                 end
-            else
-                TriggerClientEvent('esx:showNotification', _source, ('Vec posjedujete to oruzje i ~r~imate kod sebe!'))
+            elseif itemType == 'item_weapon' then
+                if amount == nil then amount = 0 end
+                -- dali ja vec posjedujem to oruzje jos kod sebe?
+                if not sourceXPlayer.hasWeapon(itemName) then
+                    -- dali igrac posjeduje to oruzje jos kod sebe?
+                    if targetXPlayer.hasWeapon(itemName) then
+                        targetXPlayer.removeWeapon(itemName, amount)
+                        sourceXPlayer.addWeapon(itemName, amount)
+                        TriggerClientEvent('esx:showNotification', _source, _U('you_confiscated_weapon', ESX.GetWeaponLabel(itemName), targetXPlayer.name, amount))
+                        TriggerClientEvent('esx:showNotification', target, _U('got_confiscated_weapon', ESX.GetWeaponLabel(itemName), amount, sourceXPlayer.name))
+                        sendToDiscord3('Oduzeto oruzje', sourceXPlayer.name .. ' je oduzeo oruzje: ' .. ESX.GetWeaponLabel(itemName) .. ' od igraca: ' .. targetXPlayer.name .. ' kolicine metaka: ' .. amount)
+                        else
+                        sourceXPlayer.kick('ESX-Balkan Protection | Anti-Glitch')
+                        print(('[esxbalkan_mafije] [^3UPOZORENJE^7] %s ^1je pokusao da glicha!'):format(sourceXPlayer.identifier..' | ' .. GetPlayerName(source)))
+                    end
+                else
+                    TriggerClientEvent('esx:showNotification', _source, ('Vec posjedujete to oruzje i ~r~imate kod sebe!'))
+                end
             end
+        else
+            TriggerClientEvent('esx:showNotification', _source, ('~r~Ne mozete ~s~sam sebe pretraziti!'))
         end
-    else
-        TriggerClientEvent('esx:showNotification', _source, ('~r~Ne mozete ~s~sam sebe pretraziti!'))
+        ZVrijeme[target] = GetGameTimer()
     end
 end)
 
