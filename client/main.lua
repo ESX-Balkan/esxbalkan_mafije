@@ -127,10 +127,23 @@ end
 
 -- Sef Menu --
 function OpenArmoryMenu(station)
-    if Config.OxInventory then
-        exports.ox_inventory:openInventory('stash', { id = 'society_' .. PlayerData.job.name })
+   if Config.OxInventory then
+        if Config.Mafije[PlayerData.job.name]['Sifra'] then 
+            local input = lib.inputDialog('SEF', {
+                { type = "input", label = "PIN KOD", password = true, icon = 'lock' },
+            })
+            if input == nil then return end
+
+            if input[1] ~= Config.Mafije[PlayerData.job.name]['Sifra'] then 
+                ESX.ShowNotification('~r~Sifra je netacna')
+            else
+                exports.ox_inventory:openInventory('stash', {id= 'society_' .. PlayerData.job.name})
+             end
+        else 
+        exports.ox_inventory:openInventory('stash', {id= 'society_' .. PlayerData.job.name})
         return ESX.UI.Menu.CloseAll()
-    else
+        end
+else
         local elements = {}
         if PlayerData.job.grade_name == 'boss' and Config.Levelanje then
             insertuj(elements, { label = 'Levelanje Baze | 💼', value = 'level' })
