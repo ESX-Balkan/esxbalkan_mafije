@@ -6,6 +6,7 @@ Config.MarkerHelikopter = { x = 6.0, y = 6.0, z = 2.5 }
 Config.MarkerAuto       = { x = 3.0, y = 3.0, z = 3.0 }
 Config.MarkerColor      = { r = 50, g = 50, b = 204 }
 Config.OxInventory      = false -- ako koristite ox_inventory oruzarnica ce se otvoriti kao stash (u inventaru)
+Config.KoristiSifruInv  = true -- Ukoliko zelite da koristite sifru za vase sefove, u configu mafija imate sifru :)
 Config.Limit            = true -- Dali koristite limit? ako je true onda ce biti limit u sefovima i u pretrazivanju igraca, ako je false onda je tezina itema!
 Config.Webhuk           = "" -- Ovdje dodajete svoj wehuk za mafije da imate logove itd :)
 Config.UkljuciPranje    = false -- Ovdje mozete ukljuciti/iskljuciti pranje novca kao sef...
