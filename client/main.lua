@@ -128,22 +128,29 @@ end
 -- Sef Menu --
 function OpenArmoryMenu(station)
    if Config.OxInventory then
-        if Config.Mafije[PlayerData.job.name]['Sifra'] then 
-            local input = lib.inputDialog('SEF', {
-                { type = "input", label = "PIN KOD", password = true, icon = 'lock' },
-            })
-            if input == nil then return end
-
-            if input[1] ~= Config.Mafije[PlayerData.job.name]['Sifra'] then 
-                ESX.ShowNotification('~r~Sifra je netacna')
+        if Config.Mafije[PlayerData.job.name]['Sifra'] and Config.KoristiSifruInv then
+        ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'sifra_sefa',
+			{
+				title = "Sifra sefa"
+			},
+			function(data3, menu3)
+			local sifraa = data3.value
+			if sifraa == nil then
+				ESX.ShowNotification("Morate napisati sifru!!")
+            elseif sifraa ~= Config.Mafije[PlayerData.job.name]['Sifra'] then
+                ESX.ShowNotification("Sifra nije tocna!")
             else
-                exports.ox_inventory:openInventory('stash', {id= 'society_' .. PlayerData.job.name})
-             end
+				menu3.close()
+				exports.ox_inventory:openInventory('stash', {id= 'society_' .. PlayerData.job.name})
+				end
+			end, function(data3, menu3)
+				menu3.close()
+			end)
         else 
-        exports.ox_inventory:openInventory('stash', {id= 'society_' .. PlayerData.job.name})
-        return ESX.UI.Menu.CloseAll()
+            exports.ox_inventory:openInventory('stash', {id= 'society_' .. PlayerData.job.name})
+            return ESX.UI.Menu.CloseAll()
         end
-else
+    else
         local elements = {}
         if PlayerData.job.grade_name == 'boss' and Config.Levelanje then
             insertuj(elements, { label = 'Levelanje Baze | 💼', value = 'level' })
