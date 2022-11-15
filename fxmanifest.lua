@@ -7,9 +7,10 @@ version "v2.1.4"
 lua54 'yes'
 
 shared_scripts {
-	'@es_extended/locale.lua',
-	'prevod/*',
-	'config.lua'
+    '@es_extended/locale.lua',
+    '@ox_lib/init.lua',
+    'prevod/*',
+    'config.lua'
 }
 
 server_scripts {
