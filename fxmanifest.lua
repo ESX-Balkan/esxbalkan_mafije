@@ -26,5 +26,6 @@ dependencies {
 	'esx_addonaccount',
 	'esx_addoninventory',
 	'esx_datastore',
+	'ox_lib',
 	'esx_society'
 }
