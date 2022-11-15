@@ -8,7 +8,6 @@ lua54 'yes'
 
 shared_scripts {
     '@es_extended/locale.lua',
-    '@ox_lib/init.lua',
     'prevod/*',
     'config.lua'
 }
