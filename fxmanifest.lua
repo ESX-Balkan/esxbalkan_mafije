@@ -3,7 +3,7 @@ game 'gta5'
 name 'esxbalkan_mafije'
 author 'ESX-Balkan'
 url 'https://github.com/ESX-Balkan/esxbalkan_mafije'
-version "v2.1.4"
+version "v2.1.5"
 lua54 'yes'
 
 shared_scripts {
