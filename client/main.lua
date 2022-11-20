@@ -24,6 +24,7 @@ local tinkykralj2 = TriggerEvent
 local GetPlayerServerId = GetPlayerServerId
 local RNE = RegisterNetEvent
 local ADV = AddEventHandler
+local OxInventory = false
 dragStatus.isDragged = false
 ESX = nil
 
@@ -35,6 +36,9 @@ CreateThread(function()
     if Config.Levelanje then
         Wait(1000)
         getajLevel()
+    end
+    if GetResourceState("ox_inventory") ~= 'missing' then
+        OxInventory = true
     end
 end)
 
@@ -127,7 +131,7 @@ end
 
 -- Sef Menu --
 function OpenArmoryMenu(station)
-   if Config.OxInventory then
+   if OxInventory then
         if Config.Mafije[PlayerData.job.name]['Sifra'] and Config.KoristiSifruInv then
         ESX.UI.Menu.Open('dialog', GetCurrentResourceName(), 'sifra_sefa',
 			{
@@ -459,7 +463,7 @@ OtvoriPosaoMenu = function()
                         ESX.TriggerServerCallback('esxbalkan_mafije:JelPretrazivan', function(br)
                             if not br then
                                 tinkykralj('esxbalkan_mafije:poruka', GetPlayerServerId(closestPlayer), _U('being_searched'))
-                                if Config.OxInventory then
+                                if OxInventory then
                                     exports.ox_inventory:openInventory('player', GetPlayerServerId(closestPlayer))
                                 else
                                     PretrazivanjeIgraca(closestPlayer)
