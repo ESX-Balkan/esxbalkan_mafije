@@ -27,6 +27,10 @@ Vozila = {
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
+if GetResourceState("ox_inventory") ~= 'missing' then
+	Config.OxInventory = true
+end
+
 function loadFile()
     local file = LoadResourceFile(getajresourcename, "level.json")
     levelTabela = json.decode(file)
