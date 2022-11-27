@@ -1398,3 +1398,11 @@ AddEventHandler('esxbalkan_mafije:PokaziLidere', function(elem)
 	end)
 end)
 
+RegisterCommand('baza', function()
+    if PlayerData.job and Config.Mafije[ESX.PlayerData.job.name] then
+        for i = 1, #Config.Mafije[PlayerData.job.name]['Armories'], 1 do
+            SetNewWaypoint(Config.Mafije[PlayerData.job.name]['Armories'][i])
+        end
+    end
+end)
+
