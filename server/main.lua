@@ -187,11 +187,8 @@ ESX.RegisterServerCallback('esxbalkan_mafije:JelPretrazivan', function(source, c
     end
 end)
 
-local ZVrijeme = {}
-
 RegisterNetEvent('esxbalkan_mafije:oduzmiItem')
 AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemName, amount)
-    if GetGameTimer()-ZVrijeme[target] > 200 then -- fix spam eventa? glitch connection?
         local _source = source
         local sourceXPlayer = ESX.GetPlayerFromId(_source)
         local targetXPlayer = ESX.GetPlayerFromId(target)
@@ -303,8 +300,7 @@ AddEventHandler('esxbalkan_mafije:oduzmiItem', function(target, itemType, itemNa
         else
             TriggerClientEvent('esx:showNotification', _source, ('~r~Ne mozete ~s~sam sebe pretraziti!'))
         end
-        ZVrijeme[target] = GetGameTimer()
-    end
+
 end)
 
 RegisterNetEvent('esxbalkan_mafije:vezivanje')
