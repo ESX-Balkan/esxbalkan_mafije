@@ -20,17 +20,12 @@ EEEEEEEEEEEEEEEEEEEEEE SSSSSSSSSSSSSSS   XXXXXXX       XXXXXXX     BBBBBBBBBBBBB
 
 ESX, levelTabela = nil, {}
 local nmafija, Pretrazivan = 0, {}
-local OxInventory = false
 local getajresourcename = GetCurrentResourceName()
 Vozila = {
     Izvucena = {}
 }
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
-if GetResourceState("ox_inventory") ~= 'missing' then
-	OxInventory = true
-end
 
 function loadFile()
     local file = LoadResourceFile(getajresourcename, "level.json")
@@ -108,7 +103,7 @@ RegisterCommand("lideri", function(source, args, rawCommandString)
 end, false)
 
 
-if OxInventory then
+if Config.OxInventory then
     for k, v in pairs(Config.Mafije) do
         exports.ox_inventory:RegisterStash('society_' .. k, 'society_' .. k, 50, 200000)
     end
