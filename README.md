@@ -1,4 +1,7 @@
 # esxbalkan_mafije
+
+## Zbog nedostatka vremena i motivacije za rješavanje trenutno tekućih problema i implementaciju novih stvari, rad na skripti je obustavljen.
+
 ESX Balkan Mafije verzija.
 
 Ove mafije su protectovane od glichovanja i od exploitanja preko cheata!
